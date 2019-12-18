@@ -23,12 +23,14 @@ Commits must specify their type among the following :
 - test: Adding missing tests or correcting existing tests
 - ci: Changes to our CI configuration
 
-### Scope
+### Scope
 Your commits name should also precise which part of the project they concern.
 You can do so by naming them using the following scopes :
+- General
 - Login
 - HomePage
 - Annotation
+- DBCreation
 - DBManagement
 - RecoManagement
 
