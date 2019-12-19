@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { AnnotationComponent } from './annotation/annotation.component';
 import { DbManagementComponent } from './db-management/db-management.component';
+import { DbCreationComponent } from './db-creation/db-creation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
     AnnotationComponent,
-    DbManagementComponent
+    DbManagementComponent,
+    DbCreationComponent
   ],
   imports: [
     BrowserModule,
