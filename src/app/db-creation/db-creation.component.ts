@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
-import {UploadService} from '../upload.service';
+import {UploadService} from '../services/upload/upload.service';
 import {forkJoin} from 'rxjs';
 
 @Component({
