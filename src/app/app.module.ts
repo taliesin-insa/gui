@@ -10,6 +10,8 @@ import {DbManagementComponent} from './db-management/db-management.component';
 import {DbCreationComponent} from './db-creation/db-creation.component';
 
 import {HttpClientModule} from '@angular/common/http';
+import {HttpErrorHandler} from './services/http-error-handler.service';
+import {httpInterceptorProviders} from './http-interceptors';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,10 @@ import {HttpClientModule} from '@angular/common/http';
     NgbModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    HttpErrorHandler,
+    httpInterceptorProviders
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
