@@ -1,2 +1,21 @@
 <p>db-creation works!</p>
+
 <button routerLink="/home">GOTO Home</button>
+
+
+<!-- hidden input trigerred by addFiles(), allowing to use buttons instead of inputs-->
+<input type="file" #file style="display: none" (change)="onFilesAdded()" multiple/>
+
+<button (click)="addFiles()">
+  Add Files
+</button>
+
+<button [disabled]="uploadInProgress" (click)="upload()"> {{primaryButtonText}} </button>
+
+
+<br>
+
+<div *ngFor="let file of files">
+  <h4>{{file.name}}</h4>
+  <ngb-progressbar *ngIf="progress" type="success" [value]="progress[file.name].progress | async"></ngb-progressbar>
+</div>
