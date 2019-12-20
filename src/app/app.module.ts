@@ -17,7 +17,7 @@ import {HttpClientModule} from '@angular/common/http';
     HomePageComponent,
     AnnotationComponent,
     DbManagementComponent,
-    DbCreationComponent,
+    DbCreationComponent
   ],
   imports: [
     BrowserModule,
