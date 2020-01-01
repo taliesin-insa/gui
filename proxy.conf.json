@@ -1,0 +1,8 @@
+{
+  "/taliesin/*": {
+    "target": "https://clyde.local:4444",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}
