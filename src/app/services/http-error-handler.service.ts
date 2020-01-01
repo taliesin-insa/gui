@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 
-import { MessageService } from './message.service';
+//import { MessageService } from './message.service';
 
 /** Type of the handleError function returned by HttpErrorHandler.createHandleError */
 export type HandleError =
@@ -12,7 +12,8 @@ export type HandleError =
 /** Handles HttpClient errors */
 @Injectable()
 export class HttpErrorHandler {
-  constructor(private messageService: MessageService) { }
+  //constructor(private messageService: MessageService) { }
+  constructor() { }
 
   /** Create curried handleError function that already knows the service name */
   createHandleError = (serviceName = '') => <T>
@@ -36,7 +37,7 @@ export class HttpErrorHandler {
         `server returned code ${error.status} with body "${error.error}"`;
 
       // TODO: better job of transforming error for user consumption
-      this.messageService.add(`${serviceName}: ${operation} failed: ${message}`);
+      //this.messageService.add(`${serviceName}: ${operation} failed: ${message}`);
 
       // Let the app keep running by returning a safe result.
       return of( result );
