@@ -12,6 +12,8 @@ import {DbCreationComponent} from './db-creation/db-creation.component';
 import {HttpClientModule} from '@angular/common/http';
 import {HttpErrorHandler} from './services/http-error-handler.service';
 import {httpInterceptorProviders} from './http-interceptors';
+import { ErrorDisplayComponent } from './error-display/error-display.component';
+import {ErrorMessageService} from './services/error-messages.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,8 @@ import {httpInterceptorProviders} from './http-interceptors';
     HomePageComponent,
     AnnotationComponent,
     DbManagementComponent,
-    DbCreationComponent
+    DbCreationComponent,
+    ErrorDisplayComponent
   ],
   imports: [
     BrowserModule,
@@ -28,6 +31,7 @@ import {httpInterceptorProviders} from './http-interceptors';
     HttpClientModule
   ],
   providers: [
+    ErrorMessageService,
     HttpErrorHandler,
     httpInterceptorProviders
   ],
