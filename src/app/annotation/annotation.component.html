@@ -1,2 +1,7 @@
-<p>annotation works!</p>
+<ng-container *ngFor="let snippet of snippets">
+  <li>
+    <img src="{{snippet.url}}">
+    <p>{{snippet.value}}</p>
+  </li>
+</ng-container>
 <button routerLink="/home">GOTO Home</button>

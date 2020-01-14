@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {Snippet} from '../model/Snippet';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -9,9 +10,11 @@ import {Router} from '@angular/router';
 })
 export class AnnotationComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  snippets: Snippet[];
+
+  constructor(private router: Router) {
+  }
 
   ngOnInit() {
   }
-
 }
