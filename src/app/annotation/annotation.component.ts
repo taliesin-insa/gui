@@ -38,13 +38,12 @@ export class AnnotationComponent implements OnInit {
       }
     ];
 
-    this.createAnnotationForm();
-  }
-
-  createAnnotationForm() {
     this.annotationForm = this.fb.group({
       snippetInputs: this.fb.array([])
     });
+  }
+
+  ngOnInit() {
     this.fillAnnotationForm();
   }
 
@@ -54,10 +53,12 @@ export class AnnotationComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
-
-  onSubmit(gameCreationData: any) {
+  onSubmit(annotationFormData: any) {
+    // Update snippets' value based on user inputs
+    const modifiedSnippetInputs = annotationFormData.snippetInputs;
+    for (let i = 0; i < modifiedSnippetInputs.length; i++) {
+      this.snippets[i].value = modifiedSnippetInputs[i];
+    }
   }
 
 }
