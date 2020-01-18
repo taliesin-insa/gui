@@ -14,6 +14,7 @@ import {HttpErrorHandler} from './services/http-error-handler.service';
 import {httpInterceptorProviders} from './http-interceptors';
 import { ErrorDisplayComponent } from './error-display/error-display.component';
 import {ErrorMessageService} from './services/error-messages.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {ErrorMessageService} from './services/error-messages.service';
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [
     ErrorMessageService,

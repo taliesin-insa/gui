@@ -1,7 +1,16 @@
-<ng-container *ngFor="let snippet of snippets">
-  <li>
-    <img src="{{snippet.url}}">
-    <p>{{snippet.value}}</p>
-  </li>
-</ng-container>
+<form [formGroup]="annotationForm" (ngSubmit)="onSubmit(annotationForm.value)">
+
+  <div formArrayName="snippetInputs">
+    <ng-container *ngFor="let snippetInput of snippetInputs.controls; let i=index">
+        <div>
+          <img src="{{snippets[i].url}}">
+          <br>
+          <input type="text" [formControlName]="i">
+        </div>
+    </ng-container>
+  </div>
+
+  <button type="submit" [disabled]="annotationForm.invalid">Next lines</button>
+
+</form>
 <button routerLink="/home">GOTO Home</button>
