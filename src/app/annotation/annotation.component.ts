@@ -2,6 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Snippet} from '../model/Snippet';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {HttpClient} from '@angular/common/http';
+import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
+import {catchError, timeout} from 'rxjs/operators';
+import {ErrorMessageService} from '../services/error-messages.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -11,15 +15,17 @@ import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 })
 export class AnnotationComponent implements OnInit {
 
+  data: any;
   snippets: Snippet[];
   annotationForm: FormGroup;
+  private handleError: HandleError;
 
   // Getter used to retrieve the list of snippet inputs
   get snippetInputs() {
     return this.annotationForm.get('snippetInputs') as FormArray;
   }
 
-  constructor(private router: Router, private fb: FormBuilder) {
+  constructor(private router: Router, private fb: FormBuilder, private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
     this.snippets = [
       {
         id: 0,
@@ -37,6 +43,8 @@ export class AnnotationComponent implements OnInit {
         value: 'noot potatoe'
       }
     ];
+
+    this.handleError = httpErrorHandler.createHandleError('Annotation');
 
     this.annotationForm = this.fb.group({
       snippetInputs: this.fb.array([])
@@ -59,6 +67,19 @@ export class AnnotationComponent implements OnInit {
     for (let i = 0; i < modifiedSnippetInputs.length; i++) {
       this.snippets[i].value = modifiedSnippetInputs[i];
     }
+    this.snippetInputs.clear();
+    this.retrieveSnippets();
+  }
+
+  /// HTTP
+  retrieveSnippets() {
+    this.http.get<Snippet[]>('db/retrieve/snippets/20')
+      .pipe(
+        catchError(this.handleError('getSnippets', []))
+      )
+      .subscribe(returnedData => {
+        this.snippets = returnedData;
+      });
   }
 
 }
