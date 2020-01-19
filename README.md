@@ -34,6 +34,6 @@ You can do so by naming them using the following scopes :
 - Annotation
 - DBCreation
 - DBManagement
+- DBExport
 - RecoManagement
-
 
