@@ -34,18 +34,19 @@ export class HttpErrorHandler {
       let message;
       switch (error.status) {
         case 404:
-          message = `Server or URL not found  (${error.status})`;
+          message = `Server or URL not found`;
           break;
         case 504:
-          message = `An internal server error occured, please try again  (${error.status})`;
+          message = `Impossible to reach server, timeout occured`;
           break;
         default:
           if ( error.error instanceof ErrorEvent ) {
             message = error.error.message;
           } else {
-            message = `server returned code ${error.status} with body "${error.error}"`;
+            message = `Unknown error, with body "${error.error}"`;
           }
       }
+      message += ` (${error.status})`;
 
       // TODO: better job of transforming error for user consumption
       this.errorMessageService.add(`${serviceName}: ${operation} failed: ${message}`);
