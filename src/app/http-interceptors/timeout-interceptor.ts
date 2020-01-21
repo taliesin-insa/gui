@@ -6,6 +6,11 @@ import {
 import {Observable, throwError} from 'rxjs';
 import {catchError, timeout} from 'rxjs/operators';
 
+/**
+ * Add a timeout to each request. In case of a TimeoutError, transform it into an HttpErrorResponse, that will be catched inside
+ * the HttpErrorHandler service.
+ */
+
 @Injectable()
 export class TimeoutInterceptor implements HttpInterceptor {
 

@@ -5,6 +5,10 @@ import {
 
 import { Observable } from 'rxjs';
 
+/**
+ * Replace "http://" by "https://" in the request
+ */
+
 @Injectable()
 export class EnsureHttpsInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

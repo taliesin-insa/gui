@@ -8,7 +8,9 @@ import {ErrorMessageService} from './error-messages.service';
 export type HandleError =
   <T> (operation?: string, defaultResult?: T) => (error: HttpErrorResponse) => Observable<T>;
 
-/** Handles HttpClient errors */
+/** Handles HttpClient errors. Creates user-friendly error messages, that are sent to the ErrorMessageService.
+ * Each instance of this class knows the service that failed, and when handling an error, you can also pass the name of the failed function.
+ */
 @Injectable()
 export class HttpErrorHandler {
   constructor(private errorMessageService: ErrorMessageService) {
@@ -16,11 +18,13 @@ export class HttpErrorHandler {
 
   /** Create curried handleError function that already knows the service name */
   createHandleError = (serviceName = '') => <T>
-  (operation = 'operation', defaultResult = {} as T) => this.handleError(serviceName, operation, defaultResult);
+  (operation = 'operation', defaultResult = {} as T) => this.handleError(serviceName, operation, defaultResult)
 
   /**
    * Returns a function that handles Http operation failures.
    * This error handler lets the app continue to run as if no error occurred.
+   * It provides a default value to return in case of error.
+   *
    * @param serviceName = name of the data service that attempted the operation
    * @param operation - name of the operation that failed
    * @param defaultResult - optional value to return as the observable result
@@ -48,10 +52,10 @@ export class HttpErrorHandler {
       }
       message += ` (${error.status})`;
 
-      // TODO: better job of transforming error for user consumption
+      // TODO: Change here the way we send errors to the ErrorMessageService
       this.errorMessageService.add(`${serviceName}: ${operation} failed: ${message}`);
 
-      // Let the app keep running by returning a safe result.
+      // Let the app keep running by returning a safe result (with a default value defined locally where the error occured).
       return of(defaultResult);
     };
 

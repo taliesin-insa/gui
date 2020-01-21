@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 
-@Injectable()
+/**
+ * Global service that collects errors from all the application. Single instance.
+ */
+
+@Injectable({
+  providedIn: 'root'
+})
 export class ErrorMessageService {
 
   errors;

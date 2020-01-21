@@ -15,15 +15,10 @@ import {ErrorMessageService} from '../services/error-messages.service';
 })
 export class AnnotationComponent implements OnInit {
 
-  data: any;
   snippets: Snippet[];
-  annotationForm: FormGroup;
-  private handleError: HandleError;
+  annotationForm: FormGroup; // Form that contains text inputs for snippets' transcriptions
 
-  // Getter used to retrieve the list of snippet inputs
-  get snippetInputs() {
-    return this.annotationForm.get('snippetInputs') as FormArray;
-  }
+  private handleError: HandleError;
 
   constructor(private router: Router, private fb: FormBuilder, private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
     this.snippets = [
@@ -40,7 +35,7 @@ export class AnnotationComponent implements OnInit {
       {
         id: 2,
         url: 'data:image/jpeg;base64,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',
-        value: 'noot potatoe'
+        value: ''
       }
     ];
 
@@ -55,12 +50,30 @@ export class AnnotationComponent implements OnInit {
     this.fillAnnotationForm();
   }
 
+  /** Getter used to retrieve the list of snippet inputs
+   * Each text input inside this array is a FormControl, representing the transcription of the n-th snippet
+   */
+  get snippetInputs() {
+    return this.annotationForm.get('snippetInputs') as FormArray;
+  }
+
+  /**
+   * Add a text input in the annotation form for each snippet.
+   * The 1st snippet is associated with the 1st FormControl.
+   * The inputs are initialized with the value of the snippets, in case there is already a transcription for them (produced by a recognizer)
+   */
   fillAnnotationForm() {
     this.snippets.forEach(snippet => {
       this.snippetInputs.push(this.fb.control(snippet.value));
     });
   }
 
+  /**
+   * Called when the user finished annotating all the snippets.
+   * Get all the transcriptions made by the user, update the snippets' value and then retrieve new snippets to annotate.
+   *
+   * @param annotationFormData JSON representation of the form and all its data
+   */
   onSubmit(annotationFormData: any) {
     // Update snippets' value based on user inputs
     const modifiedSnippetInputs = annotationFormData.snippetInputs;
@@ -74,9 +87,11 @@ export class AnnotationComponent implements OnInit {
   /// HTTP
   retrieveSnippets() {
     this.http.get<Snippet[]>('db/retrieve/snippets/20')
+      // Handle HTTP error: 1st param = name of the function that might fail, 2nd param = default value returned in case of error
       .pipe(
-        catchError(this.handleError('getSnippets', []))
+        catchError(this.handleError('retrieveSnippets', []))
       )
+      // Function handling the result of the HTTP request. Returned value might either be the wanted one or the default one specified above
       .subscribe(returnedData => {
         this.snippets = returnedData;
       });
