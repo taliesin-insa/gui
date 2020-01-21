@@ -4,7 +4,7 @@
       "/db",
       "/import"
     ],
-    "target": "http://clyde.local:4444",
+    "target": "https://clyde.local:4444",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
