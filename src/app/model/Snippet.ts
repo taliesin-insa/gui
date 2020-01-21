@@ -8,5 +8,8 @@ export class Snippet {
     this.url = url;
     this.value = value;
   }
+}
 
+export function getIdAndValue(snippet: Snippet) {
+  return { id: snippet.id, value: snippet.value };
 }
