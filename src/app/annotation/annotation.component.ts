@@ -14,11 +14,12 @@ import {catchError} from 'rxjs/operators';
 })
 export class AnnotationComponent implements OnInit {
 
-  snippets: Snippet[] = [];
+  snippets: Snippet[] = []; // Batch of snippets
   annotationForm: FormGroup; // Form that contains text inputs for snippets' transcriptions
-  private NB_OF_SNIPPETS = 20;
+  private NB_OF_SNIPPETS = 20; // Number of snippets inside the batch to annotate
 
   private handleError: HandleError;
+
 
   constructor(private router: Router, private fb: FormBuilder, private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('Annotation');
@@ -28,6 +29,7 @@ export class AnnotationComponent implements OnInit {
     this.annotationForm = this.fb.group({
       snippetInputs: this.fb.array([])
     });
+
     this.retrieveSnippetsDB(this.NB_OF_SNIPPETS);
   }
 
@@ -68,7 +70,15 @@ export class AnnotationComponent implements OnInit {
     this.retrieveSnippetsDB(this.NB_OF_SNIPPETS);
   }
 
-  /// HTTP
+  /* ===== HTTP REQUESTS ===== */
+
+  /**
+   * Retrieves a given number of snippets from the database. Expected format:
+   * [ { id: int, url: string, value: string}, ... ]
+   * where url is the url of the image and value is its transcription (if one exists, empty otherwise)
+   *
+   * @param nbOfSnippets we want to retrieve
+   */
   retrieveSnippetsDB(nbOfSnippets: number) {
     this.http.get<Snippet[]>(`db/retrieve/snippets/${nbOfSnippets}`)
       // Handle HTTP error: 1st param = name of the function that might fail, 2nd param = default value returned in case of error
@@ -82,6 +92,11 @@ export class AnnotationComponent implements OnInit {
       });
   }
 
+  /**
+   * Send all the annotated snippets to the database. Called after annotating all the snippets (once their transcription is correct).
+   * Format of the data sent:
+   * [ { id: int, value: string}, ...]
+   */
   updateSnippetsDB() {
     const updatedSnippets = this.snippets.map(snippet => getIdAndValue(snippet));
     this.http.put('db/update/value', updatedSnippets, {})
