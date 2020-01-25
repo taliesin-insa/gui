@@ -3,7 +3,7 @@ import {
   HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse
 } from '@angular/common/http';
 
-import {Observable, throwError} from 'rxjs';
+import {EMPTY, Observable, of, throwError} from 'rxjs';
 import {catchError, timeout} from 'rxjs/operators';
 
 /**
@@ -16,15 +16,19 @@ export class TimeoutInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
-      timeout(1000),
-      catchError(e =>
-        throwError(new HttpErrorResponse({
-          error: e,
-          headers: req.headers,
-          status: 504,
-          statusText: 'TimeoutError',
-          url: req.url
-        }))
+      timeout(3000),
+      catchError(e => {
+          if (e.name === 'TimeoutError') {
+            e = new HttpErrorResponse({
+              error: e,
+              headers: req.headers,
+              status: 504,
+              statusText: 'TimeoutError',
+              url: req.url
+            });
+          }
+          return throwError(e);
+        }
       )
     );
   }
