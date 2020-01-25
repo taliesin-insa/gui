@@ -1,5 +1,4 @@
-<p>db-creation works!</p>
-
+<!-- First part of the creation, that initializes the database in the backend -->
 <form [formGroup]="dbCreationForm" (ngSubmit)="onSubmit(dbCreationForm.value)">
   <label>
     Database name:
@@ -8,9 +7,10 @@
   <button type="submit" [disabled]="dbCreationForm.invalid">Create</button>
 </form>
 
-
+<!-- Second part of the creation, that uploads files. Displayed only if new db was initialized successfully -->
 <ng-container id="upload" *ngIf="creationSuccessful">
-  <!-- hidden input trigerred by addFiles(), allowing to use buttons instead of inputs -->
+
+  <!-- hidden input triggered by addFiles(), allowing to use buttons instead of inputs -->
   <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple/>
 
   <button (click)="addFiles()">

@@ -41,7 +41,9 @@ export class DbCreationComponent implements OnInit {
     this.dbCreationForm = this.fb.group({dbName: ['', Validators.required]});
   }
 
-
+  /**
+   * First part of creation: initializes the database in the backend
+   */
   onSubmit(dbCreationFormData: any) {
     // TODO: change http call to save db name as well
     this.http.post('import/createDB', {}, { observe: 'response' })
@@ -51,7 +53,18 @@ export class DbCreationComponent implements OnInit {
       .subscribe(creationStatus => this.creationSuccessful = creationStatus);
   }
 
-  // todo define what this does
+  /* ===== UPLOAD PART ===== */
+
+  /**
+   * Triggers the click() method of the HTML hidden input. Called when clicking on a button (more user-friendly to use than an input).
+   */
+  addFiles() {
+    this.file.nativeElement.click();
+  }
+
+  /**
+   * Each time a file is added via the file picker, it is also retrieved and put inside the set of files of the component.
+   */
   onFilesAdded() {
     const incomingFiles: { [key: string]: File } = this.file.nativeElement.files;
     for (const key in incomingFiles) {
@@ -62,11 +75,9 @@ export class DbCreationComponent implements OnInit {
     }
   }
 
-  // triggers the click() method on the html hidden input
-  addFiles() {
-    this.file.nativeElement.click();
-  }
-
+  /**
+   * Call the UploadService to send every file to the backend. Displays progress bars and stores infos about upload status.
+   */
   upload() {
     this.uploadInProgress = true;
     this.progresses = this.uploadService.upload(this.files);
