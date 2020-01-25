@@ -1,8 +1,8 @@
 [
   {
     "context": [
-      "/db",
-      "/import"
+      "/db/**",
+      "/import/**"
     ],
     "target": "https://clyde.local:4444",
     "secure": false,
