@@ -1,21 +1,32 @@
 <p>db-creation works!</p>
 
-<button routerLink="/home">GOTO Home</button>
+<form [formGroup]="dbCreationForm" (ngSubmit)="onSubmit(dbCreationForm.value)">
+  <label>
+    Database name:
+    <input type="text" formControlName="dbName">
+  </label>
+  <button type="submit" [disabled]="dbCreationForm.invalid">Create</button>
+</form>
 
 
-<!-- hidden input trigerred by addFiles(), allowing to use buttons instead of inputs-->
-<input type="file" #file style="display: none" (change)="onFilesAdded()" multiple/>
+<ng-container id="upload" *ngIf="creationSuccessful">
+  <!-- hidden input trigerred by addFiles(), allowing to use buttons instead of inputs -->
+  <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple/>
 
-<button (click)="addFiles()">
-  Add Files
-</button>
+  <button (click)="addFiles()">
+    Add Files
+  </button>
 
-<button [disabled]="uploadInProgress" (click)="upload()"> {{primaryButtonText}} </button>
+  <button [disabled]="uploadInProgress" (click)="upload()"> {{primaryButtonText}} </button>
 
+
+  <br>
+
+  <div *ngFor="let file of files">
+    <h2>{{file.name}}</h2>
+    <ngb-progressbar *ngIf="progresses" type="success" [value]="progresses[file.name].progress | async"></ngb-progressbar>
+  </div>
+</ng-container>
 
 <br>
-
-<div *ngFor="let file of files">
-  <h4>{{file.name}}</h4>
-  <ngb-progressbar *ngIf="progress" type="success" [value]="progress[file.name].progress | async"></ngb-progressbar>
-</div>
+<button routerLink="/home">GOTO Home</button>
