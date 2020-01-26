@@ -9,7 +9,7 @@ import {ErrorMessageService} from '../services/error-messages.service';
   // tslint:disable-next-line:component-selector
   selector: 'error-display',
   templateUrl: './error-display.component.html',
-  styleUrls: ['./error-display.component.css']
+  styleUrls: ['./error-display.component.scss']
 })
 export class ErrorDisplayComponent implements OnInit {
 

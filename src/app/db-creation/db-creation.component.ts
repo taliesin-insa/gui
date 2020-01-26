@@ -7,7 +7,7 @@ import {forkJoin} from 'rxjs';
   // tslint:disable-next-line:component-selector
   selector: 'db-creation',
   templateUrl: './db-creation.component.html',
-  styleUrls: ['./db-creation.component.css']
+  styleUrls: ['./db-creation.component.scss']
 })
 export class DbCreationComponent implements OnInit {
 
