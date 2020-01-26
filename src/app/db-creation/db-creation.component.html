@@ -1,16 +1,16 @@
 <p>db-creation works!</p>
 
-<button routerLink="/home">GOTO Home</button>
+<button class="btn btn-secondary" routerLink="/home">Home</button>
 
 
 <!-- hidden input trigerred by addFiles(), allowing to use buttons instead of inputs-->
 <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple/>
 
-<button (click)="addFiles()">
+<button class="btn btn-outline-secondary" (click)="addFiles()">
   Add Files
 </button>
 
-<button [disabled]="uploadInProgress" (click)="upload()"> {{primaryButtonText}} </button>
+<button class="btn btn-outline-primary" [disabled]="uploadInProgress" (click)="upload()"> {{primaryButtonText}} </button>
 
 
 <br>
