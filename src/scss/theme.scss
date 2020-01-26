@@ -1,8 +1,43 @@
 // Bootstrap and its default variables
 @import "node_modules/bootstrap/scss/bootstrap";
 
-$theme-colors: (
-  "primary": #f05a42
-);
+// RED
+$taliesin-red: #e91430;
 
-$brand-primary: red;
+// ORANGE
+$taliesin-orange: #f05a42;
+
+// YELLOW
+$taliesin-yellow: #fbbc5c;
+$taliesin-yellow-light: #fef7af;
+// Icons
+$taliesin-yellow-gold: #f8bd28;
+
+// BLUE
+$taliesin-blue: #2f5d77;
+// Texts
+$taliesin-blue-dark: #0e2a47;
+$taliesin-blue-dark2: #314256;
+$taliesin-blue-light: #94c2db;
+
+// GRAY
+// Background
+$taliesin-gray: #595959;
+// Texts
+$taliesin-gray-dark: #202724;
+$taliesin-gray-light: #eeeeee;
+
+// GREEN
+$taliesin-green: #00be72;
+$taliesin-green-light: #80f980;
+
+$theme-colors: (
+  "primary": $taliesin-blue,
+  "secondary": $taliesin-orange,
+  "success": $taliesin-green,
+  "info": $taliesin-blue-light,
+  "warning": $taliesin-yellow,
+  "danger": $taliesin-red,
+  "light": $taliesin-gray-light,
+  "dark": $taliesin-gray-dark
+);
