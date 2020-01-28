@@ -22,6 +22,14 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: clyde.local:5005/taliesin/gui/master
+          image: clyde.local:5005/taliesin/gui/master:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
+          volumeMounts:
+            - mountPath: "/snippets/"
+              name: file-server
+      volumes:
+        - name: file-server
+          persistentVolumeClaim:
+            claimName: file-server-claim

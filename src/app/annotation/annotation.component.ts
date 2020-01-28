@@ -104,5 +104,12 @@ export class AnnotationComponent implements OnInit {
         catchError(this.handleError('updateSnippetsDB', undefined))
       );
   }
+  getFocus() {
+    document.getElementById(String (Number (String (document.activeElement.id)) + 1)).focus();
+  }
 
+  onKeydown(event) {
+    this.getFocus();
+    console.log(event);
+  }
 }
