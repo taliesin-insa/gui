@@ -105,9 +105,6 @@ export class AnnotationComponent implements OnInit {
       );
   }
   getFocus() {
-    console.log (String (document.activeElement.id));
-    console.log (Number (String (document.activeElement.id)) + 1);
-    console.log(String (Number (String (document.activeElement.id)) + 1));
     document.getElementById(String (Number (String (document.activeElement.id)) + 1)).focus();
   }
 
