@@ -6,7 +6,7 @@
         <div>
           <img src="{{snippets[i].url}}">
           <br>
-          <input type="text" [formControlName]="i">
+          <input type="text" [formControlName]="i" id="{{i}}" (keydown.f9)="onKeydown($f9)" >
         </div>
     </ng-container>
   </div>
