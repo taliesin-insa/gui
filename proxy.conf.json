@@ -1,12 +1,14 @@
 [
-  "/db/**": {
+  {	
+    "context": [ "/db/**" ],
     "target": "http://database-api.gitlab-managed-apps.svc.cluster.local:8080",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
   },
 
-  "/import/**": {
+  {
+    "context": ["/import/**"],
     "target": "http://import-api.gitlab-managed-apps.svc.cluster.local:8080",
     "secure": false,
     "logLevel": "debug",
