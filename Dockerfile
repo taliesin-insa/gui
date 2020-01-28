@@ -11,5 +11,5 @@ RUN npm run build
 
 FROM nginx:1.17.1-alpine
 
-ADD nginx.conf /etc/nginx/conf.d/taliesin.conf
+ADD nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /usr/src/app/dist/taliesin-frontend /usr/share/nginx/html
