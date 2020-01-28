@@ -25,3 +25,10 @@ spec:
           image: clyde.local:5005/taliesin/gui/master
           ports:
             - containerPort: 80
+          volumeMounts:
+            - mountPath: "/snippets/"
+              name: file-server
+      volumes:
+        - name: file-server
+          persistentVolumeClaim:
+            claimName: file-server-claim
