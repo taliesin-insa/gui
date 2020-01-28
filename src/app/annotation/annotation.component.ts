@@ -10,7 +10,7 @@ import {catchError} from 'rxjs/operators';
   // tslint:disable-next-line:component-selector
   selector: 'annotation',
   templateUrl: './annotation.component.html',
-  styleUrls: ['./annotation.component.css']
+  styleUrls: ['./annotation.component.scss']
 })
 export class AnnotationComponent implements OnInit {
 
