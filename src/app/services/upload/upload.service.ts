@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpEventType, HttpRequest, HttpResponse} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 
-const url = 'http://import-api.gitlab-managed-apps.svc.cluster.local:8080/import/upload';
+const url = 'http://localhost:8080/upload';
 
 @Injectable({
   providedIn: 'root'
