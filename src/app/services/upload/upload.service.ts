@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpEventType, HttpRequest, HttpResponse} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 
-const url = 'http://localhost:8080/upload';
+const url = '/import/upload';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +41,7 @@ export class UploadService {
           // pass the percentage into the progress-stream
           progress.next(percentDone);
         } else if (event instanceof HttpResponse) {
-          // Close the progress-stream if we get an answer form the API
+          // Close the progress-stream if we get an answer from the API
           // The upload is complete
           progress.complete();
         }
