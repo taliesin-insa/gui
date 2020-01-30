@@ -4,7 +4,7 @@
     Database name:
     <input type="text" formControlName="dbName">
   </label>
-  <button type="submit" [disabled]="dbCreationForm.invalid">Create</button>
+  <button class="btn btn-primary" type="submit" [disabled]="dbCreationForm.invalid">Create</button>
 </form>
 
 <!-- Second part of the creation, that uploads files. Displayed only if new db was initialized successfully -->
@@ -13,11 +13,11 @@
   <!-- hidden input triggered by addFiles(), allowing to use buttons instead of inputs -->
   <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple/>
 
-  <button (click)="addFiles()">
+  <button class="btn btn-outline-secondary" (click)="addFiles()">
     Add Files
   </button>
 
-  <button [disabled]="uploadInProgress" (click)="upload()"> {{primaryButtonText}} </button>
+  <button class="btn btn-outline-primary" [disabled]="uploadInProgress" (click)="upload()"> {{primaryButtonText}} </button>
 
 
   <br>
@@ -29,4 +29,4 @@
 </ng-container>
 
 <br>
-<button routerLink="/home">GOTO Home</button>
+<button class="btn btn-secondary" routerLink="/home">GOTO Home</button>

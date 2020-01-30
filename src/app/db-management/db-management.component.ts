@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
   // tslint:disable-next-line:component-selector
   selector: 'db-management',
   templateUrl: './db-management.component.html',
-  styleUrls: ['./db-management.component.css']
+  styleUrls: ['./db-management.component.scss']
 })
 export class DbManagementComponent implements OnInit {
 

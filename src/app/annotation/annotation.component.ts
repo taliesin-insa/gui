@@ -10,7 +10,7 @@ import {catchError} from 'rxjs/operators';
   // tslint:disable-next-line:component-selector
   selector: 'annotation',
   templateUrl: './annotation.component.html',
-  styleUrls: ['./annotation.component.css']
+  styleUrls: ['./annotation.component.scss']
 })
 export class AnnotationComponent implements OnInit {
 
@@ -104,11 +104,7 @@ export class AnnotationComponent implements OnInit {
         catchError(this.handleError('updateSnippetsDB', undefined))
       );
   }
-
   getFocus() {
-    console.log (String (document.activeElement.id));
-    console.log (Number (String (document.activeElement.id)) + 1);
-    console.log(String (Number (String (document.activeElement.id)) + 1));
     document.getElementById(String (Number (String (document.activeElement.id)) + 1)).focus();
   }
 
