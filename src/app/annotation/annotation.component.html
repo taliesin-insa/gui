@@ -6,7 +6,8 @@
         <div>
           <img src="{{snippets[i].url}}">
           <br>
-          <input type="text" [formControlName]="i" id="{{i}}" (keydown.f9)="onKeydown($f9)">
+          <input type="text" [formControlName]="i" id="{{i}}" (keydown.f9)="changeFocus()" (keydown.f8)="unreadable()">
+          <button id="button_{{i}}" (click)="unreadable()">unreadable</button>
         </div>
     </ng-container>
   </div>

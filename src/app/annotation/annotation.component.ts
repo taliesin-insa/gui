@@ -108,8 +108,10 @@ export class AnnotationComponent implements OnInit {
     document.getElementById(String (Number (String (document.activeElement.id)) + 1)).focus();
   }
 
-  onKeydown(event) {
+  changeFocus() {
     this.getFocus();
-    console.log(event);
+  }
+  unreadable() {
+    console.log('unreadable');
   }
 }
