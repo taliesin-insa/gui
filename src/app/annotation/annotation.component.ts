@@ -88,7 +88,7 @@ export class AnnotationComponent implements OnInit {
    */
   unreadable(id: number) {
     this.snippets[id].unreadable = true;
-    this.snippetInputs.at(id).setValidators(null);
+    this.snippetInputs.at(id).clearValidators();
     this.snippetInputs.at(id).updateValueAndValidity();
   }
 
