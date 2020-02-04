@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {Router} from '@angular/router';
-import {getIdAndValue, Snippet} from '../model/Snippet';
+import {getIdAndValue, getUnreadableFlag, Snippet} from '../model/Snippet';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
@@ -13,6 +13,8 @@ import {catchError} from 'rxjs/operators';
   styleUrls: ['./annotation.component.scss']
 })
 export class AnnotationComponent implements OnInit {
+
+  @ViewChildren('annotationInput') annotationInputs: QueryList<ElementRef>;
 
   snippets: Snippet[] = []; // Batch of snippets
   annotationForm: FormGroup; // Form that contains text inputs for snippets' transcriptions
@@ -36,7 +38,7 @@ export class AnnotationComponent implements OnInit {
   /** Getter used to retrieve the list of snippet inputs
    * Each text input inside this array is a FormControl, representing the transcription of the n-th snippet
    */
-  get snippetInputs() {
+  get formArrayInputs() {
     return this.annotationForm.get('snippetInputs') as FormArray;
   }
 
@@ -47,7 +49,7 @@ export class AnnotationComponent implements OnInit {
    */
   fillAnnotationForm() {
     this.snippets.forEach(snippet => {
-      this.snippetInputs.push(
+      this.formArrayInputs.push(
         this.fb.control(snippet.value, Validators.required)
       );
     });
@@ -65,9 +67,51 @@ export class AnnotationComponent implements OnInit {
     for (let i = 0; i < modifiedSnippetInputs.length; i++) {
       this.snippets[i].value = modifiedSnippetInputs[i];
     }
-    this.snippetInputs.clear();
+    this.formArrayInputs.clear();
+    this.updateFlagsUnreadableDB();
     this.updateSnippetsDB();
     this.retrieveSnippetsDB(this.NB_OF_SNIPPETS);
+  }
+
+  /* ===== DYNAMIC INTERACTIONS ===== */
+
+  /**
+   * Focuses the next input in the array of snippet text inputs
+   *
+   * @param id of the current input
+   */
+  changeFocus(id: number) {
+    const annotationsInputsArray = this.annotationInputs.toArray();
+    let nextId = (id + 1) % annotationsInputsArray.length;
+    while (annotationsInputsArray[nextId].nativeElement.disabled) {
+      nextId++;
+    }
+    annotationsInputsArray[nextId].nativeElement.focus();
+  }
+
+  /**
+   * Change current snippet input readability.
+   * In case it was tagged readable:
+   * Remove all validators from the associated input field, disable it and then focus the next input.
+   *
+   * If the input was unreadable:
+   * Put back all necessary validators
+   *
+   * @param id of the actual snippet
+   */
+  unreadable(id: number) {
+    this.snippets[id].unreadable = !this.snippets[id].unreadable;
+    const input = this.formArrayInputs.at(id);
+
+    if (this.snippets[id].unreadable) {
+      input.disable();
+      input.clearValidators();
+      this.changeFocus(id);
+    } else {
+      input.enable();
+      input.setValidators(Validators.required);
+    }
+    input.updateValueAndValidity();
   }
 
   /* ===== HTTP REQUESTS ===== */
@@ -104,12 +148,20 @@ export class AnnotationComponent implements OnInit {
         catchError(this.handleError('updateSnippetsDB', undefined))
       );
   }
-  getFocus() {
-    document.getElementById(String (Number (String (document.activeElement.id)) + 1)).focus();
+
+  /**
+   * Send an array of all the unreadable snippets to update their flag in the database.
+   * Format of the data sent:
+   * [ { id: int, flag: "unreadable", value: true }, ...]
+   */
+  updateFlagsUnreadableDB() {
+    const unreadableSnippets = this.snippets.filter(snippet => snippet.unreadable)
+                                            .map(snippet => getUnreadableFlag(snippet));
+    this.snippets = this.snippets.filter(snippet => !snippet.unreadable);
+    this.http.put('db/update/flags', unreadableSnippets, {})
+      .pipe(
+        catchError(this.handleError('updateFlagsUnreadableDB', undefined))
+      );
   }
 
-  onKeydown(event) {
-    this.getFocus();
-    console.log(event);
-  }
 }
