@@ -71,6 +71,27 @@ export class AnnotationComponent implements OnInit {
     this.retrieveSnippetsDB(this.NB_OF_SNIPPETS);
   }
 
+  /* ===== DYNAMIC INTERACTIONS ===== */
+
+  getFocus() {
+    document.getElementById(String (Number (String (document.activeElement.id)) + 1)).focus();
+  }
+
+  changeFocus() {
+    this.getFocus();
+  }
+
+  /**
+   * Sets current snippet as unreadable. Removes all validators from the associated input field.
+   *
+   * @param id of the unreadable snippet
+   */
+  unreadable(id: number) {
+    this.snippets[id].unreadable = true;
+    this.snippetInputs.at(id).setValidators(null);
+    this.snippetInputs.at(id).updateValueAndValidity();
+  }
+
   /* ===== HTTP REQUESTS ===== */
 
   /**
@@ -107,7 +128,9 @@ export class AnnotationComponent implements OnInit {
   }
 
   /**
-   * Send an array of all the unreadable snippets to update their flag in the database
+   * Send an array of all the unreadable snippets to update their flag in the database.
+   * Format of the data sent:
+   * [ { id: int, flag: "unreadable", value: true }, ...]
    */
   updateFlagsUnreadableDB() {
     const unreadableSnippets = this.snippets.filter(snippet => snippet.unreadable)
@@ -119,17 +142,4 @@ export class AnnotationComponent implements OnInit {
       );
   }
 
-  getFocus() {
-    document.getElementById(String (Number (String (document.activeElement.id)) + 1)).focus();
-  }
-
-  changeFocus() {
-    this.getFocus();
-  }
-
-  unreadable(id: number) {
-    this.snippets[id].unreadable = true;
-    this.snippetInputs.at(id).setValidators(null);
-    this.snippetInputs.at(id).updateValueAndValidity();
-  }
 }
