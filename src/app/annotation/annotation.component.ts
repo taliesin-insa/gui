@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {getIdAndValue, Snippet} from '../model/Snippet';
+import {getIdAndValue, getUnreadableFlag, Snippet} from '../model/Snippet';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
@@ -66,6 +66,7 @@ export class AnnotationComponent implements OnInit {
       this.snippets[i].value = modifiedSnippetInputs[i];
     }
     this.snippetInputs.clear();
+    this.updateFlagsUnreadableDB();
     this.updateSnippetsDB();
     this.retrieveSnippetsDB(this.NB_OF_SNIPPETS);
   }
@@ -104,6 +105,20 @@ export class AnnotationComponent implements OnInit {
         catchError(this.handleError('updateSnippetsDB', undefined))
       );
   }
+
+  /**
+   * Send an array of all the unreadable snippets to update their flag in the database
+   */
+  updateFlagsUnreadableDB() {
+    const unreadableSnippets = this.snippets.filter(snippet => snippet.unreadable)
+                                            .map(snippet => getUnreadableFlag(snippet));
+    this.snippets = this.snippets.filter(snippet => !snippet.unreadable);
+    this.http.put('db/update/flags', unreadableSnippets, {})
+      .pipe(
+        catchError(this.handleError('updateFlagsUnreadableDB', undefined))
+      );
+  }
+
   getFocus() {
     document.getElementById(String (Number (String (document.activeElement.id)) + 1)).focus();
   }
@@ -111,7 +126,10 @@ export class AnnotationComponent implements OnInit {
   changeFocus() {
     this.getFocus();
   }
-  unreadable() {
-    console.log('unreadable');
+
+  unreadable(id: number) {
+    this.snippets[id].unreadable = true;
+    this.snippetInputs.at(id).setValidators(null);
+    this.snippetInputs.at(id).updateValueAndValidity();
   }
 }
