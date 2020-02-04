@@ -1,18 +1,31 @@
-<!-- Form used to display all the snippets (image + text field) -->
-<form [formGroup]="annotationForm" (ngSubmit)="onSubmit(annotationForm.value)" (keydown.enter)="$event.preventDefault()">
-
-  <div formArrayName="snippetInputs">
-    <ng-container *ngFor="let snippetInput of snippetInputs.controls; let i=index">
-        <div>
-          <img src="{{snippets[i].url}}">
-          <br>
-          <input #annotationInput type="text" [formControlName]="i" (keydown.enter)="changeFocus(i)" (keydown.f9)="unreadable(i)">
-          <button type="button" (click)="unreadable(i)">unreadable</button>
-        </div>
-    </ng-container>
-  </div>
-
-  <button class="btn btn-primary" type="submit" [disabled]="annotationForm.invalid">Next lines</button>
-
-</form>
 <button class="btn btn-secondary" routerLink="/home">Home</button>
+<h3>Annotation</h3>
+
+<div class="container">
+  <div class="d-flex justify-content-center text-center">
+
+    <!-- Form used to display all the snippets (image + text field) -->
+    <form [formGroup]="annotationForm" (ngSubmit)="onSubmit(annotationForm.value)" (keydown.enter)="$event.preventDefault()">
+
+      <div formArrayName="snippetInputs">
+
+        <ng-container *ngFor="let snippetInput of snippetInputs.controls; let i=index">
+          <div class="card text-center mb-3 w-100">
+            <div>
+              <img class="card-img-top" src="{{snippets[i].url}}">
+            </div>
+            <div class="card-body">
+              <input #annotationInput type="text" [formControlName]="i" (keydown.enter)="changeFocus(i)" (keydown.f9)="unreadable(i)">
+              <button type="button" (click)="unreadable(i)">unreadable</button>
+            </div>
+          </div>
+        </ng-container>
+
+      </div>
+
+      <button class="btn btn-primary" type="submit" [disabled]="annotationForm.invalid">Next lines</button>
+
+    </form>
+
+  </div>
+</div>
