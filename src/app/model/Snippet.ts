@@ -2,11 +2,13 @@ export class Snippet {
   id: number;
   url: string;
   value: string;
+  unreadable: boolean;
 
   constructor(id: number, url: string, value: string) {
     this.id = id;
     this.url = url;
     this.value = value;
+    this.unreadable = false;
   }
 }
 
@@ -18,4 +20,8 @@ export class Snippet {
  */
 export function getIdAndValue(snippet: Snippet) {
   return { id: snippet.id, value: snippet.value };
+}
+
+export function getUnreadableFlag(snippet: Snippet) {
+  return { id: snippet.id, flag: 'unreadable', value: snippet.unreadable };
 }
