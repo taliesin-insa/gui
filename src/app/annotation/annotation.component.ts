@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {Router} from '@angular/router';
 import {getIdAndValue, getUnreadableFlag, Snippet} from '../model/Snippet';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -13,6 +13,8 @@ import {catchError} from 'rxjs/operators';
   styleUrls: ['./annotation.component.scss']
 })
 export class AnnotationComponent implements OnInit {
+
+  @ViewChildren('annotationInput') annotationInputs: QueryList<ElementRef>;
 
   snippets: Snippet[] = []; // Batch of snippets
   annotationForm: FormGroup; // Form that contains text inputs for snippets' transcriptions
@@ -73,12 +75,15 @@ export class AnnotationComponent implements OnInit {
 
   /* ===== DYNAMIC INTERACTIONS ===== */
 
-  getFocus() {
-    document.getElementById(String (Number (String (document.activeElement.id)) + 1)).focus();
-  }
-
-  changeFocus() {
-    this.getFocus();
+  /**
+   * Focuses the next input in the array of snippet text inputs
+   *
+   * @param id of the current input
+   */
+  changeFocus(id: number) {
+    const annotationsInputsArray = this.annotationInputs.toArray();
+    const nextId = (id + 1) % annotationsInputsArray.length;
+    annotationsInputsArray[nextId].nativeElement.focus();
   }
 
   /**
