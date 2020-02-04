@@ -90,18 +90,28 @@ export class AnnotationComponent implements OnInit {
   }
 
   /**
-   * Sets current snippet as unreadable.
-   * Removes all validators from the associated input field, disables it and then focuses the next input.
+   * Change current snippet input readability.
+   * In case it was tagged readable:
+   * Remove all validators from the associated input field, disable it and then focus the next input.
    *
-   * @param id of the unreadable snippet
+   * If the input was unreadable:
+   * Put back all necessary validators
+   *
+   * @param id of the actual snippet
    */
   unreadable(id: number) {
-    this.snippets[id].unreadable = true;
-    const unreadableInput = this.formArrayInputs.at(id);
-    unreadableInput.clearValidators();
-    unreadableInput.updateValueAndValidity();
-    unreadableInput.disable();
-    this.changeFocus(id);
+    this.snippets[id].unreadable = !this.snippets[id].unreadable;
+    const input = this.formArrayInputs.at(id);
+
+    if (this.snippets[id].unreadable) {
+      input.disable();
+      input.clearValidators();
+      this.changeFocus(id);
+    } else {
+      input.enable();
+      input.setValidators(Validators.required);
+    }
+    input.updateValueAndValidity();
   }
 
   /* ===== HTTP REQUESTS ===== */
