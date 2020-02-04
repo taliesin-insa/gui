@@ -38,7 +38,7 @@ export class AnnotationComponent implements OnInit {
   /** Getter used to retrieve the list of snippet inputs
    * Each text input inside this array is a FormControl, representing the transcription of the n-th snippet
    */
-  get snippetInputs() {
+  get formArrayInputs() {
     return this.annotationForm.get('snippetInputs') as FormArray;
   }
 
@@ -49,7 +49,7 @@ export class AnnotationComponent implements OnInit {
    */
   fillAnnotationForm() {
     this.snippets.forEach(snippet => {
-      this.snippetInputs.push(
+      this.formArrayInputs.push(
         this.fb.control(snippet.value, Validators.required)
       );
     });
@@ -67,7 +67,7 @@ export class AnnotationComponent implements OnInit {
     for (let i = 0; i < modifiedSnippetInputs.length; i++) {
       this.snippets[i].value = modifiedSnippetInputs[i];
     }
-    this.snippetInputs.clear();
+    this.formArrayInputs.clear();
     this.updateFlagsUnreadableDB();
     this.updateSnippetsDB();
     this.retrieveSnippetsDB(this.NB_OF_SNIPPETS);
@@ -97,7 +97,7 @@ export class AnnotationComponent implements OnInit {
    */
   unreadable(id: number) {
     this.snippets[id].unreadable = true;
-    const unreadableInput = this.snippetInputs.at(id);
+    const unreadableInput = this.formArrayInputs.at(id);
     unreadableInput.clearValidators();
     unreadableInput.updateValueAndValidity();
     unreadableInput.disable();
