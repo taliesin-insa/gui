@@ -82,19 +82,26 @@ export class AnnotationComponent implements OnInit {
    */
   changeFocus(id: number) {
     const annotationsInputsArray = this.annotationInputs.toArray();
-    const nextId = (id + 1) % annotationsInputsArray.length;
+    let nextId = (id + 1) % annotationsInputsArray.length;
+    while (annotationsInputsArray[nextId].nativeElement.disabled) {
+      nextId++;
+    }
     annotationsInputsArray[nextId].nativeElement.focus();
   }
 
   /**
-   * Sets current snippet as unreadable. Removes all validators from the associated input field.
+   * Sets current snippet as unreadable.
+   * Removes all validators from the associated input field, disables it and then focuses the next input.
    *
    * @param id of the unreadable snippet
    */
   unreadable(id: number) {
     this.snippets[id].unreadable = true;
-    this.snippetInputs.at(id).clearValidators();
-    this.snippetInputs.at(id).updateValueAndValidity();
+    const unreadableInput = this.snippetInputs.at(id);
+    unreadableInput.clearValidators();
+    unreadableInput.updateValueAndValidity();
+    unreadableInput.disable();
+    this.changeFocus(id);
   }
 
   /* ===== HTTP REQUESTS ===== */
