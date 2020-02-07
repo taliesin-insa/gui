@@ -124,6 +124,7 @@ export class AnnotationComponent implements OnInit {
    * @param nbOfSnippets we want to retrieve
    */
   retrieveSnippetsDB(nbOfSnippets: number) {
+    this.snippets = []; // Clear snippet list before getting new ones
     this.http.get<Snippet[]>(`db/retrieve/snippets/${nbOfSnippets}`)
       // Handle HTTP error: 1st param = name of the function that might fail, 2nd param = default value returned in case of error
       .pipe(
@@ -131,7 +132,7 @@ export class AnnotationComponent implements OnInit {
       )
       // Function handling the result of the HTTP request. Returned value might either be the wanted one or the default one specified above
       .subscribe(returnedData => {
-        this.snippets = returnedData;
+        returnedData.forEach(dbEntry => this.snippets.push(new Snippet(dbEntry)));
         this.fillAnnotationForm();
       });
   }
