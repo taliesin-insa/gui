@@ -4,11 +4,11 @@ export class Snippet {
   value: string;
   unreadable: boolean;
 
-  constructor(id: number, url: string, value: string) {
-    this.id = id;
-    this.url = url;
-    this.value = value;
-    this.unreadable = false;
+  constructor(dbEntry: any) {
+    this.id = dbEntry.PiFF.Data[0].Id;
+    this.url = dbEntry.Url;
+    this.value = dbEntry.PiFF.Data[0].Value;
+    this.unreadable = dbEntry.Unreadable;
   }
 }
 
