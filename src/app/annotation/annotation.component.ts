@@ -146,10 +146,13 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
    */
   validateAnnotation(id: number) {
     const snippet = this.snippets[id];
-    snippet.value = this.formArrayInputs.at(id).value;
-    snippet.annotated = true;
-    this.updateSnippetDB(snippet);
-    this.changeFocus(id);
+    const input = this.formArrayInputs.at(id);
+    if (!input.invalid) {
+      snippet.value = input.value;
+      snippet.annotated = true;
+      this.updateSnippetDB(snippet);
+      this.changeFocus(id);
+    }
   }
 
   /* ===== HTTP REQUESTS ===== */
