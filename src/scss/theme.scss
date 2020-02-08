@@ -3,6 +3,7 @@
 
 // RED
 $taliesin-red: #e91430;
+$taliesin-red-light: rgba(255, 3, 0, 0.37);
 
 // ORANGE
 $taliesin-orange: #f05a42;
@@ -19,6 +20,8 @@ $taliesin-blue: #2f5d77;
 $taliesin-blue-dark: #0e2a47;
 $taliesin-blue-dark2: #314256;
 $taliesin-blue-light: #94c2db;
+$taliesin-blue-active: rgb(0, 0, 255);
+$taliesin-blue-hoover: rgb(0, 0, 255);
 
 // GRAY
 // Background
@@ -29,15 +32,19 @@ $taliesin-gray-light: #eeeeee;
 
 // GREEN
 $taliesin-green: #00be72;
-$taliesin-green-light: #80f980;
+$taliesin-green-light: rgba(0, 255, 0, 0.39);
 
 $theme-colors: (
   "primary": $taliesin-orange,
   "secondary": $taliesin-blue,
   "success": $taliesin-green,
+  "validated": $taliesin-green-light,
   "info": $taliesin-blue-light,
+  "active": $taliesin-blue-active,
+  "hoover": $taliesin-blue-hoover,
   "warning": $taliesin-yellow,
   "danger": $taliesin-red,
+  "unreadable": $taliesin-red-light,
   "light": $taliesin-gray-light,
   "dark": $taliesin-gray-dark
 );
