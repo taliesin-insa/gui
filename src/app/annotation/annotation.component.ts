@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {Router} from '@angular/router';
 import {getIdAndValue, getUnreadableFlag, Snippet} from '../model/Snippet';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -12,7 +12,7 @@ import {catchError} from 'rxjs/operators';
   templateUrl: './annotation.component.html',
   styleUrls: ['./annotation.component.scss']
 })
-export class AnnotationComponent implements OnInit {
+export class AnnotationComponent implements OnInit, AfterViewInit {
 
   @ViewChildren('annotationInput') annotationInputs: QueryList<ElementRef>;
   @ViewChild('nextLines', { static : false}) nextLinesButton: ElementRef;
@@ -34,6 +34,14 @@ export class AnnotationComponent implements OnInit {
     });
 
     this.retrieveSnippetsDB(this.NB_OF_SNIPPETS);
+  }
+
+  ngAfterViewInit() {
+    this.annotationInputs.changes.subscribe(changes => {
+      if (changes.toArray().length > 0) {
+        changes.toArray()[0].nativeElement.focus();
+      }
+    });
   }
 
   /** Getter used to retrieve the list of snippet inputs
