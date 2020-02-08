@@ -15,7 +15,7 @@
               <img class="card-img-top" src="{{snippets[i].url}}">
             </div>
             <div class="card-body">
-              <input #annotationInput type="text" [formControlName]="i" (keydown.enter)="changeFocus(i)" (keydown.f9)="unreadable(i)">
+              <input #annotationInput type="text" [formControlName]="i" (keydown.enter)="validateAnnotation(i)" (keydown.f9)="unreadable(i)">
               <button type="button" class="btn btn-danger" (click)="unreadable(i)">X</button>
             </div>
           </div>
@@ -23,7 +23,7 @@
 
       </div>
 
-      <button class="btn btn-primary" type="submit" [disabled]="annotationForm.invalid">Next lines</button>
+      <button #nextLines class="btn btn-primary" type="submit" [disabled]="annotationForm.invalid">Next lines</button>
 
     </form>
 
