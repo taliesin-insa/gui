@@ -67,8 +67,17 @@ export class AnnotationComponent implements OnInit {
     for (let i = 0; i < modifiedSnippetInputs.length; i++) {
       this.snippets[i].value = modifiedSnippetInputs[i];
     }
+    // Clear inputs since we will get new snippets
     this.formArrayInputs.clear();
+
+    // Update data in backend: snippets for which the annotation hasn't been validated and those which are tagged unreadable
+    const snippetsToValidate = this.snippets.filter(snippet => !snippet.annotated);
+    if (snippetsToValidate.length > 0) {
+      this.updateManySnippetsDB(snippetsToValidate);
+    }
     this.updateFlagsUnreadableDB();
+
+    // Get new snippets to annotate
     this.retrieveSnippetsDB(this.NB_OF_SNIPPETS);
   }
 
@@ -121,6 +130,7 @@ export class AnnotationComponent implements OnInit {
   validateAnnotation(id: number) {
     const snippet = this.snippets[id];
     snippet.value = this.formArrayInputs.at(id).value;
+    snippet.annotated = true;
     this.updateSnippetDB(snippet);
     this.changeFocus(id);
   }
@@ -155,8 +165,20 @@ export class AnnotationComponent implements OnInit {
    */
   updateSnippetDB(snippet: Snippet) {
     const updatedSnippet = [ getIdAndValue(snippet) ];
-    console.log(updatedSnippet);
     this.http.put('db/update/value', updatedSnippet, {})
+      .pipe(
+        catchError(this.handleError('updateSnippetsDB', undefined))
+      );
+  }
+
+  /**
+   * Send the annotated snippets to the database. Called before getting new snippets, to validate snippets that haven't been already.
+   * Format of the data sent:
+   * [ { id: int, value: string}, ... ]
+   */
+  updateManySnippetsDB(snippetList: Array<Snippet>) {
+    const updatedSnippetList = snippetList.map(snippet => getIdAndValue(snippet));
+    this.http.put('db/update/value', updatedSnippetList, {})
       .pipe(
         catchError(this.handleError('updateSnippetsDB', undefined))
       );
