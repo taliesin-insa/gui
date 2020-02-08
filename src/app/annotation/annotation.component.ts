@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {Router} from '@angular/router';
 import {getIdAndValue, getUnreadableFlag, Snippet} from '../model/Snippet';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -15,6 +15,7 @@ import {catchError} from 'rxjs/operators';
 export class AnnotationComponent implements OnInit {
 
   @ViewChildren('annotationInput') annotationInputs: QueryList<ElementRef>;
+  @ViewChild('nextLines', { static : false}) nextLinesButton: ElementRef;
 
   snippets: Snippet[] = []; // Batch of snippets
   annotationForm: FormGroup; // Form that contains text inputs for snippets' transcriptions
@@ -53,6 +54,7 @@ export class AnnotationComponent implements OnInit {
         this.fb.control(snippet.value, Validators.required)
       );
     });
+    window.scroll(0, 0);
   }
 
   /**
@@ -90,11 +92,18 @@ export class AnnotationComponent implements OnInit {
    */
   changeFocus(id: number) {
     const annotationsInputsArray = this.annotationInputs.toArray();
-    let nextId = (id + 1) % annotationsInputsArray.length;
-    while (annotationsInputsArray[nextId].nativeElement.disabled) {
-      nextId++;
+    let nextId = id + 1;
+    if (nextId === annotationsInputsArray.length) {
+      // We are at the bottom at the page, suppose all the snippets are annotated
+      this.nextLinesButton.nativeElement.focus();
+      this.nextLinesButton.nativeElement.click();
+    } else {
+      // Try to find the next input that isn't disabled (unreadable)
+      while (annotationsInputsArray[nextId].nativeElement.disabled) {
+        nextId++;
+      }
+      annotationsInputsArray[nextId].nativeElement.focus();
     }
-    annotationsInputsArray[nextId].nativeElement.focus();
   }
 
   /**
