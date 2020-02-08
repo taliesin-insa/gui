@@ -69,7 +69,6 @@ export class AnnotationComponent implements OnInit {
     }
     this.formArrayInputs.clear();
     this.updateFlagsUnreadableDB();
-    this.updateSnippetsDB();
     this.retrieveSnippetsDB(this.NB_OF_SNIPPETS);
   }
 
@@ -114,6 +113,18 @@ export class AnnotationComponent implements OnInit {
     input.updateValueAndValidity();
   }
 
+  /**
+   * Send the annotated snippet to the backend, and focus the next image
+   *
+   * @param id of the annotated snippet
+   */
+  validateAnnotation(id: number) {
+    const snippet = this.snippets[id];
+    snippet.value = this.formArrayInputs.at(id).value;
+    this.updateSnippetDB(snippet);
+    this.changeFocus(id);
+  }
+
   /* ===== HTTP REQUESTS ===== */
 
   /**
@@ -138,13 +149,14 @@ export class AnnotationComponent implements OnInit {
   }
 
   /**
-   * Send all the annotated snippets to the database. Called after annotating all the snippets (once their transcription is correct).
+   * Send the annotated snippet to the database. Called after annotating one snippet (once its transcription is correct).
    * Format of the data sent:
-   * [ { id: int, value: string}, ...]
+   * [ { id: int, value: string} ]
    */
-  updateSnippetsDB() {
-    const updatedSnippets = this.snippets.map(snippet => getIdAndValue(snippet));
-    this.http.put('db/update/value', updatedSnippets, {})
+  updateSnippetDB(snippet: Snippet) {
+    const updatedSnippet = [ getIdAndValue(snippet) ];
+    console.log(updatedSnippet);
+    this.http.put('db/update/value', updatedSnippet, {})
       .pipe(
         catchError(this.handleError('updateSnippetsDB', undefined))
       );
