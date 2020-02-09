@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {Router} from '@angular/router';
 import {getIdAndValue, getUnreadableFlag, Snippet} from '../model/Snippet';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -16,6 +16,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
 
   @ViewChildren('annotationInput') annotationInputs: QueryList<ElementRef>;
   @ViewChild('nextLines', { static : false}) nextLinesButton: ElementRef;
+  @ViewChildren('card') card: QueryList<ElementRef>;
 
   snippets: Snippet[] = []; // Batch of snippets
   annotationForm: FormGroup; // Form that contains text inputs for snippets' transcriptions
@@ -96,6 +97,8 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
   /**
    * Focuses the next input in the array of snippet text inputs
    *
+   * Add (or remove) classes to show visuals indicators for the user
+   *
    * @param id of the current input
    */
   changeFocus(id: number) {
@@ -112,6 +115,60 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
       }
       annotationsInputsArray[nextId].nativeElement.focus();
     }
+    let nextId = (id + 1) % annotationsInputsArray.length;
+    annotationsInputsArray[id].nativeElement.classList.remove('border-active');
+    while (annotationsInputsArray[id].nativeElement.disabled) {
+      nextId++;
+    }
+    if (!this.snippets[id].unreadable) {
+      annotationsInputsArray[id].nativeElement.remove('bg-unreadable');
+      annotationsInputsArray[id].nativeElement.add('bg-validated');
+    }
+    annotationsInputsArray[nextId].nativeElement.focus();
+    annotationsInputsArray[nextId].nativeElement.add('border-active');
+  }
+
+  /**
+   * Focuses the clicked input in the array of snippet text inputs
+   *
+   * Add (or remove) classes to show visuals indicators for the user
+   *
+   * @param id of the current input
+   */
+
+  focusClick(id: number) {
+    const annotationsInputsArray = this.annotationInputs.toArray();
+    for ( const elem of annotationsInputsArray) {
+        elem.nativeElement.classList.remove('border-active');
+    }
+    annotationsInputsArray[id].nativeElement.classList.add('border-active');
+    annotationsInputsArray[id].nativeElement.focus();
+  }
+
+  /**
+   * Add a border to the current hoovered card in the array of snippets
+   *
+   * Add (or remove) classes to show visuals indicators for the user
+   *
+   * @param id of the current input
+   */
+
+  hooverShowInterest(id: number) {
+    const cardArray = this.card.toArray();
+    cardArray[id].nativeElement.classList.add('border-active');
+  }
+
+  /**
+   * Remove the border of the current hoovered card in the array of snippets
+   *
+   * Add (or remove) classes to show visuals indicators for the user
+   *
+   * @param id of the current input
+   */
+
+  hooverNoInterest(id: number) {
+    const cardArray = this.card.toArray();
+    cardArray[id].nativeElement.classList.remove('border-active');
   }
 
   /**
@@ -122,19 +179,25 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
    * If the input was unreadable:
    * Put back all necessary validators
    *
+   * Add (or remove) classes to show visuals indicators for the user
+   *
    * @param id of the actual snippet
    */
   unreadable(id: number) {
+    const annotationsInputsArray = this.annotationInputs.toArray();
     this.snippets[id].unreadable = !this.snippets[id].unreadable;
     const input = this.formArrayInputs.at(id);
 
     if (this.snippets[id].unreadable) {
       input.disable();
       input.clearValidators();
+      annotationsInputsArray[id].nativeElement.remove('bg-validated');
+      annotationsInputsArray[id].nativeElement.add('bg-unreadable');
       this.changeFocus(id);
     } else {
       input.enable();
       input.setValidators(Validators.required);
+      annotationsInputsArray[id].nativeElement.remove('bg-unreadable');
     }
     input.updateValueAndValidity();
   }
