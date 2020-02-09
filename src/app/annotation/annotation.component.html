@@ -10,7 +10,7 @@
       <div formArrayName="snippetInputs">
 
         <ng-container *ngFor="let snippetInput of formArrayInputs.controls; let i=index">
-          <div #card class="card text-center mb-3 w-100 " id='card_{{i}}' [formControlName]="i" (mouseover)="hooverShowInterest(i)" (mouseout)="hooverNoInterest(i)">
+          <div #card class="card text-center mb-3 w-100 "  [formControlName]="i" (mouseover)="hooverShowInterest(i)" (mouseout)="hooverNoInterest(i)">
             <div>
               <img class="card-img-top" src="{{snippets[i].url}}">
             </div>
