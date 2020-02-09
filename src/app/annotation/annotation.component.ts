@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {Router} from '@angular/router';
 import {getIdAndValue, getUnreadableFlag, Snippet} from '../model/Snippet';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -102,6 +102,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
    * @param id of the current input
    */
   changeFocus(id: number) {
+    console.log(id);
     const annotationsInputsArray = this.annotationInputs.toArray();
     let nextId = id + 1;
     if (nextId === annotationsInputsArray.length) {
@@ -113,19 +114,16 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
       while (annotationsInputsArray[nextId].nativeElement.disabled) {
         nextId++;
       }
+      if (!this.snippets[id].unreadable) {
+        annotationsInputsArray[id].nativeElement.classList.remove('bg-unreadable');
+        annotationsInputsArray[id].nativeElement.classList.add('bg-validated');
+      }
+      annotationsInputsArray[id].nativeElement.classList.remove('border-active');
+      console.log(id);
       annotationsInputsArray[nextId].nativeElement.focus();
+      annotationsInputsArray[nextId].nativeElement.classList.add('border-active');
+      console.log(id);
     }
-    let nextId = (id + 1) % annotationsInputsArray.length;
-    annotationsInputsArray[id].nativeElement.classList.remove('border-active');
-    while (annotationsInputsArray[id].nativeElement.disabled) {
-      nextId++;
-    }
-    if (!this.snippets[id].unreadable) {
-      annotationsInputsArray[id].nativeElement.remove('bg-unreadable');
-      annotationsInputsArray[id].nativeElement.add('bg-validated');
-    }
-    annotationsInputsArray[nextId].nativeElement.focus();
-    annotationsInputsArray[nextId].nativeElement.add('border-active');
   }
 
   /**
@@ -191,13 +189,13 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
     if (this.snippets[id].unreadable) {
       input.disable();
       input.clearValidators();
-      annotationsInputsArray[id].nativeElement.remove('bg-validated');
-      annotationsInputsArray[id].nativeElement.add('bg-unreadable');
+      annotationsInputsArray[id].nativeElement.classList.remove('bg-validated');
+      annotationsInputsArray[id].nativeElement.classList.add('bg-unreadable');
       this.changeFocus(id);
     } else {
       input.enable();
       input.setValidators(Validators.required);
-      annotationsInputsArray[id].nativeElement.remove('bg-unreadable');
+      annotationsInputsArray[id].nativeElement.classList.remove('bg-unreadable');
     }
     input.updateValueAndValidity();
   }
@@ -214,6 +212,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
       snippet.value = input.value;
       snippet.annotated = true;
       this.updateSnippetDB(snippet);
+      console.log(id);
       this.changeFocus(id);
     }
   }
