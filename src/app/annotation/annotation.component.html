@@ -10,13 +10,13 @@
       <div formArrayName="snippetInputs">
 
         <ng-container *ngFor="let snippetInput of formArrayInputs.controls; let i=index">
-          <div class="card text-center mb-3 w-100">
+          <div #card class="card text-center mb-3 w-100 " (mouseover)="setHover(i)" (mouseout)="leaveHover()" [ngClass]="changeClassesCard(i)">
             <div>
               <img class="card-img-top" src="{{snippets[i].url}}">
             </div>
             <div class="card-body">
-              <input #annotationInput type="text" [formControlName]="i" (keydown.enter)="validateAnnotation(i)" (keydown.f9)="unreadable(i)">
-              <button type="button" class="btn btn-danger" (click)="unreadable(i)">X</button>
+              <input #annotationInput type="text" [formControlName]="i" (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)" (click)="focusClick(i)"  >
+              <button type="button"  class="btn btn-danger" (click)="setUnreadable(i)">X</button>
             </div>
           </div>
         </ng-container>
