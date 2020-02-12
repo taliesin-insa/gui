@@ -24,6 +24,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
 
   private handleError: HandleError;
 
+  private hover = -1 ;
 
   constructor(private router: Router, private fb: FormBuilder, private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('Annotation');
@@ -102,7 +103,6 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
    * @param id of the current input
    */
   changeFocus(id: number) {
-    console.log(id);
     const annotationsInputsArray = this.annotationInputs.toArray();
     let nextId = id + 1;
     if (nextId === annotationsInputsArray.length) {
@@ -119,10 +119,8 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
         annotationsInputsArray[id].nativeElement.classList.add('bg-validated');
       }
       annotationsInputsArray[id].nativeElement.classList.remove('border-active');
-      console.log(id);
       annotationsInputsArray[nextId].nativeElement.focus();
       annotationsInputsArray[nextId].nativeElement.classList.add('border-active');
-      console.log(id);
     }
   }
 
@@ -144,30 +142,39 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Add a border to the current hoovered card in the array of snippets
    *
-   * Add (or remove) classes to show visuals indicators for the user
    *
-   * @param id of the current input
+   *
+   *
+   *
    */
 
-  hooverShowInterest(id: number) {
-    const cardArray = this.card.toArray();
-    cardArray[id].nativeElement.classList.add('border-active');
+  setHover(id: number) {
+    this.hover = id;
   }
 
   /**
-   * Remove the border of the current hoovered card in the array of snippets
    *
-   * Add (or remove) classes to show visuals indicators for the user
    *
-   * @param id of the current input
+   *
+   *
+   *
    */
 
-  hooverNoInterest(id: number) {
-    const cardArray = this.card.toArray();
-    cardArray[id].nativeElement.classList.remove('border-active');
+  leaveHover() {
+    this.hover = -1;
   }
+
+  changeClassesCard(id: number) {
+    let classValue = '';
+    if (id === this.hover) {
+      classValue += ' border-active';
+    } else {
+      classValue += '';
+    }
+    return classValue;
+  }
+
 
   /**
    * Change current snippet input readability.
@@ -181,7 +188,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
    *
    * @param id of the actual snippet
    */
-  unreadable(id: number) {
+  setUnreadable(id: number) {
     const annotationsInputsArray = this.annotationInputs.toArray();
     this.snippets[id].unreadable = !this.snippets[id].unreadable;
     const input = this.formArrayInputs.at(id);
@@ -212,7 +219,6 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
       snippet.value = input.value;
       snippet.annotated = true;
       this.updateSnippetDB(snippet);
-      console.log(id);
       this.changeFocus(id);
     }
   }
