@@ -5,6 +5,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {catchError} from 'rxjs/operators';
+import {ToastService} from '../toast-global/toast-service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -24,7 +25,11 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
   private handleError: HandleError;
 
 
-  constructor(private router: Router, private fb: FormBuilder, private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
+  constructor(private router: Router,
+              private fb: FormBuilder,
+              private http: HttpClient,
+              httpErrorHandler: HttpErrorHandler,
+              private toastService: ToastService) {
     this.handleError = httpErrorHandler.createHandleError('Annotation');
   }
 
@@ -185,6 +190,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
    */
   updateSnippetDB(snippet: Snippet) {
     const updatedSnippet = [ getIdAndValue(snippet) ];
+    this.toastService.showStandard('Sent to db/update/value: \n' + JSON.stringify(updatedSnippet));
     this.http.put('db/update/value', updatedSnippet, {})
       .pipe(
         catchError(this.handleError('updateSnippetsDB', undefined))
@@ -198,6 +204,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
    */
   updateManySnippetsDB(snippetList: Array<Snippet>) {
     const updatedSnippetList = snippetList.map(snippet => getIdAndValue(snippet));
+    this.toastService.showStandard('Sent to db/update/value: \n' + JSON.stringify(updatedSnippetList));
     this.http.put('db/update/value', updatedSnippetList, {})
       .pipe(
         catchError(this.handleError('updateSnippetsDB', undefined))
@@ -212,6 +219,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
   updateFlagsUnreadableDB() {
     const unreadableSnippets = this.snippets.filter(snippet => snippet.unreadable)
                                             .map(snippet => getUnreadableFlag(snippet));
+    this.toastService.showStandard('Sent to db/update/flags: \n' + JSON.stringify(unreadableSnippets));
     this.snippets = this.snippets.filter(snippet => !snippet.unreadable);
     this.http.put('db/update/flags', unreadableSnippets, {})
       .pipe(
