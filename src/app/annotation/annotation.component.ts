@@ -178,6 +178,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
       )
       // Function handling the result of the HTTP request. Returned value might either be the wanted one or the default one specified above
       .subscribe(returnedData => {
+        this.toastService.showSuccess('Received snippets: \n' + JSON.stringify(returnedData));
         returnedData.forEach(dbEntry => this.snippets.push(new Snippet(dbEntry)));
         this.fillAnnotationForm();
       });
