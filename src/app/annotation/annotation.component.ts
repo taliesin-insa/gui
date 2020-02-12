@@ -220,12 +220,14 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
   updateFlagsUnreadableDB() {
     const unreadableSnippets = this.snippets.filter(snippet => snippet.unreadable)
                                             .map(snippet => getUnreadableFlag(snippet));
-    this.toastService.showStandard('Sent to db/update/flags: \n' + JSON.stringify(unreadableSnippets));
-    this.snippets = this.snippets.filter(snippet => !snippet.unreadable);
-    this.http.put('db/update/flags', unreadableSnippets, {})
-      .pipe(
-        catchError(this.handleError('updateFlagsUnreadableDB', undefined))
-      );
+    if (unreadableSnippets.length > 0) {
+      this.toastService.showStandard('Sent to db/update/flags: \n' + JSON.stringify(unreadableSnippets));
+      this.snippets = this.snippets.filter(snippet => !snippet.unreadable);
+      this.http.put('db/update/flags', unreadableSnippets, {})
+        .pipe(
+          catchError(this.handleError('updateFlagsUnreadableDB', undefined))
+        );
+    }
   }
 
 }
