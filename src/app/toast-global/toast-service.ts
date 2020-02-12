@@ -13,7 +13,7 @@ export class ToastService {
   }
 
   showStandard(msg: string) {
-    this.show(msg);
+    this.show(msg, { delay: 10000});
   }
 
   showSuccess(msg: string) {
