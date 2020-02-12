@@ -21,7 +21,7 @@ $taliesin-blue-dark: #0e2a47;
 $taliesin-blue-dark2: #314256;
 $taliesin-blue-light: #94c2db;
 $taliesin-blue-active: rgb(0, 0, 255);
-$taliesin-blue-hoover: rgb(0, 0, 255);
+$taliesin-blue-hover: rgb(0, 0, 255);
 
 // GRAY
 // Background
@@ -41,7 +41,7 @@ $theme-colors: (
   "validated": $taliesin-green-light,
   "info": $taliesin-blue-light,
   "active": $taliesin-blue-active,
-  "hoover": $taliesin-blue-hoover,
+  "hover": $taliesin-blue-hover,
   "warning": $taliesin-yellow,
   "danger": $taliesin-red,
   "unreadable": $taliesin-red-light,
