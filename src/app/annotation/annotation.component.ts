@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {Router} from '@angular/router';
 import {getIdAndValue, getUnreadableFlag, Snippet} from '../model/Snippet';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -12,9 +12,10 @@ import {catchError} from 'rxjs/operators';
   templateUrl: './annotation.component.html',
   styleUrls: ['./annotation.component.scss']
 })
-export class AnnotationComponent implements OnInit {
+export class AnnotationComponent implements OnInit, AfterViewInit {
 
   @ViewChildren('annotationInput') annotationInputs: QueryList<ElementRef>;
+  @ViewChild('nextLines', { static : false}) nextLinesButton: ElementRef;
 
   snippets: Snippet[] = []; // Batch of snippets
   annotationForm: FormGroup; // Form that contains text inputs for snippets' transcriptions
@@ -35,6 +36,14 @@ export class AnnotationComponent implements OnInit {
     this.retrieveSnippetsDB(this.NB_OF_SNIPPETS);
   }
 
+  ngAfterViewInit() {
+    this.annotationInputs.changes.subscribe(changes => {
+      if (changes.toArray().length > 0) {
+        changes.toArray()[0].nativeElement.focus();
+      }
+    });
+  }
+
   /** Getter used to retrieve the list of snippet inputs
    * Each text input inside this array is a FormControl, representing the transcription of the n-th snippet
    */
@@ -53,6 +62,7 @@ export class AnnotationComponent implements OnInit {
         this.fb.control(snippet.value, Validators.required)
       );
     });
+    window.scroll(0, 0);
   }
 
   /**
@@ -67,9 +77,17 @@ export class AnnotationComponent implements OnInit {
     for (let i = 0; i < modifiedSnippetInputs.length; i++) {
       this.snippets[i].value = modifiedSnippetInputs[i];
     }
+    // Clear inputs since we will get new snippets
     this.formArrayInputs.clear();
+
+    // Update data in backend: snippets for which the annotation hasn't been validated and those which are tagged unreadable
+    const snippetsToValidate = this.snippets.filter(snippet => !snippet.annotated);
+    if (snippetsToValidate.length > 0) {
+      this.updateManySnippetsDB(snippetsToValidate);
+    }
     this.updateFlagsUnreadableDB();
-    this.updateSnippetsDB();
+
+    // Get new snippets to annotate
     this.retrieveSnippetsDB(this.NB_OF_SNIPPETS);
   }
 
@@ -82,11 +100,18 @@ export class AnnotationComponent implements OnInit {
    */
   changeFocus(id: number) {
     const annotationsInputsArray = this.annotationInputs.toArray();
-    let nextId = (id + 1) % annotationsInputsArray.length;
-    while (annotationsInputsArray[nextId].nativeElement.disabled) {
-      nextId++;
+    let nextId = id + 1;
+    if (nextId === annotationsInputsArray.length) {
+      // We are at the bottom at the page, suppose all the snippets are annotated
+      this.nextLinesButton.nativeElement.focus();
+      this.nextLinesButton.nativeElement.click();
+    } else {
+      // Try to find the next input that isn't disabled (unreadable)
+      while (annotationsInputsArray[nextId].nativeElement.disabled) {
+        nextId++;
+      }
+      annotationsInputsArray[nextId].nativeElement.focus();
     }
-    annotationsInputsArray[nextId].nativeElement.focus();
   }
 
   /**
@@ -114,6 +139,22 @@ export class AnnotationComponent implements OnInit {
     input.updateValueAndValidity();
   }
 
+  /**
+   * Send the annotated snippet to the backend, and focus the next image
+   *
+   * @param id of the annotated snippet
+   */
+  validateAnnotation(id: number) {
+    const snippet = this.snippets[id];
+    const input = this.formArrayInputs.at(id);
+    if (!input.invalid) {
+      snippet.value = input.value;
+      snippet.annotated = true;
+      this.updateSnippetDB(snippet);
+      this.changeFocus(id);
+    }
+  }
+
   /* ===== HTTP REQUESTS ===== */
 
   /**
@@ -138,13 +179,26 @@ export class AnnotationComponent implements OnInit {
   }
 
   /**
-   * Send all the annotated snippets to the database. Called after annotating all the snippets (once their transcription is correct).
+   * Send the annotated snippet to the database. Called after annotating one snippet (once its transcription is correct).
    * Format of the data sent:
-   * [ { id: int, value: string}, ...]
+   * [ { id: int, value: string} ]
    */
-  updateSnippetsDB() {
-    const updatedSnippets = this.snippets.map(snippet => getIdAndValue(snippet));
-    this.http.put('db/update/value', updatedSnippets, {})
+  updateSnippetDB(snippet: Snippet) {
+    const updatedSnippet = [ getIdAndValue(snippet) ];
+    this.http.put('db/update/value', updatedSnippet, {})
+      .pipe(
+        catchError(this.handleError('updateSnippetsDB', undefined))
+      );
+  }
+
+  /**
+   * Send the annotated snippets to the database. Called before getting new snippets, to validate snippets that haven't been already.
+   * Format of the data sent:
+   * [ { id: int, value: string}, ... ]
+   */
+  updateManySnippetsDB(snippetList: Array<Snippet>) {
+    const updatedSnippetList = snippetList.map(snippet => getIdAndValue(snippet));
+    this.http.put('db/update/value', updatedSnippetList, {})
       .pipe(
         catchError(this.handleError('updateSnippetsDB', undefined))
       );
