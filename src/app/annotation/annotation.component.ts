@@ -193,9 +193,8 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
     const updatedSnippet = [ getIdAndValue(snippet) ];
     this.toastService.showStandard('Sent to db/update/value: \n' + JSON.stringify(updatedSnippet));
     this.http.put('db/update/value', updatedSnippet, {})
-      .pipe(
-        catchError(this.handleError('updateSnippetsDB', undefined))
-      );
+      .pipe(catchError(this.handleError('updateSnippetsDB', undefined)))
+      .subscribe(response => this.toastService.showDanger(response.toString()));
   }
 
   /**
