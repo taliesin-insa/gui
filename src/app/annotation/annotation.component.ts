@@ -173,9 +173,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
     this.snippets = []; // Clear snippet list before getting new ones
     this.http.get<Snippet[]>(`db/retrieve/snippets/${nbOfSnippets}`)
       // Handle HTTP error: 1st param = name of the function that might fail, 2nd param = default value returned in case of error
-      .pipe(
-        catchError(this.handleError('retrieveSnippetsDB', []))
-      )
+      .pipe(catchError(this.handleError('retrieveSnippetsDB', [])))
       // Function handling the result of the HTTP request. Returned value might either be the wanted one or the default one specified above
       .subscribe(returnedData => {
         this.toastService.showSuccess('Received snippets: \n' + JSON.stringify(returnedData));
@@ -194,7 +192,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
     this.toastService.showStandard('Sent to db/update/value: \n' + JSON.stringify(updatedSnippet));
     this.http.put('db/update/value', updatedSnippet, {})
       .pipe(catchError(this.handleError('updateSnippetsDB', undefined)))
-      .subscribe(response => this.toastService.showDanger(response.toString()));
+      .subscribe();
   }
 
   /**
@@ -206,9 +204,8 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
     const updatedSnippetList = snippetList.map(snippet => getIdAndValue(snippet));
     this.toastService.showStandard('Sent to db/update/value: \n' + JSON.stringify(updatedSnippetList));
     this.http.put('db/update/value', updatedSnippetList, {})
-      .pipe(
-        catchError(this.handleError('updateSnippetsDB', undefined))
-      );
+      .pipe(catchError(this.handleError('updateSnippetsDB', undefined)))
+      .subscribe();
   }
 
   /**
@@ -223,9 +220,8 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
       this.toastService.showStandard('Sent to db/update/flags: \n' + JSON.stringify(unreadableSnippets));
       this.snippets = this.snippets.filter(snippet => !snippet.unreadable);
       this.http.put('db/update/flags', unreadableSnippets, {})
-        .pipe(
-          catchError(this.handleError('updateFlagsUnreadableDB', undefined))
-        );
+        .pipe(catchError(this.handleError('updateFlagsUnreadableDB', undefined)))
+        .subscribe();
     }
   }
 
