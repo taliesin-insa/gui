@@ -164,7 +164,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
 
   /**
    * Retrieves a given number of snippets from the database. Expected format:
-   * [ { id: int, url: string, value: string}, ... ]
+   * [ { id: string, url: string, value: string}, ... ]
    * where url is the url of the image and value is its transcription (if one exists, empty otherwise)
    *
    * @param nbOfSnippets we want to retrieve
@@ -187,7 +187,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
   /**
    * Send the annotated snippet to the database. Called after annotating one snippet (once its transcription is correct).
    * Format of the data sent:
-   * [ { id: int, value: string} ]
+   * [ { id: string, value: string} ]
    */
   updateSnippetDB(snippet: Snippet) {
     const updatedSnippet = [ getIdAndValue(snippet) ];
@@ -201,7 +201,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
   /**
    * Send the annotated snippets to the database. Called before getting new snippets, to validate snippets that haven't been already.
    * Format of the data sent:
-   * [ { id: int, value: string}, ... ]
+   * [ { id: string, value: string}, ... ]
    */
   updateManySnippetsDB(snippetList: Array<Snippet>) {
     const updatedSnippetList = snippetList.map(snippet => getIdAndValue(snippet));
@@ -215,7 +215,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
   /**
    * Send an array of all the unreadable snippets to update their flag in the database.
    * Format of the data sent:
-   * [ { id: int, flag: "unreadable", value: true }, ...]
+   * [ { id: string, flag: "unreadable", value: true }, ...]
    */
   updateFlagsUnreadableDB() {
     const unreadableSnippets = this.snippets.filter(snippet => snippet.unreadable)
