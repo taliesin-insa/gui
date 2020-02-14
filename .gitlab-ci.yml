@@ -32,4 +32,4 @@ deploy:
     - kubectl config use-context default
     - kubectl apply -f deployment.yml
     - kubectl apply -f service.yml
-    - kubectl set image deployment/frontend frontend=${CONTAINER_IMAGE} --record -n gitlab-managed-apps
+    - kubectl set image deployment/frontend frontend=${CONTAINER_IMAGE_SHA} --record -n gitlab-managed-apps
