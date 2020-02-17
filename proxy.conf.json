@@ -10,5 +10,11 @@
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
+  },
+  "/export/**": {
+    "target": "http://export-api.gitlab-managed-apps.svc.cluster.local:22022",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
   }
 }
