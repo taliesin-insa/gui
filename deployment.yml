@@ -22,14 +22,63 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: clyde.local:5005/taliesin/gui/master:latest
-          imagePullPolicy: Always
+          image: clyde.local:5005/taliesin/gui/master:prod
           ports:
             - containerPort: 80
           volumeMounts:
             - mountPath: "/snippets/"
               name: file-server
+          env:
+            - name: DATABASE_API_URL
+              value: "http://database-api.gitlab-managed-apps.svc.cluster.local:8080"
+            - name: IMPORT_API_URL
+              value: "http://import-api.gitlab-managed-apps.svc.cluster.local:8080"
+            - name: EXPORT_API_URL
+              value: "http://export-api.gitlab-managed-apps.svc.cluster.local:22022"
       volumes:
         - name: file-server
           persistentVolumeClaim:
             claimName: file-server-claim
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-dev
+  namespace: gitlab-managed-apps
+  labels:
+    app: frontend-dev
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend-dev
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 33%
+  template:
+    metadata:
+      labels:
+        app: frontend-dev
+    spec:
+      containers:
+        - name: frontend-dev
+          image: clyde.local:5005/taliesin/micro-frontend/master:dev
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: "/snippets/"
+              name: file-server-dev
+          env:
+            - name: DATABASE_API_URL
+              value: "http://database-api-dev.gitlab-managed-apps.svc.cluster.local:8080"
+            - name: IMPORT_API_URL
+              value: "http://import-api-dev.gitlab-managed-apps.svc.cluster.local:8080"
+            - name: EXPORT_API_URL
+              value: "http://export-api-dev.gitlab-managed-apps.svc.cluster.local:22022"
+      volumes:
+        - name: file-server-dev
+          persistentVolumeClaim:
+            claimName: file-server-dev-claim
