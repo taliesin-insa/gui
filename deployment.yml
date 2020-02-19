@@ -64,7 +64,7 @@ spec:
     spec:
       containers:
         - name: frontend-dev
-          image: clyde.local:5005/taliesin/micro-frontend/master:dev
+          image: clyde.local:5005/taliesin/gui/master:dev
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
