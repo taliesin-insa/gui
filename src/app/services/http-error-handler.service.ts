@@ -42,10 +42,16 @@ export class HttpErrorHandler {
       let message;
       switch (error.status) {
         case 404:
-          message = `Server or URL not found`;
+          message = `Server or URL not found (` + error.message + ')';
           break;
         case 504:
-          message = `Impossible to reach server, timeout occured`;
+          message = `Impossible to reach server, timeout occurred (` + error.message + ')';
+          break;
+        case 500:
+          message = 'Internal server error (' + error.message + ')';
+          break;
+        case 400:
+          message = 'Bad request (' + error.message + ')';
           break;
         default:
           if ( error.error instanceof ErrorEvent ) {
