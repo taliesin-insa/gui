@@ -27,7 +27,7 @@ export class DbManagementComponent implements OnInit {
    * Gets all the piff files and their image and shows a "save as" dialog to the user
    */
   exportPiFF() {
-    this.http.get('/export/piff', { responseType : 'blob'})
+    this.http.get('/export/piff')
       .pipe(
         map(response => (response) as Blob),
         catchError(this.handleError('exportPiFF', null)))
