@@ -1,12 +1,12 @@
 {
   "/db/**": {
-    "target": "https://clyde.local:4444",
+    "target": "http://database-api.gitlab-managed-apps.svc.cluster.local:8080",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
   },
   "/import/**": {
-    "target": "https://clyde.local:4444",
+    "target": "http://import-api.gitlab-managed-apps.svc.cluster.local:8080",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
