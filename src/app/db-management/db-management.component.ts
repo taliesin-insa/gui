@@ -27,21 +27,25 @@ export class DbManagementComponent implements OnInit {
    * Gets all the piff files and their image and shows a "save as" dialog to the user
    */
   exportPiFF() {
-    this.http.get('/export/piff', { observe: 'response', responseType : 'blob'})
+    this.http.get('/export/piff', { responseType : 'blob'})
       .pipe(
-        map(response => response),
+        map(response => (response) as Blob),
         catchError(this.handleError('exportPiFF', null)))
       .subscribe(body => {
         // get the response data
         const archiveContent = new Blob([body], {type: 'application/zip'});
         // create a new file from the response data
         const file = document.createElement('a');
+        document.body.appendChild(file);
         // create a direct URL linked to the file
-        file.href = window.URL.createObjectURL(archiveContent);
+        const urlFile = window.URL.createObjectURL(archiveContent);
+        file.href = urlFile;
         // set the file default name
         file.download = 'database.zip';
         // fake click on the link, open the 'save as' dialog
         file.click();
+        // free URL
+        window.URL.revokeObjectURL(urlFile);
       });
   }
 
