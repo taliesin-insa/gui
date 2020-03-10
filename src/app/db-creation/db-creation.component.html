@@ -1,34 +1,48 @@
-<button class="btn btn-secondary" routerLink="/home">Home</button>
-<button class="btn btn-primary" routerLink="/dbManagement">DBManagement</button>
-<h3>Database creation</h3>
-<br>
-
-<!-- First part of the creation, that initializes the database in the backend -->
-<form [formGroup]="dbCreationForm" (ngSubmit)="onSubmit(dbCreationForm.value)">
-  <label>
-    Database name:
-    <input type="text" formControlName="dbName">
-  </label>
-  <button class="btn btn-primary" type="submit" [disabled]="dbCreationForm.invalid">Create</button>
-</form>
-
-<!-- Second part of the creation, that uploads files. Displayed only if new db was initialized successfully -->
-<ng-container id="upload" *ngIf="creationSuccessful">
-
-  <!-- hidden input triggered by addFiles(), allowing to use buttons instead of inputs -->
-  <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple/>
-
-  <button class="btn btn-outline-secondary" (click)="addFiles()">
-    Add Files
-  </button>
-
-  <button class="btn btn-outline-primary" [disabled]="uploadInProgress" (click)="upload()"> {{primaryButtonText}} </button>
-
-
-  <br>
-
-  <div *ngFor="let file of files">
-    <h2>{{file.name}}</h2>
-    <ngb-progressbar *ngIf="progresses" type="success" [value]="progresses[file.name].progress | async"></ngb-progressbar>
+<body>
+  <header>
+    <h3>Taliesin</h3>
+  </header>
+  <div class="outer-div ">
+    <div class="inner-div ">
+      <div class="interest-box card">
+        <div class="inner-div row">
+          <div class="div-home">
+            <button class="btn btn-secondary home" routerLink="/home">Home</button>
+          </div>
+          <div class="div-DB_Man">
+            <button class="btn btn-primary DB_Man" routerLink="/dbManagement">DBManagement</button>
+          </div>
+          <div class="div-title">
+            <h3 class="title-create">Database creation</h3>
+          </div>
+        </div>
+        <hr>
+        <div>
+          <!-- First part of the creation, that initializes the database in the backend -->
+          <form [formGroup]="dbCreationForm" (ngSubmit)="onSubmit(dbCreationForm.value)">
+            <label>
+              Database name:
+              <input type="text" formControlName="dbName">
+            </label>
+            <button class="btn btn-primary" type="submit" [disabled]="dbCreationForm.invalid">Create</button>
+          </form>
+          <!-- Second part of the creation, that uploads files. Displayed only if new db was initialized successfully -->
+          <ng-container id="upload" *ngIf="creationSuccessful">
+            <!-- hidden input triggered by addFiles(), allowing to use buttons instead of inputs -->
+            <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple/>
+            <button class="btn btn-outline-secondary" (click)="addFiles()">
+              Add Files
+            </button>
+            <button class="btn btn-outline-primary" [disabled]="uploadInProgress" (click)="upload()"> {{primaryButtonText}} </button>
+            <br>
+            <div *ngFor="let file of files">
+              <h2>{{file.name}}</h2>
+              <ngb-progressbar *ngIf="progresses" type="success" [value]="progresses[file.name].progress | async"></ngb-progressbar>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
   </div>
-</ng-container>
+</body>
+

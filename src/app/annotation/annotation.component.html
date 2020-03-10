@@ -1,31 +1,54 @@
-<button class="btn btn-secondary" routerLink="/home">Home</button>
-<h3>Annotation</h3>
-
-<div class="container">
-  <div class="d-flex justify-content-center text-center">
-
-    <!-- Form used to display all the snippets (image + text field) -->
-    <form [formGroup]="annotationForm" (ngSubmit)="onSubmit(annotationForm.value)" (keydown.enter)="$event.preventDefault()">
-
-      <div formArrayName="snippetInputs">
-
-        <ng-container *ngFor="let snippetInput of formArrayInputs.controls; let i=index">
-          <div #card class="card text-center mb-3 w-100 " (mouseover)="setHover(i)" (mouseout)="leaveHover()" [ngClass]="changeClassesCard(i)">
-            <div>
-              <img class="card-img-top" src="{{snippets[i].url}}">
-            </div>
-            <div class="card-body">
-              <input #annotationInput type="text" [formControlName]="i" (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)" (click)="focusClick(i)"  >
-              <button type="button"  class="btn btn-danger" (click)="setUnreadable(i)">X</button>
-            </div>
+<body>
+<header>
+  <h3 class="head-text">Taliesin</h3>
+</header>
+  <div class="outer-div ">
+    <div class="inner-div ">
+      <div  class="interest-box card">
+        <div class="inner-div row">
+          <div class="div-home">
+            <button class="btn btn-secondary home" routerLink="/home">Home</button>
           </div>
-        </ng-container>
+          <div class="div-annot">
+            <h2 class="annot">Annotation</h2>
+          </div>
+          <div class="div-suggest">
+            <button class="btn btn-secondary suggest" >
+              <img src="flash.png" width="25" height="25">
+                Activer les suggestions
 
+            </button>
+          </div>
+        </div>
+        <hr>
+
+        <!-- Form used to display all the snippets (image + text field) -->
+        <form [formGroup]="annotationForm" (ngSubmit)="onSubmit(annotationForm.value)" (keydown.enter)="$event.preventDefault()">
+
+          <div formArrayName="snippetInputs">
+
+            <ng-container *ngFor="let snippetInput of formArrayInputs.controls; let i=index">
+              <div #card class="card text-center mb-3 w-100 " (mouseover)="setHover(i)" (mouseout)="leaveHover()" [ngClass]="changeClassesCard(i)">
+                <div>
+                  <img class="card-img-top" src="{{snippets[i].url}}">
+                </div>
+                <div class="card-body">
+                  <input #annotationInput type="text" [formControlName]="i" (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)" (click)="focusClick(i)"  >
+                  <button type="button"  class="btn btn-danger" (click)="setUnreadable(i)">X</button>
+                </div>
+              </div>
+            </ng-container>
+
+          </div>
+          <hr>
+          <div class="div-submit">
+            <button #nextLines class="btn btn-primary btn-submit" type="submit" [disabled]="annotationForm.invalid">Next lines</button>
+
+          </div>
+
+        </form>
       </div>
-
-      <button #nextLines class="btn btn-primary" type="submit" [disabled]="annotationForm.invalid">Next lines</button>
-
-    </form>
-
+    </div>
   </div>
-</div>
+</body>
+
