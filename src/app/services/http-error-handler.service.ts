@@ -36,22 +36,36 @@ export class HttpErrorHandler {
 
       this.toastService.showDanger(HttpErrorResponse.toString());
 
+      let backendError;
+
+      if (error.error instanceof Blob) {
+        const reader = new FileReader();
+        // tslint:disable-next-line:only-arrow-functions
+        reader.onload = function() {
+          console.log('HTTP ERROR ==> ' + reader.result);
+        };
+        reader.readAsText(error.error as Blob);
+        backendError = '[MICRO-EXPORT] Blob error';
+      } else {
+        backendError = error.error;
+      }
+
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
 
       let message;
       switch (error.status) {
         case 404:
-          message = `Server or URL not found (` + error.message + ' // ' + error.error + ')';
+          message = `Server or URL not found (` + error.message + ' // ' + backendError + ')';
           break;
         case 504:
-          message = `Impossible to reach server, timeout occurred (` + error.message + ' // ' + error.error + ')';
+          message = `Impossible to reach server, timeout occurred (` + error.message + ' // ' + backendError + ')';
           break;
         case 500:
-          message = 'Internal server error (' + error.message + ' // ' + error.error + ')';
+          message = 'Internal server error (' + error.message + ' // ' + backendError + ')';
           break;
         case 400:
-          message = 'Bad request (' + error.message + ' // ' + error.error + ')';
+          message = 'Bad request (' + error.message + ' // ' + backendError + ')';
           break;
         default:
           if ( error.error instanceof ErrorEvent ) {
