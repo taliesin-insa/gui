@@ -32,16 +32,22 @@ export class DbManagementComponent implements OnInit {
         map(response => (response) as Blob),
         catchError(this.handleError('exportPiFF', null)))
       .subscribe(body => {
-        // get the response data
-        const archiveContent = new Blob([body], {type: 'application/zip'})
-        // create a new file from the response data
-        const file = document.createElement('a');
-        // create a direct URL linked to the file
-        file.href = window.URL.createObjectURL(archiveContent);
-        // set the file default name
-        file.download = 'database.zip';
-        // fake click on the link, open the 'save as' dialog
-        file.click();
+        if (body !== null) {
+          // get the response data
+          const archiveContent = new Blob([body], {type: 'application/zip'});
+          // create a new file from the response data
+          const file = document.createElement('a');
+          document.body.appendChild(file);
+          // create a direct URL linked to the file
+          const urlFile = window.URL.createObjectURL(archiveContent);
+          file.href = urlFile;
+          // set the file default name
+          file.download = 'database.zip';
+          // fake click on the link, open the 'save as' dialog
+          file.click();
+          // free URL
+          window.URL.revokeObjectURL(urlFile);
+        }
       });
   }
 
