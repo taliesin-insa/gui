@@ -1,7 +1,37 @@
-<button class="btn btn-secondary" routerLink="/home">Home</button>
-<h3>Database management</h3>
-<br>
-<br>
-<button class="btn btn-primary" routerLink="/dbCreation">DBCreation</button>
+<body>
+<header>
+  <h3 class="head-text">Taliesin</h3>
+</header>
+<div class="outer-div ">
+  <div class="inner-div ">
+    <div class="interest-box card">
+      <div class="inner-div row">
+        <div class="div-home">
+          <button class="btn btn-secondary home" routerLink="/home">Menu principal</button>
+        </div>
+        <h3 class="DB_Man">Gestion de la base de données</h3>
+      </div>
+      <hr>
+      <div class="text-info-base">
+        Base n°1
+        exemples annotés
+        exemples rejetés
+      </div>
+      <hr>
+      <div class="div-add">
+        <button class="btn btn-secondary btn-add" >Ajouter des exemples</button>
+      </div>
+      <div class="div-action-on-DB">
+        <button class="btn btn-primary btn-save" >Sauvegarder la base</button>
+        <button class="btn btn-primary btn-load" >Charger une base</button>
+        <button class="btn btn-primary btn-create" routerLink="/dbCreation">Création d'une base</button>
+      </div>
+      <div class="div-export">
+        <button class="btn btn-primary btn-export" title="Get all database at PiFF format (with images)" (click)="exportPiFF()">Exporter PiFF</button>
+      </div>
 
-<button class="btn btn-primary" title="Get all database at PiFF format (with images)" (click)="exportPiFF()">Export PiFF</button>
+    </div>
+  </div>
+</div>
+</body>
+
