@@ -1,0 +1,78 @@
+html {
+  /* To make use of full height of page*/
+  min-height: 100vh;
+  margin: 0;
+}
+body{
+  background-color: rgba(193, 215, 241, 0.47);
+  min-height: 100vh;
+  margin: 0;
+  width: available;
+}
+header{
+  background-color: white;
+}
+.head-text{
+  font-weight: bold;
+}
+.card{
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+.interest-box{
+  border: rgba(193, 215, 241, 0.47) solid 1px;
+  border-style: groove;
+  background-color: white;
+  margin: auto;
+  width: 95%;
+  height: 95%;
+  padding: 15px;
+}
+.div-home{
+  position: relative;
+  margin: 0;
+  width: auto;
+  padding: 1px;
+}
+.home{
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.8em;
+}
+.div-annot{
+  position: relative;
+  margin: 0;
+  width: auto;
+  padding: 1px;
+}
+
+.annot{
+  font-size: 2.5em;
+  font-weight: bold;
+}
+.div-suggest{
+  position: relative;
+  margin: auto;
+  width: auto;
+  padding: 1px;
+}
+.suggest{
+  border: none;
+  background-color: #f8b446;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+.div-submit{
+  position: relative;
+  margin: auto;
+  width: fit-content;
+  padding: 1px;
+}
+.btn-submit{
+  border : none;
+  background-color: #5ebe0f;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.8em;
+}
