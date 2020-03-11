@@ -1,3 +1,30 @@
-<h3>Home</h3>
-<button class="btn btn-primary" routerLink="/dbManagement">DBManagement</button>
-<button class="btn btn-primary" routerLink="/annotation">Annotation</button>
+<body>
+<header>
+  <h3 class="head-text">Taliesin</h3>
+</header>
+  <div class="outer-div ">
+    <div class="inner-div ">
+      <div class="interest-box card">
+        <h2 class="titre-text">Tableau de bord</h2>
+        <hr>
+        <h4 class="titre-base">Base courante</h4>
+        <hr>
+        <div class="btn-atn">
+          <button class="btn btn-primary annot" routerLink="/annotation">
+            Annotation
+          </button>
+        </div>
+        <div class="btns-DB_Rec">
+          <button class="btn btn-primary DB_Rec" >
+            <img src="gear.png" width="25"  height="25">
+            Reconnaisseur
+          </button>
+          <button class="btn btn-primary DB_Rec" routerLink="/dbManagement">
+            <img src="exclamation.png" width="25"  height="25">
+            Gestion de la base de données
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
