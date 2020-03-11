@@ -7,13 +7,13 @@
       <div class="interest-box card">
         <div class="inner-div row">
           <div class="div-home">
-            <button class="btn btn-secondary home" routerLink="/home">Home</button>
+            <button class="btn btn-secondary home" routerLink="/home">Menu principal</button>
           </div>
           <div class="div-DB_Man">
-            <button class="btn btn-primary DB_Man" routerLink="/dbManagement">DBManagement</button>
+            <button class="btn btn-primary DB_Man" routerLink="/dbManagement">Gestion de la base de données</button>
           </div>
           <div class="div-title">
-            <h3 class="title-create">Database creation</h3>
+            <h3 class="title-create">Création d'une base</h3>
           </div>
         </div>
         <hr>
@@ -21,17 +21,17 @@
           <!-- First part of the creation, that initializes the database in the backend -->
           <form [formGroup]="dbCreationForm" (ngSubmit)="onSubmit(dbCreationForm.value)">
             <label>
-              Database name:
+              Nom de la base:
               <input type="text" formControlName="dbName">
             </label>
-            <button class="btn btn-primary" type="submit" [disabled]="dbCreationForm.invalid">Create</button>
+            <button class="btn btn-primary" type="submit" [disabled]="dbCreationForm.invalid">Créer</button>
           </form>
           <!-- Second part of the creation, that uploads files. Displayed only if new db was initialized successfully -->
           <ng-container id="upload" *ngIf="creationSuccessful">
             <!-- hidden input triggered by addFiles(), allowing to use buttons instead of inputs -->
             <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple/>
             <button class="btn btn-outline-secondary" (click)="addFiles()">
-              Add Files
+              Ajouter des fichiers
             </button>
             <button class="btn btn-outline-primary" [disabled]="uploadInProgress" (click)="upload()"> {{primaryButtonText}} </button>
             <br>
