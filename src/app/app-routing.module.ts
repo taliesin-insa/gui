@@ -9,11 +9,16 @@ import {StatusResolverService} from './services/data-resolver.service';
 
 const routes: Routes = [
   { path: 'annotation', component: AnnotationComponent },
-  { path: 'home', component: HomePageComponent },
+  { path: 'home',
+    component: HomePageComponent,
+    resolve: {
+      statusData: StatusResolverService
+    }
+  },
   { path: 'dbManagement',
     component: DbManagementComponent,
     resolve: {
-    statusData: StatusResolverService
+      statusData: StatusResolverService
     }
   },
   { path: 'dbCreation', component: DbCreationComponent },
