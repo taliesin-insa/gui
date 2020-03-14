@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {catchError, map} from 'rxjs/operators';
@@ -16,29 +16,26 @@ export class DbManagementComponent implements OnInit {
   private annotationRate: number;
   private rejectedNumber: number;
   private isExportPossible: boolean;
+  private statusData: any;
 
   constructor(private router: Router,
               private http: HttpClient,
-              httpErrorHandler: HttpErrorHandler) {
+              httpErrorHandler: HttpErrorHandler,
+              private route: ActivatedRoute) {
     this.handleError = httpErrorHandler.createHandleError('DBManagement');
-    this.http.get('/db/status')
-      .pipe(
-        map(response => response),
-        catchError(this.handleError('constructor', null)))
-      .subscribe(body => {
-        if (body !== null && body.isDBUp && body.total > 0)  {
-          this.annotationRate = body.annotated;
-          this.rejectedNumber = body.unreadable;
-          this.isExportPossible = true;
-        } else {
-          this.annotationRate = 0;
-          this.rejectedNumber = 0;
-          this.isExportPossible = false;
-        }
-      });
   }
 
   ngOnInit() {
+    this.statusData = this.route.snapshot.data.statusData;
+    if (this.statusData !== null && this.statusData.isDBUp && this.statusData.total > 0)  {
+      this.annotationRate = this.statusData.annotated;
+      this.rejectedNumber = this.statusData.unreadable;
+      this.isExportPossible = true;
+    } else {
+      this.annotationRate = 0;
+      this.rejectedNumber = 0;
+      this.isExportPossible = false;
+    }
   }
 
   /**
