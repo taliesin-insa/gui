@@ -26,7 +26,7 @@
       <div class="div-action-on-DB">
         <button class="btn btn-primary btn-save" >Sauvegarder la base</button>
         <button class="btn btn-primary btn-load" >Charger une base</button>
-        <button class="btn btn-primary btn-create" routerLink="/dbCreation">Création d'une base</button>
+        <button class="btn btn-primary btn-create" *ngIf="annotationRate == 0" routerLink="/dbCreation">Création d'une base</button>
       </div>
       <div class="div-export">
         <button class="btn btn-primary btn-export" [disabled]="!isExportPossible" title="Get all database at PiFF format (with images)" (click)="exportPiFF()">Exporter PiFF</button>
