@@ -14,8 +14,10 @@
       <hr>
       <div class="text-info-base">
         Base n°1
-        exemples annotés
-        exemples rejetés
+        <br>
+        Exemples annotés :
+        <ngb-progressbar type="success" [value]="annotationRate">{{annotationRate}}%</ngb-progressbar>
+        Exemples rejetés : {{rejectedNumber}}
       </div>
       <hr>
       <div class="div-add">
@@ -27,7 +29,7 @@
         <button class="btn btn-primary btn-create" routerLink="/dbCreation">Création d'une base</button>
       </div>
       <div class="div-export">
-        <button class="btn btn-primary btn-export" title="Get all database at PiFF format (with images)" (click)="exportPiFF()">Exporter PiFF</button>
+        <button class="btn btn-primary btn-export" [disabled]="!isExportPossible" title="Get all database at PiFF format (with images)" (click)="exportPiFF()">Exporter PiFF</button>
       </div>
 
     </div>

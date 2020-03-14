@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {catchError, map} from 'rxjs/operators';
@@ -13,14 +13,29 @@ import {catchError, map} from 'rxjs/operators';
 export class DbManagementComponent implements OnInit {
 
   private handleError: HandleError;
+  private annotationRate: number;
+  private rejectedNumber: number;
+  private isExportPossible: boolean;
+  private statusData: any;
 
   constructor(private router: Router,
               private http: HttpClient,
-              httpErrorHandler: HttpErrorHandler) {
+              httpErrorHandler: HttpErrorHandler,
+              private route: ActivatedRoute) {
     this.handleError = httpErrorHandler.createHandleError('DBManagement');
   }
 
   ngOnInit() {
+    this.statusData = this.route.snapshot.data.statusData;
+    if (this.statusData !== null && this.statusData.isDBUp && this.statusData.total > 0)  {
+      this.annotationRate = this.statusData.annotated;
+      this.rejectedNumber = this.statusData.unreadable;
+      this.isExportPossible = true;
+    } else {
+      this.annotationRate = 0;
+      this.rejectedNumber = 0;
+      this.isExportPossible = false;
+    }
   }
 
   /**
