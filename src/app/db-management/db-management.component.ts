@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
@@ -13,11 +13,29 @@ import {catchError, map} from 'rxjs/operators';
 export class DbManagementComponent implements OnInit {
 
   private handleError: HandleError;
+  private annotationRate: number;
+  private rejectedNumber: number;
+  private isExportPossible: boolean;
 
   constructor(private router: Router,
               private http: HttpClient,
               httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('DBManagement');
+    this.http.get('/db/status')
+      .pipe(
+        map(response => response),
+        catchError(this.handleError('constructor', null)))
+      .subscribe(body => {
+        if (body !== null && body.isDBUp && body.total > 0)  {
+          this.annotationRate = body.annotated;
+          this.rejectedNumber = body.unreadable;
+          this.isExportPossible = true;
+        } else {
+          this.annotationRate = 0;
+          this.rejectedNumber = 0;
+          this.isExportPossible = false;
+        }
+      });
   }
 
   ngOnInit() {
