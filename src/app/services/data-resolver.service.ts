@@ -1,0 +1,25 @@
+import {Injectable} from '@angular/core';
+import {Resolve, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
+import {map, catchError} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {HandleError, HttpErrorHandler} from './http-error-handler.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class StatusResolverService implements Resolve <Observable<any>> {
+
+  private handleError: HandleError;
+
+  constructor(private http: HttpClient, private httpErrorHandler: HttpErrorHandler) {
+    this.handleError = httpErrorHandler.createHandleError('StatusResolverService');
+  }
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    return this.http.get('/db/status')
+      .pipe(
+        map(response => response),
+        catchError(this.handleError('constructor', null)));
+  }
+}
