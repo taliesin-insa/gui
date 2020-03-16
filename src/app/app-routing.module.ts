@@ -12,8 +12,8 @@ const routes: Routes = [
   { path: 'home', component: HomePageComponent },
   { path: 'dbManagement',
     component: DbManagementComponent,
-    resolve: {
-    statusData: StatusResolverService
+    resolve: { // describes what to do before loading the component
+    statusData: StatusResolverService // name of the returned variable: name of the class which provides the service
     }
   },
   { path: 'dbCreation', component: DbCreationComponent },
