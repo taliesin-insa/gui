@@ -30,7 +30,7 @@ export class DbManagementComponent implements OnInit {
     this.statusData = this.route.snapshot.data.statusData;
     // update variables used
     if (this.statusData !== null && this.statusData.isDBUp && this.statusData.total > 0) {
-      this.annotationRate = this.statusData.annotated;
+      this.annotationRate = this.statusData.annotated / this.statusData.total;
       this.rejectedNumber = this.statusData.unreadable;
       this.isExportPossible = true;
     } else {
