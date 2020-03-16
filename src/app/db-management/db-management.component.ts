@@ -26,12 +26,15 @@ export class DbManagementComponent implements OnInit {
   }
 
   ngOnInit() {
+    // get the data returned by the resolve service
     this.statusData = this.route.snapshot.data.statusData;
-    if (this.statusData !== null && this.statusData.isDBUp && this.statusData.total > 0)  {
+    // update variables used
+    if (this.statusData !== null && this.statusData.isDBUp && this.statusData.total > 0) {
       this.annotationRate = this.statusData.annotated;
       this.rejectedNumber = this.statusData.unreadable;
       this.isExportPossible = true;
     } else {
+      // values by default is there is no database
       this.annotationRate = 0;
       this.rejectedNumber = 0;
       this.isExportPossible = false;
@@ -42,7 +45,7 @@ export class DbManagementComponent implements OnInit {
    * Gets all the piff files and their image and shows a "save as" dialog to the user
    */
   exportPiFF() {
-    this.http.get('/export/piff', { responseType : 'blob'})
+    this.http.get('/export/piff', {responseType: 'blob'})
       .pipe(
         map(response => (response) as Blob),
         catchError(this.handleError('exportPiFF', null)))

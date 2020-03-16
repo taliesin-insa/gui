@@ -16,10 +16,11 @@ export class StatusResolverService implements Resolve <Observable<any>> {
     this.handleError = httpErrorHandler.createHandleError('StatusResolverService');
   }
 
+  // automatically called before loading the component
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.http.get('/db/status')
       .pipe(
         map(response => response),
-        catchError(this.handleError('constructor', null)));
+        catchError(this.handleError('resolve', null)));
   }
 }
