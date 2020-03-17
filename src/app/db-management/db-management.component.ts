@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {catchError, map} from 'rxjs/operators';
@@ -13,21 +13,39 @@ import {catchError, map} from 'rxjs/operators';
 export class DbManagementComponent implements OnInit {
 
   private handleError: HandleError;
+  private annotationRate: number;
+  private rejectedNumber: number;
+  private isExportPossible: boolean;
+  private statusData: any;
 
   constructor(private router: Router,
               private http: HttpClient,
-              httpErrorHandler: HttpErrorHandler) {
+              httpErrorHandler: HttpErrorHandler,
+              private route: ActivatedRoute) {
     this.handleError = httpErrorHandler.createHandleError('DBManagement');
   }
 
   ngOnInit() {
+    // get the data returned by the resolve service
+    this.statusData = this.route.snapshot.data.statusData;
+    // update variables used
+    if (this.statusData !== null && this.statusData.isDBUp && this.statusData.total > 0) {
+      this.annotationRate = this.statusData.annotated / this.statusData.total;
+      this.rejectedNumber = this.statusData.unreadable;
+      this.isExportPossible = true;
+    } else {
+      // values by default is there is no database
+      this.annotationRate = 0;
+      this.rejectedNumber = 0;
+      this.isExportPossible = false;
+    }
   }
 
   /**
    * Gets all the piff files and their image and shows a "save as" dialog to the user
    */
   exportPiFF() {
-    this.http.get('/export/piff', { responseType : 'blob'})
+    this.http.get('/export/piff', {responseType: 'blob'})
       .pipe(
         map(response => (response) as Blob),
         catchError(this.handleError('exportPiFF', null)))
