@@ -1,22 +1,22 @@
-<body class="body">
-<header>
-  <h3 class="font-weight-bold">Taliesin</h3>
-</header>
+<div class="body">
+
   <div class="outer-div ">
     <div class="inner-div ">
       <div  class="interest-box card">
         <div class="inner-div row">
           <div class="div-PrM0Wa">
-            <button class="btn btn-secondary home font-weight-bold" routerLink="/home">Menu principal</button>
+            <button class="btn btn-secondary home font-weight-bold" routerLink="/home">
+              <i class="fas fa-home"></i>
+              Menu principal
+            </button>
           </div>
           <div class="div-PrM0Wa">
             <h2 class="titre-text font-weight-bold">Annotation</h2>
           </div>
           <div class="div-PrMaWa">
             <button class="btn btn-warning suggest font-weight-bold" >
-              <span class="glyphicon glyphicon-print"></span>
+              <i class="fas fa-bolt"></i>
                 Activer les suggestions
-
             </button>
           </div>
         </div>
@@ -42,7 +42,10 @@
           </div>
           <hr>
           <div class="div-PrMaWfc">
-            <button #nextLines class="btn btn-success btn-text font-weight-bold" type="submit" [disabled]="annotationForm.invalid">Lignes suivantes</button>
+            <button #nextLines class="btn btn-success btn-text font-weight-bold" type="submit" [disabled]="annotationForm.invalid">
+              <i class="fas fa-check"></i>
+              Lignes suivantes
+            </button>
 
           </div>
 
@@ -50,5 +53,5 @@
       </div>
     </div>
   </div>
-</body>
+</div>
 
