@@ -16,7 +16,9 @@ export class DbManagementComponent implements OnInit {
   private annotationRate: number;
   private rejectedNumber: number;
   private isExportPossible: boolean;
+  private totalNbSnippets: number;
   private statusData: any;
+  
 
   constructor(private router: Router,
               private http: HttpClient,
@@ -30,10 +32,12 @@ export class DbManagementComponent implements OnInit {
     if (this.statusData !== null && this.statusData.isDBUp && this.statusData.total > 0)  {
       this.annotationRate = this.statusData.annotated;
       this.rejectedNumber = this.statusData.unreadable;
+      this.totalNbSnippets = this.statusData.total;
       this.isExportPossible = true;
     } else {
       this.annotationRate = 0;
       this.rejectedNumber = 0;
+      this.totalNbSnippets = 0;
       this.isExportPossible = false;
     }
   }
