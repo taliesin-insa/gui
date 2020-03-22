@@ -4,19 +4,21 @@
     <div class="inner-div ">
       <div  class="interest-box card">
         <div class="inner-div row">
-          <div class="div-PrM0Wa">
-            <button class="btn btn-secondary home font-weight-bold" routerLink="/home">
+
+          <!-- Old display with menu button in the card, now the button is in the navbar
+            <button class="btn btn-secondary  font-weight-bold mx-0 px-1" style="width: auto; font-size: 0.8em; text-transform: uppercase" routerLink="/home">
               <i class="fas fa-home"></i>
               Menu principal
             </button>
-          </div>
-          <div class="div-PrM0Wa">
-            <h2 class="titre-text font-weight-bold">Annotation</h2>
-          </div>
-          <div class="div-PrMaWa">
+          -->
+
+
+            <h2 class="font-weight-bold mx-0 px-1" style="width: auto; font-size: 2.5em">Annotation</h2>
+
+          <div class="position-relative" style="margin: auto; width: auto; padding: 1px">
             <button class="btn btn-warning suggest font-weight-bold" >
               <i class="fas fa-bolt"></i>
-                Activer les suggestions
+              Activer les suggestions
             </button>
           </div>
         </div>
@@ -24,9 +26,7 @@
 
         <!-- Form used to display all the snippets (image + text field) -->
         <form [formGroup]="annotationForm" (ngSubmit)="onSubmit(annotationForm.value)" (keydown.enter)="$event.preventDefault()">
-
           <div formArrayName="snippetInputs">
-
             <ng-container *ngFor="let snippetInput of formArrayInputs.controls; let i=index">
               <div #card class="card text-center mb-3 w-100 " (mouseover)="setHover(i)" (mouseout)="leaveHover()" [ngClass]="changeClassesCard(i)">
                 <div>
@@ -38,20 +38,16 @@
                 </div>
               </div>
             </ng-container>
-
           </div>
           <hr>
-          <div class="div-PrMaWfc">
+          <div class="position-relative" style="margin: auto; width: fit-content; padding: 1px">
             <button #nextLines class="btn btn-success btn-text font-weight-bold" type="submit" [disabled]="annotationForm.invalid">
               <i class="fas fa-check"></i>
               Lignes suivantes
             </button>
-
           </div>
-
         </form>
       </div>
     </div>
   </div>
 </div>
-

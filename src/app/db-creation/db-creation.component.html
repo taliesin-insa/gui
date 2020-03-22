@@ -2,18 +2,18 @@
   <div class="outer-div ">
     <div class="inner-div ">
       <div class="interest-box card">
+
         <div class="inner-div row">
-          <div class="div-PrM0Wa">
-            <button class="btn btn-secondary home font-weight-bold" routerLink="/home">Menu principal</button>
-          </div>
-          <div class="div-PrM0Wa">
-            <button class="btn btn-primary btn-text font-weight-bold" routerLink="/dbManagement">Gestion de la base de données</button>
-          </div>
+            <button class="btn btn-primary btn-text font-weight-bold mx-0 px-1" style="width: auto" routerLink="/dbManagement">
+              <i class="fas fa-arrow-left"></i>
+            </button>
           <div class="div-title">
             <h3 class="font-weight-bold">Création d'une base</h3>
           </div>
         </div>
+
         <hr>
+
         <div>
           <!-- First part of the creation, that initializes the database in the backend -->
           <form [formGroup]="dbCreationForm" (ngSubmit)="onSubmit(dbCreationForm.value)">
@@ -21,23 +21,31 @@
               Nom de la base:
               <input type="text" formControlName="dbName">
             </label>
+
             <button class="btn btn-primary font-weight-bold" type="submit" [disabled]="dbCreationForm.invalid">Créer</button>
+
           </form>
           <!-- Second part of the creation, that uploads files. Displayed only if new db was initialized successfully -->
           <ng-container id="upload" *ngIf="creationSuccessful">
             <!-- hidden input triggered by addFiles(), allowing to use buttons instead of inputs -->
             <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple/>
+
             <button class="btn btn-outline-secondary" (click)="addFiles()">
               Ajouter des fichiers
             </button>
+
             <button class="btn btn-outline-primary" [disabled]="uploadInProgress" (click)="upload()"> {{primaryButtonText}} </button>
+
             <br>
+
             <div *ngFor="let file of files">
               <h2>{{file.name}}</h2>
               <ngb-progressbar *ngIf="progresses" type="success" [value]="progresses[file.name].progress | async"></ngb-progressbar>
             </div>
+
           </ng-container>
         </div>
+
       </div>
     </div>
   </div>
