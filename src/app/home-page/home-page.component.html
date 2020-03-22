@@ -2,28 +2,33 @@
   <div class="outer-div ">
     <div class="inner-div ">
       <div class="interest-box card">
-        <h2 class="titre-text font-weight-bold">Tableau de bord</h2>
+        <h2 class="font-weight-bold" style="font-size: 2.5em">Tableau de bord</h2>
         <hr>
-        <h4 class="titre-base font-weight-bold">Base courante</h4>
+        <h4 class="font-weight-bold" style="font-size: 1.3em">Base courante</h4>
         <hr>
-        <div class="div-btn ant">
+
+        <div class="position-relative" style="width: 20%; margin: auto">
           <button class="btn btn-primary btn-text font-weight-bold" routerLink="/annotation">
             Annotation
           </button>
         </div>
-        <div class="div-btn DB_Rec row">
+
+        <div class=" row position-relative" style="margin: auto">
+
           <div class="col-xs-6">
             <button class="btn btn-secondary btn-text font-weight-bold" >
               <i class="fas fa-exclamation-circle"></i>
               Reconnaisseur
             </button>
           </div>
+
           <div class="col-xs-6">
             <button class="btn btn-secondary btn-text font-weight-bold" routerLink="/dbManagement">
               <i class="fas fa-cog"></i>
               Gestion de la base de données
             </button>
           </div>
+
         </div>
       </div>
     </div>

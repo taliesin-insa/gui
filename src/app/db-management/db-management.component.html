@@ -3,8 +3,8 @@
   <div class="inner-div ">
     <div class="interest-box card">
       <div class="inner-div row">
-        <div class="div-PrM0Wa col-xs-6">
-          <button class="btn btn-secondary home font-weight-bold" routerLink="/home">Menu principal</button>
+        <div class="col-xs-6">
+
         </div>
         <div class="col-xs-6">
           <h3 class="font-weight-bold">Gestion de la base de données</h3>
@@ -20,7 +20,7 @@
         Exemples rejetés : {{rejectedNumber}}
       </div>
       <hr>
-      <div class="div-PrMaWfc">
+      <div class="position-relative" style="margin: auto; width: fit-content; padding: 1px">
         <button class="btn btn-primary btn-text font-weight-bold" >Ajouter des exemples</button>
       </div>
       <div class="div-action-on-DB">
@@ -28,6 +28,7 @@
         <button class="btn btn-primary btn-load" >Charger une base</button>
         <button class="btn btn-primary btn-create" *ngIf="totalNbSnippets == 0" routerLink="/dbCreation">Création d'une base</button>
       <div class="div-PrMaWfc">
+      <div  class="position-relative" style="margin: auto; width: fit-content; padding: 1px">
         <button class="btn btn-secondary btn-text font-weight-bold" >Sauvegarder la base</button>
         <button class="btn btn-secondary btn-text font-weight-bold" >Charger une base</button>
         <button class="btn btn-secondary btn-text font-weight-bold" routerLink="/dbCreation">Création d'une base</button>
@@ -35,6 +36,7 @@
       <div class="div-export">
         <button class="btn btn-primary btn-export" [disabled]="!isExportPossible" title="Get all database at PiFF format (with images)" (click)="exportPiFF()">Exporter PiFF</button>
       <div class="div-PrMaWfc">
+      <div class="position-relative" style="margin: auto; width: fit-content; padding: 1px">
         <button class="btn btn-secondary export font-weight-bold" title="Get all database at PiFF format (with images)" (click)="exportPiFF()">Exporter PiFF</button>
       </div>
 
