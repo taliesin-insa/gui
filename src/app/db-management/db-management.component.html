@@ -1,8 +1,8 @@
-<div class="body">
-<div class="outer-div ">
-  <div class="inner-div ">
+
+
+  <div>
     <div class="interest-box card">
-      <div class="inner-div row">
+      <div class="row">
         <div class="col-xs-6">
 
         </div>
@@ -18,18 +18,16 @@
         exemples rejetés
       </div>
       <hr>
-      <div class="position-relative" style="margin: auto; width: fit-content; padding: 1px">
+      <div class="position-relative mx-auto" style="width: fit-content">
         <button class="btn btn-primary btn-text font-weight-bold" >Ajouter des exemples</button>
       </div>
-      <div  class="position-relative" style="margin: auto; width: fit-content; padding: 1px">
+      <div  class="position-relative mx-auto" style="width: fit-content">
         <button class="btn btn-secondary btn-text font-weight-bold" >Sauvegarder la base</button>
         <button class="btn btn-secondary btn-text font-weight-bold" >Charger une base</button>
         <button class="btn btn-secondary btn-text font-weight-bold" routerLink="/dbCreation">Création d'une base</button>
       </div>
-      <div class="position-relative" style="margin: auto; width: fit-content; padding: 1px">
+      <div class="position-relative mx-auto" style="width: fit-content">
         <button class="btn btn-secondary export font-weight-bold" [disabled]="!isExportPossible" title="Get all database at PiFF format (with images)" (click)="exportPiFF()">Exporter PiFF</button>
       </div>
   </div>
 </div>
-</div>
-
