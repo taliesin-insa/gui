@@ -1,9 +1,9 @@
-<div class="body">
 
-  <div class="outer-div ">
-    <div class="inner-div ">
+
+  <div >
+    <div >
       <div  class="interest-box card">
-        <div class="inner-div row">
+        <div class=" row">
 
           <!-- Old display with menu button in the card, now the button is in the navbar
             <button class="btn btn-secondary  font-weight-bold mx-0 px-1" style="width: auto; font-size: 0.8em; text-transform: uppercase" routerLink="/home">
@@ -13,9 +13,9 @@
           -->
 
 
-            <h2 class="font-weight-bold mx-0 px-1" style="width: auto; font-size: 2.5em">Annotation</h2>
+            <h2 class="font-weight-bold mx-0" style="width: auto; font-size: 2.5em">Annotation</h2>
 
-          <div class="position-relative" style="margin: auto; width: auto; padding: 1px">
+          <div class="position-relative mx-auto" style="width: auto">
             <button class="btn btn-warning suggest font-weight-bold" >
               <i class="fas fa-bolt"></i>
               Activer les suggestions
@@ -40,7 +40,7 @@
             </ng-container>
           </div>
           <hr>
-          <div class="position-relative" style="width: 20%; margin: auto">
+          <div class="position-relative mx-auto" style="width: 20%">
             <button #nextLines class="btn btn-success btn-text font-weight-bold" type="submit" [disabled]="annotationForm.invalid">
               <i class="fas fa-check"></i>
               Lignes suivantes
@@ -50,4 +50,3 @@
       </div>
     </div>
   </div>
-</div>
