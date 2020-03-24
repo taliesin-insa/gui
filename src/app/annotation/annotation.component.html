@@ -1,22 +1,24 @@
-<body>
-<header>
-  <h3 class="head-text">Taliesin</h3>
-</header>
-  <div class="outer-div ">
-    <div class="inner-div ">
-      <div  class="interest-box card">
-        <div class="inner-div row">
-          <div class="div-home">
-            <button class="btn btn-secondary home" routerLink="/home">Menu principal</button>
-          </div>
-          <div class="div-annot">
-            <h2 class="annot">Annotation</h2>
-          </div>
-          <div class="div-suggest">
-            <button class="btn btn-secondary suggest" >
-              <img src="flash.png" width="25" height="25">
-                Activer les suggestions
 
+
+  <div >
+    <div >
+      <div  class="interest-box card">
+        <div class=" row">
+
+          <!-- Old display with menu button in the card, now the button is in the navbar
+            <button class="btn btn-secondary  font-weight-bold mx-0 px-1" style="width: auto; font-size: 0.8em; text-transform: uppercase" routerLink="/home">
+              <i class="fas fa-home"></i>
+              Menu principal
+            </button>
+          -->
+
+
+            <h2 class="font-weight-bold mx-0" style="width: auto; font-size: 2.5em">Annotation</h2>
+
+          <div class="position-relative mx-auto" style="width: auto">
+            <button class="btn btn-warning suggest font-weight-bold" >
+              <i class="fas fa-bolt"></i>
+              Activer les suggestions
             </button>
           </div>
         </div>
@@ -24,9 +26,7 @@
 
         <!-- Form used to display all the snippets (image + text field) -->
         <form [formGroup]="annotationForm" (ngSubmit)="onSubmit(annotationForm.value)" (keydown.enter)="$event.preventDefault()">
-
           <div formArrayName="snippetInputs">
-
             <ng-container *ngFor="let snippetInput of formArrayInputs.controls; let i=index">
               <div #card class="card text-center mb-3 w-100 " (mouseover)="setHover(i)" (mouseout)="leaveHover()" [ngClass]="changeClassesCard(i)">
                 <div>
@@ -34,21 +34,19 @@
                 </div>
                 <div class="card-body">
                   <input #annotationInput type="text" [formControlName]="i" (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)" (click)="focusClick(i)"  >
-                  <button type="button"  class="btn btn-danger" (click)="setUnreadable(i)">X</button>
+                  <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)">X</button>
                 </div>
               </div>
             </ng-container>
-
           </div>
           <hr>
-          <div class="div-submit">
-            <button #nextLines class="btn btn-primary btn-submit" type="submit" [disabled]="annotationForm.invalid">Lignes suivantes</button>
-
+          <div class="position-relative mx-auto" style="width: 20%">
+            <button #nextLines class="btn btn-success btn-text font-weight-bold" type="submit" [disabled]="annotationForm.invalid">
+              <i class="fas fa-check"></i>
+              Lignes suivantes
+            </button>
           </div>
-
         </form>
       </div>
     </div>
   </div>
-</body>
-
