@@ -1,30 +1,35 @@
-<body>
-<header>
-  <h3 class="head-text">Taliesin</h3>
-</header>
-  <div class="outer-div ">
-    <div class="inner-div ">
+
+  <div >
+    <div>
       <div class="interest-box card">
-        <h2 class="titre-text">Tableau de bord</h2>
+        <h2 class="font-weight-bold" style="font-size: 2.5em">Tableau de bord</h2>
         <hr>
-        <h4 class="titre-base">Base courante</h4>
+        <h4 class="font-weight-bold" style="font-size: 1.3em">Base courante</h4>
         <hr>
-        <div class="btn-atn">
-          <button class="btn btn-primary annot" routerLink="/annotation">
+
+        <div class="position-relative mx-auto" style="width: 20%">
+          <button class="btn btn-primary btn-text font-weight-bold" routerLink="/annotation">
             Annotation
           </button>
         </div>
-        <div class="btns-DB_Rec">
-          <button class="btn btn-primary DB_Rec" >
-            <img src="gear.png" width="25"  height="25">
-            Reconnaisseur
-          </button>
-          <button class="btn btn-primary DB_Rec" routerLink="/dbManagement">
-            <img src="exclamation.png" width="25"  height="25">
-            Gestion de la base de données
-          </button>
+
+        <div class=" row position-relative mx-auto" >
+
+          <div class="col-xs-6">
+            <button class="btn btn-secondary btn-text font-weight-bold" >
+              <i class="fas fa-exclamation-circle"></i>
+              Reconnaisseur
+            </button>
+          </div>
+
+          <div class="col-xs-6">
+            <button class="btn btn-secondary btn-text font-weight-bold" routerLink="/dbManagement">
+              <i class="fas fa-cog"></i>
+              Gestion de la base de données
+            </button>
+          </div>
+
         </div>
       </div>
     </div>
   </div>
-</body>
