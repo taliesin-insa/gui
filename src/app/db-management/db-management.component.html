@@ -1,18 +1,18 @@
-<body>
-<header>
-  <h3 class="head-text">Taliesin</h3>
-</header>
-<div class="outer-div ">
-  <div class="inner-div ">
+
+
+  <div>
     <div class="interest-box card">
-      <div class="inner-div row">
-        <div class="div-home">
-          <button class="btn btn-secondary home" routerLink="/home">Menu principal</button>
+      <div class="row">
+        <div class="col-xs-6">
+
         </div>
-        <h3 class="DB_Man">Gestion de la base de données</h3>
+        <div class="col-xs-6">
+          <h3 class="font-weight-bold">Gestion de la base de données</h3>
+        </div>
+
       </div>
       <hr>
-      <div class="text-info-base">
+      <div class="font-weight-bold">
         Base n°1
         <br>
         Exemples annotés :
@@ -20,20 +20,16 @@
         Exemples rejetés : {{rejectedNumber}}
       </div>
       <hr>
-      <div class="div-add">
-        <button class="btn btn-secondary btn-add" >Ajouter des exemples</button>
+      <div class="position-relative mx-auto" style="width: fit-content">
+        <button class="btn btn-primary btn-text font-weight-bold" >Ajouter des exemples</button>
       </div>
-      <div class="div-action-on-DB">
-        <button class="btn btn-primary btn-save" >Sauvegarder la base</button>
-        <button class="btn btn-primary btn-load" >Charger une base</button>
-        <button class="btn btn-primary btn-create" *ngIf="totalNbSnippets == 0" routerLink="/dbCreation">Création d'une base</button>
+      <div  class="position-relative mx-auto" style="width: fit-content">
+        <button class="btn btn-secondary btn-text font-weight-bold" >Sauvegarder la base</button>
+        <button class="btn btn-secondary btn-text font-weight-bold" >Charger une base</button>
+        <button class="btn btn-secondary btn-text font-weight-bold" *ngIf="totalNbSnippets == 0" routerLink="/dbCreation">Création d'une base</button>
       </div>
-      <div class="div-export">
-        <button class="btn btn-primary btn-export" [disabled]="!isExportPossible" title="Get all database at PiFF format (with images)" (click)="exportPiFF()">Exporter PiFF</button>
+      <div class="position-relative mx-auto" style="width: fit-content">
+        <button class="btn btn-secondary export font-weight-bold" [disabled]="!isExportPossible" title="Get all database at PiFF format (with images)" (click)="exportPiFF()">Exporter PiFF</button>
       </div>
-
-    </div>
   </div>
 </div>
-</body>
-
