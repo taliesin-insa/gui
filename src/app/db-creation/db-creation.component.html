@@ -35,8 +35,6 @@
             </button>
             <button class="btn btn-outline-primary" [disabled]="uploadInProgress || files.size == 0" (click)="upload()"> {{primaryButtonText}} </button>
 
-            <button class="btn btn-outline-primary" [disabled]="uploadInProgress" (click)="upload()"> {{primaryButtonText}} </button>
-
             <br>
 
             <div *ngFor="let file of files">
