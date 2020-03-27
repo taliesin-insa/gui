@@ -1,0 +1,31 @@
+
+<div >
+  <div>
+    <div class="interest-box card">
+      <h2 class="font-weight-bold" style="font-size: 2.5em">Login</h2>
+      <hr>
+
+      <form [formGroup]=""  (keydown.enter)="$event.preventDefault()">
+        <div formArrayName="snippetInputs">
+
+            <div>
+
+                <h4 class="font-weight-bold" style="font-size: 1.3em">Pseudo</h4>
+                <input #identifierName type="text"   >
+
+                <h4 class="font-weight-bold" style="font-size: 1.3em">MDP</h4>
+                <input #password type="text"   >
+
+            </div>
+
+        </div>
+        <hr>
+        <div class="position-relative mx-auto" style="width: 20%">
+          <button class="btn btn-primary btn-text font-weight-bold" routerLink="/home">
+            Connexion
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

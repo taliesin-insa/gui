@@ -5,9 +5,11 @@ import {HomePageComponent} from './home-page/home-page.component';
 import {DbManagementComponent} from './db-management/db-management.component';
 import {DbCreationComponent} from './db-creation/db-creation.component';
 import {StatusResolverService} from './services/data-resolver.service';
+import {LoginComponent} from './login/login.component';
 
 
 const routes: Routes = [
+  { path: 'login', component: LoginComponent },
   { path: 'annotation', component: AnnotationComponent },
   { path: 'home', component: HomePageComponent },
   { path: 'dbManagement',
