@@ -20,4 +20,10 @@ export class AuthService {
     }, httpOptions);
   }
 
+  verify(token): Observable<any> {
+    return this.http.post('/auth/verifyToken', {
+      Token: token,
+    }, httpOptions);
+  }
+
 }

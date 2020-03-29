@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
 
     this.auth.login(this.loginForm).subscribe(data => {
       console.log(data);
-      this.session.saveToken(data.token);
+      this.session.saveToken(data.Token);
       this.session.saveUser(data);
     }, err => {
       console.error(err);
