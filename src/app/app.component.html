@@ -15,7 +15,7 @@
           <a class="nav-item nav-link active" href="#" routerLink="/annotation">Annotation</a>
           <a class="nav-item nav-link active" href="#" routerLink="/Reco">Reconnaisseur</a>
           <a class="nav-item nav-link active" href="#" routerLink="/dbManagement">Base de données</a>
-          <a class="nav-item nav-link active" href="#" routerLink="/login">Login</a>
+          <a class="nav-item nav-link active" href="#" *ngIf="session.getToken()" (click)="logout()">Déconnexion</a>
         </div>
       </div>
     </nav>
