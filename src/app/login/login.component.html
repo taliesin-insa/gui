@@ -5,23 +5,23 @@
       <h2 class="font-weight-bold" style="font-size: 2.5em">Login</h2>
       <hr>
 
-      <form [formGroup]=""  (keydown.enter)="$event.preventDefault()">
-        <div formArrayName="snippetInputs">
+      <form [formGroup]="loginForm" #form (ngSubmit)="onSubmit()">
+        <div>
 
             <div>
 
                 <h4 class="font-weight-bold" style="font-size: 1.3em">Pseudo</h4>
-                <input #identifierName type="text"   >
+                <input formControlName="username" type="text" />
 
                 <h4 class="font-weight-bold" style="font-size: 1.3em">MDP</h4>
-                <input #password type="text"   >
+                <input formControlName="password" type="password" />
 
             </div>
 
         </div>
         <hr>
         <div class="position-relative mx-auto" style="width: 20%">
-          <button class="btn btn-primary btn-text font-weight-bold" routerLink="/home">
+          <button type="submit" class="btn btn-primary btn-text font-weight-bold">
             Connexion
           </button>
         </div>
