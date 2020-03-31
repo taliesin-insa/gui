@@ -21,6 +21,21 @@
               Activer les suggestions
             </button>
           </div>
+
+          <!-- Variable to use HTML in popover content-->
+          <ng-template #popContent>
+            <b>Entrée :</b> valider la transcription courante <br>
+            <b>Alt + f9 :</b> marquer l'image courante comme illisible
+          </ng-template>
+
+          <div class="position-relative mx-auto" style="width: auto" >
+            <button type="button" class="btn btn-info" data-toggle="popover" placement="left"
+                    popoverTitle="Raccourcis clavier pour l'annotation"
+                    [ngbPopover]="popContent">
+              Raccourcis clavier
+            </button>
+          </div>
+
         </div>
         <hr>
 
