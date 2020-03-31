@@ -82,9 +82,11 @@ export class DbCreationComponent implements OnInit {
     this.uploadInProgress = true;
     this.progresses = this.uploadService.upload(this.files);
 
-    /*for (const key in this.progresses) {
+    console.log(this.progresses);
+
+    for (const key in this.progresses) {
       this.progresses[key].progress.subscribe(val => console.log(val));
-    }*/
+    }
 
     // convert the progress map into an array
     const allProgressObservables = [];

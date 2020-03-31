@@ -34,6 +34,8 @@ export class HttpErrorHandler {
 
     return (error: HttpErrorResponse): Observable<T> => {
 
+      this.toastService.showDanger(HttpErrorResponse.toString());
+
       let backendError;
 
       if (error.error instanceof Blob) {

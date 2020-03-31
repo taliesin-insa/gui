@@ -37,7 +37,7 @@
             <br>
             <div *ngFor="let file of files">
               <h2>{{file.name}}</h2>
-              <ngb-progressbar *ngIf="progresses" [type]="progresses[file.name].hasError | async" [value]="progresses[file.name].progress | async"></ngb-progressbar>
+              <ngb-progressbar *ngIf="progresses" type="success" [value]="progresses[file.name].progress | async"></ngb-progressbar>
             </div>
           </ng-container>
         </div>
