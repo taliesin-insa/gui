@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 const httpOptions = {
@@ -18,6 +18,12 @@ export class AuthService {
     return this.http.post('/auth/login', {
       username: credentials.value.username,
       password: credentials.value.password
+    }, { observe: 'response', headers: new HttpHeaders({'Content-Type': 'application/json'}) });
+  }
+
+  logout(token): Observable<any> {
+    return this.http.post('/auth/login', {
+      Token: token,
     }, { observe: 'response', headers: new HttpHeaders({'Content-Type': 'application/json'}) });
   }
 
