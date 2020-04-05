@@ -15,7 +15,6 @@ import {httpInterceptorProviders} from './http-interceptors';
 import { ErrorDisplayComponent } from './error-display/error-display.component';
 import {ErrorMessageService} from './services/error-messages.service';
 import {ReactiveFormsModule} from '@angular/forms';
-import {ToastsContainerComponent} from './toast-global/toasts-container.component';
 
 @NgModule({
   declarations: [
@@ -24,8 +23,7 @@ import {ToastsContainerComponent} from './toast-global/toasts-container.componen
     AnnotationComponent,
     DbManagementComponent,
     DbCreationComponent,
-    ErrorDisplayComponent,
-    ToastsContainerComponent
+    ErrorDisplayComponent
   ],
   imports: [
     BrowserModule,
