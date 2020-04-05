@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpEventType, HttpRequest, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpEventType, HttpRequest, HttpEvent} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
+import {map, timeout, concatMap} from 'rxjs/operators';
+import {from} from 'rxjs';
 
 const url = '/import/upload';
 
@@ -8,52 +10,51 @@ const url = '/import/upload';
   providedIn: 'root'
 })
 export class UploadService {
+  progresses: { [key: string]: { subject: Subject<number>, progress: Observable<number> } } = {};
 
   constructor(private http: HttpClient) {
   }
 
-  public upload(files: Set<File>): { [key: string]: { progress: Observable<number> } } {
+  private eventCallback(event: HttpEvent<any>, file: File) {
+    switch (event.type) {
+      case HttpEventType.Sent:
+        return `Uploading file "${file.name}" of size ${file.size}.`;
+  
+      case HttpEventType.UploadProgress:
+        // Compute and show the % done:
+        const percentDone = Math.round(100 * event.loaded / event.total);
+        this.progresses[file.name].subject.next(percentDone);
+        return `File "${file.name}" is ${percentDone}% uploaded.`;
+  
+      case HttpEventType.Response:
+        this.progresses[file.name].subject.complete();
+        return `File "${file.name}" was completely uploaded!`;
+  
+      default:
+        return `File "${file.name}" unhandled event: ${event.type}.`;
+    }
+  }
+
+  public upload(files: Set<File>, progresses: { [key: string]: { subject: Subject<number>, progress: Observable<number> } }) {
     // this will be the our resulting map
-    const status: { [key: string]: { progress: Observable<number> } } = {};
 
-    files.forEach(file => {
-      // create a new multipart-form for every file
-      const formData: FormData = new FormData();
-      formData.append('file', file, file.name);
+    this.progresses = progresses;
 
-      // create a http-post request and pass the form
-      // tell it to report the upload progress
-      const req = new HttpRequest('POST', url, formData, {
-        reportProgress: true
-      });
+    from(files).pipe(
+      concatMap(file => {
+        const data = new FormData();
+        data.append('file', file, file.name);
 
-      // create a new progress-subject for every file
-      const progress = new Subject<number>();
-
-      // send the http-request and subscribe for progress-updates
-
-      const startTime = new Date().getTime();
-      this.http.request(req).subscribe(event => {
-        if (event.type === HttpEventType.UploadProgress) {
-          // calculate the progress percentage
-
-          const percentDone = Math.round((100 * event.loaded) / event.total);
-          // pass the percentage into the progress-stream
-          progress.next(percentDone);
-        } else if (event instanceof HttpResponse) {
-          // Close the progress-stream if we get an answer from the API
-          // The upload is complete
-          progress.complete();
-        }
-      });
-
-      // Save every progress-observable in a map of all observables
-      status[file.name] = {
-        progress: progress.asObservable()
-      };
+        return this.http.request(new HttpRequest('POST', url, data, {
+          reportProgress: true
+        })).pipe(timeout(5000), map(event => this.eventCallback(event, file)));
+      })
+    ).subscribe(e => {
+        console.log(e);
+      },
+      error => {
+        console.error(error);
     });
 
-    // return the map of progress.observables
-    return status;
   }
 }

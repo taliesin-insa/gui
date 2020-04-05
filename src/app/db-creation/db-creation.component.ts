@@ -1,11 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {UploadService} from '../services/upload/upload.service';
-import {forkJoin, Observable} from 'rxjs';
+import {forkJoin, from} from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {HttpClient, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpEventType, HttpEvent, HttpRequest, HttpResponse, HttpUserEvent} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
-import {catchError, map} from 'rxjs/operators';
+import {catchError, map, concatMap} from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
+
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -19,7 +21,7 @@ export class DbCreationComponent implements OnInit {
   public creationSuccessful = false;
 
   public files: Set<File> = new Set();
-  progresses: { [key: string]: { progress: Observable<number> } }; // map { filename: string, percentOfUpload: Observable<number> }
+  progresses: { [key: string]: { progress: Observable<number>, subject: Subject<number> } };
   primaryButtonText = 'Importer';
   public uploadInProgress = false;
 
@@ -88,13 +90,18 @@ export class DbCreationComponent implements OnInit {
    */
   upload() {
     this.uploadInProgress = true;
-    this.progresses = this.uploadService.upload(this.files);
+    this.progresses = {};
 
-    console.log(this.progresses);
+    this.files.forEach(file => {
+      const sub = new Subject<number>();
 
-    for (const key in this.progresses) {
-      this.progresses[key].progress.subscribe(val => console.log(val));
-    }
+      this.progresses[file.name] = {
+        subject: sub,
+        progress: sub.asObservable()
+      };
+    });
+
+    this.uploadService.upload(this.files, this.progresses);
 
     // convert the progress map into an array
     const allProgressObservables = [];
