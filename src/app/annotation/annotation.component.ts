@@ -26,14 +26,18 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
 
   private hover = -1 ;
 
-  private isLaiaActivated: boolean;
+  private isRecognizerActivated: boolean;
+  private recognizerButtonClass: string;
+  private recognizerButtonText: string;
 
   constructor(private router: Router,
               private fb: FormBuilder,
               private http: HttpClient,
               httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('Annotation');
-    this.isLaiaActivated = false;
+    this.isRecognizerActivated = false;
+    this.recognizerButtonClass = 'btn btn-warning suggest font-weight-bold' ;
+    this.recognizerButtonText = 'Suggestions activées';
   }
 
   ngOnInit() {
@@ -291,10 +295,14 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
   }
 
   activateLaia() {
-    this.isLaiaActivated = !this.isLaiaActivated;
+    this.isRecognizerActivated = !this.isRecognizerActivated;
 
-    if (this.isLaiaActivated) {
-      
+    if (this.isRecognizerActivated) {
+      this.recognizerButtonClass = 'btn btn-warning suggest font-weight-bold';
+      this.recognizerButtonText = 'Suggestions activées';
+    } else {
+      this.recognizerButtonClass = 'btn btn-warning bg-transparent suggest font-weight-bold';
+      this.recognizerButtonText = 'Suggestions désactivées';
     }
   }
 
