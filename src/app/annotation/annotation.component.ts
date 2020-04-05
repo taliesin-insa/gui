@@ -35,7 +35,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
               private http: HttpClient,
               httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('Annotation');
-    this.isRecognizerActivated = false;
+    this.isRecognizerActivated = true;
     this.recognizerButtonClass = 'btn btn-warning suggest font-weight-bold' ;
     this.recognizerButtonText = 'Suggestions activées';
   }
