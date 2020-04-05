@@ -92,7 +92,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
     // Clear inputs since we will get new snippets
     this.formArrayInputs.clear();
 
-    // Update data in backend: snippets for which the annotation hasn't been validated and those which are tagged unreadable
+    // Update data in backend: snippets for which the annotation hasn't been validated
     const snippetsToValidate = this.snippets.filter(snippet => (!snippet.annotated && !snippet.unreadable));
     if (snippetsToValidate.length > 0) {
       this.updateManySnippetsDB(snippetsToValidate);
