@@ -294,7 +294,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
     }
   }
 
-  activateLaia() {
+  updateRecognizerActivation() {
     this.isRecognizerActivated = !this.isRecognizerActivated;
 
     if (this.isRecognizerActivated) {
