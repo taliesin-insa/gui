@@ -33,7 +33,8 @@
                   <img class="card-img-top" src="{{snippets[i].url}}">
                 </div>
                 <div class="card-body">
-                  <input #annotationInput type="text" [formControlName]="i" value="{{isRecognizerActivated ? snippets[i].value : ''}}" (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)" (click)="focusClick(i)">
+                  <input #annotationInput type="text" [formControlName]="i" (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)" (click)="focusClick(i)"
+                         value="{{!isRecognizerActivated && !snippets[i].changed ? '' : snippets[i].value}}" (ngModelChange)="snippets[i].changed = true;">
                   <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)">X</button>
                 </div>
               </div>
