@@ -1,3 +1,6 @@
+import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Router} from '@angular/router';
+import {AppComponent} from '../app.component';
 import {Component, OnInit} from '@angular/core';
 import {ACCOUNTS} from './mock-accounts';
 import {Account} from './account';
