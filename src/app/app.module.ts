@@ -15,7 +15,7 @@ import {HttpErrorHandler} from './services/http-error-handler.service';
 import {httpInterceptorProviders} from './http-interceptors';
 import { ErrorDisplayComponent } from './error-display/error-display.component';
 import {ErrorMessageService} from './services/error-messages.service';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ToastsContainerComponent} from './toast-global/toasts-container.component';
 import {LoginComponent} from './login/login.component';
 
@@ -36,7 +36,8 @@ import {LoginComponent} from './login/login.component';
     AppRoutingModule,
     NgbModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     ErrorMessageService,

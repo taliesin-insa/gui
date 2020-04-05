@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {Router} from '@angular/router';
-import {AppComponent} from '../app.component';
+import {ACCOUNTS} from './mock-accounts';
+import {Account} from './account';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -9,25 +10,29 @@ import {AppComponent} from '../app.component';
   styleUrls: ['./accountmanagement.component.scss']
 })
 export class AccountManagementComponent implements OnInit {
-  @ViewChildren('navButton') navButton: QueryList<ElementRef>;
+
+  accounts = ACCOUNTS;
+  selectedAccount: Account;
 
   constructor(private router: Router) {  }
 
   ngOnInit() {
   }
 
+  Delete(account: Account) {
+    for (const item of this.accounts) {
+      if ( item === account) {
+        this.accounts.splice((this.accounts.indexOf(item)), 1);
+      }
+    }
+  }
 
-  highlight(id: number) {
-    console.log(this.navButton);
-    const nabButtonsArrays = this.navButton.toArray();
-    for (const elem of nabButtonsArrays) {
-      elem.nativeElement.classList.remove('highlight');
-      elem.nativeElement.classList.add('lowlight');
-    }
-    if (id === 1 || id === 2 || id === 3) {
-      nabButtonsArrays[id].nativeElement.classList.remove('highlight');
-      nabButtonsArrays[id].nativeElement.classList.add('lowlight');
-    }
+  onCreate() {
+
+  }
+
+  onSelect(account: Account): void{
+    this.selectedAccount = account;
   }
 
 }
