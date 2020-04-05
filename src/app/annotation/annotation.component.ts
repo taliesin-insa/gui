@@ -26,11 +26,14 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
 
   private hover = -1 ;
 
+  private isLaiaActivated: boolean;
+
   constructor(private router: Router,
               private fb: FormBuilder,
               private http: HttpClient,
               httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('Annotation');
+    this.isLaiaActivated = false;
   }
 
   ngOnInit() {
@@ -284,6 +287,14 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
       this.http.put('db/update/flags', unreadableSnippets, {})
         .pipe(catchError(this.handleError('updateFlagsUnreadableDB', undefined)))
         .subscribe();
+    }
+  }
+
+  activateLaia() {
+    this.isLaiaActivated = !this.isLaiaActivated;
+
+    if (this.isLaiaActivated) {
+      
     }
   }
 
