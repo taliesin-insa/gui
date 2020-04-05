@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {Router} from '@angular/router';
-import {AppComponent} from '../app.component';
+import {ACCOUNTS} from './mock-accounts';
+import {Account} from './account';
 import {Component, OnInit} from '@angular/core';
 import {ACCOUNTS} from './mock-accounts';
 import {Account} from './account';
@@ -13,6 +14,7 @@ import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
   styleUrls: ['./accountmanagement.component.scss']
 })
 export class AccountManagementComponent implements OnInit {
+
 
   accounts = ACCOUNTS;
   selectedAccount: Account;
@@ -51,5 +53,10 @@ export class AccountManagementComponent implements OnInit {
   onSelect(account: Account): void {
     this.selectedAccount = account;
   }
+
+  onCreate() {
+
+  }
+
 
 }
