@@ -16,7 +16,7 @@
             <h2 class="font-weight-bold mx-0" style="width: auto; font-size: 2.5em">Annotation</h2>
 
           <div class="position-relative mx-auto" style="width: auto">
-            <button #laiaActivation [ngClass]="[recognizerButtonClass]" (click)="activateLaia()">
+            <button [ngClass]="[recognizerButtonClass]" (click)="activateLaia()">
               <i class="fas fa-bolt"></i>
               {{recognizerButtonText}}
             </button>
@@ -33,7 +33,7 @@
                   <img class="card-img-top" src="{{snippets[i].url}}">
                 </div>
                 <div class="card-body">
-                  <input #annotationInput type="text" [formControlName]="laiaActivation.disabled ? i : -1" (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)" (click)="focusClick(i)">
+                  <input #annotationInput type="text" [formControlName]="i" value="{{isRecognizerActivated ? snippets[i].value : ''}}" (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)" (click)="focusClick(i)">
                   <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)">X</button>
                 </div>
               </div>
