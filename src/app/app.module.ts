@@ -8,6 +8,7 @@ import {HomePageComponent} from './home-page/home-page.component';
 import {AnnotationComponent} from './annotation/annotation.component';
 import {DbManagementComponent} from './db-management/db-management.component';
 import {DbCreationComponent} from './db-creation/db-creation.component';
+import {AccountManagementComponent} from './accountManagement/accountmanagement.component';
 
 import {HttpClientModule} from '@angular/common/http';
 import {HttpErrorHandler} from './services/http-error-handler.service';
@@ -27,7 +28,8 @@ import {LoginComponent} from './login/login.component';
     DbCreationComponent,
     ErrorDisplayComponent,
     LoginComponent,
-    ToastsContainerComponent
+    ToastsContainerComponent,
+    AccountManagementComponent
   ],
   imports: [
     BrowserModule,

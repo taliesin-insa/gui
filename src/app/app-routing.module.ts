@@ -6,9 +6,11 @@ import {DbManagementComponent} from './db-management/db-management.component';
 import {DbCreationComponent} from './db-creation/db-creation.component';
 import {StatusResolverService} from './services/data-resolver.service';
 import {LoginComponent} from './login/login.component';
+import {AccountManagementComponent} from './accountManagement/accountmanagement.component';
 
 
 const routes: Routes = [
+  { path: 'accountManagement', component: AccountManagementComponent },
   { path: 'login', component: LoginComponent },
   { path: 'annotation', component: AnnotationComponent },
   { path: 'home', component: HomePageComponent },
