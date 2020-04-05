@@ -4,9 +4,61 @@
     <div class="interest-box card">
       <h2 class="font-weight-bold" style="font-size: 2.5em">Gestion des comptes</h2>
       <hr>
-      <h4 class="font-weight-bold" style="font-size: 1.3em">Base courante</h4>
-      <hr>
+      <ul class="account">
+        <li *ngFor="let account of accounts"
+            [class.selected]="account === selectedAccount"
+            (click)="onSelect(account)">
+          <div class=" row position-relative mx-auto" >
+            <div class="col 3" style="background-color: #94c2db">
+              <label> Identifiant : {{account.name}} </label>
+            </div>
+            <div class="col 3" style="background-color: antiquewhite">
+              <label> Mot de passe : {{account.password}}</label>
+            </div>
+            <div class="col 3" style="background-color: #94c2db">
+              <label> Adresse mail : {{account.email}}</label>
+            </div>
+            <div class="col 3" style="background-color: antiquewhite">
+             <label>  Administrateur : {{account.role}} </label>
+           </div>
 
+          </div>
+
+        </li>
+      </ul>
+
+      <div *ngIf="selectedAccount">
+
+        <h2> Account details :</h2>
+        <div class=" row position-relative mx-auto" >
+          <div class="col 10" >
+            <label>name:
+              <input [(ngModel)]="selectedAccount.name" placeholder="name"/>
+            </label>
+            <label>password:
+              <input [(ngModel)]="selectedAccount.password" placeholder="password"/>
+            </label>
+            <label>email:
+              <input [(ngModel)]="selectedAccount.email" placeholder="email"/>
+            </label>
+            <label>role:
+              <input [(ngModel)]="selectedAccount.role" placeholder="admin"/>
+            </label>
+          </div>
+          <div class="col 2">
+            <button class="btn btn-primary btn-text font-weight-bold" (click)="Delete(selectedAccount)">
+              Supprimer
+            </button>
+          </div>
+        </div>
+
+
+      </div>
+      <div>
+        <form>
+
+        </form>
+      </div>
     </div>
   </div>
 </div>
