@@ -10,7 +10,7 @@ export class AppComponent{
   title = 'taliesin-frontend';
   @ViewChildren('navButton') navButton: QueryList<ElementRef>;
 
-  onclick() {
+  updateIndicator() {
 
     const nabButtonsArrays = this.navButton.toArray();
     for (const elem of nabButtonsArrays) {
@@ -22,23 +22,23 @@ export class AppComponent{
   }
 
   update() {
-    const nabButtonsArrays = this.navButton.toArray();
+    const navButtonsArrays = this.navButton.toArray();
     if ( sessionStorage.getItem('highlight') === 'annot') {
-      for (const elem of nabButtonsArrays) {
+      for (const elem of navButtonsArrays) {
         elem.nativeElement.classList.remove('highlight');
         elem.nativeElement.classList.add('lowlight');
       }
       document.getElementById('annotation').classList.remove('lowlight');
       document.getElementById('annotation').classList.add('highlight');
     } else if ( sessionStorage.getItem('highlight') === 'reco') {
-      for (const elem of nabButtonsArrays) {
+      for (const elem of navButtonsArrays) {
         elem.nativeElement.classList.remove('highlight');
         elem.nativeElement.classList.add('lowlight');
       }
-      document.getElementById('reconnaisseur').classList.remove('lowlight');
-      document.getElementById('reconnaisseur').classList.add('highlight');
+      document.getElementById('recognizer').classList.remove('lowlight');
+      document.getElementById('recognizer').classList.add('highlight');
     } else if ( sessionStorage.getItem('highlight') === 'data') {
-      for (const elem of nabButtonsArrays) {
+      for (const elem of navButtonsArrays) {
         elem.nativeElement.classList.remove('highlight');
         elem.nativeElement.classList.add('lowlight');
       }

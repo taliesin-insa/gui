@@ -11,12 +11,12 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div id="navBar" class="navbar-nav">
-          <a #navButton class="nav-item nav-link active highlight" (click)="onclick()"  href="#" routerLink="/home">Menu principal </a>
-          <a id="annotation" #navButton class="nav-item nav-link active" (click)="onclick()"  href="#" routerLink="/annotation">Annotation</a>
-          <a id="reconnaisseur" #navButton class="nav-item nav-link " href="#" routerLink="/Reco">Reconnaisseur</a>
-          <a id="database" #navButton class="nav-item nav-link active" (click)="onclick()"  href="#" routerLink="/dbManagement">Base de données</a>
-          <a #navButton class="nav-item nav-link active" (click)="onclick()"  href="#" routerLink="/login">login</a>
-          <a #navButton class="nav-item nav-link active" (click)="onclick()"  href="#" routerLink="/accountManagement">accountManagement</a>
+          <a #navButton class="nav-item nav-link active highlight" (click)="updateIndicator()"  href="#" routerLink="/home">Menu principal </a>
+          <a id="annotation" #navButton class="nav-item nav-link active" (click)="updateIndicator()"  href="#" routerLink="/annotation">Annotation</a>
+          <a id="recognizer" #navButton class="nav-item nav-link " href="#" routerLink="/Reco">Reconnaisseur</a>
+          <a id="database" #navButton class="nav-item nav-link active" (click)="updateIndicator()"  href="#" routerLink="/dbManagement">Base de données</a>
+          <a #navButton class="nav-item nav-link active" (click)="updateIndicator()"  href="#" routerLink="/login">login</a>
+          <a #navButton class="nav-item nav-link active" (click)="updateIndicator()"  href="#" routerLink="/accountManagement">accountManagement</a>
         </div>
       </div>
     </nav>
