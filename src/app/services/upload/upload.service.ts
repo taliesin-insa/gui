@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpEventType, HttpRequest, HttpEvent} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
-import {map, timeout, concatMap} from 'rxjs/operators';
+import {map, retry, concatMap, catchError} from 'rxjs/operators';
 import {from} from 'rxjs';
+import { HandleError, HttpErrorHandler } from '../http-error-handler.service';
 
 const url = '/import/upload';
 
@@ -10,9 +11,11 @@ const url = '/import/upload';
   providedIn: 'root'
 })
 export class UploadService {
+  handleError: HandleError;
   progresses: { [key: string]: { subject: Subject<number>, progress: Observable<number> } } = {};
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
+    this.handleError = httpErrorHandler.createHandleError('UploadService');
   }
 
   private eventCallback(event: HttpEvent<any>, file: File) {
@@ -47,7 +50,9 @@ export class UploadService {
 
         return this.http.request(new HttpRequest('POST', url, data, {
           reportProgress: true
-        })).pipe(timeout(5000), map(event => this.eventCallback(event, file)));
+        })).pipe(retry(2),
+                catchError(this.handleError('upload', undefined)),
+                map(event => this.eventCallback(event, file)));
       })
     ).subscribe(e => {
         console.log(e);
