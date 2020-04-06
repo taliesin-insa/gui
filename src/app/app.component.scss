@@ -4,7 +4,7 @@
 }
 
 .highlight {
-  border-bottom: 5px solid #F05A42;
+  border-bottom: 5px solid $taliesin-orange;
 }
 
 .lowlight{
@@ -12,5 +12,5 @@
 }
 
 .navbar-nav a:hover{
-  border-bottom: 5px solid #F05A42;
+  border-bottom: 5px solid $taliesin-orange;
 }
