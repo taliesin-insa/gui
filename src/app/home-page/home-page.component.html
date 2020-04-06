@@ -1,35 +1,34 @@
+<div >
+  <div>
+    <div class="interest-box card">
+      <h2 class="font-weight-bold" style="font-size: 2.5em">Tableau de bord</h2>
+      <hr>
+      <h4 class="font-weight-bold" style="font-size: 1.3em">Base courante</h4>
+      <hr>
 
-  <div >
-    <div>
-      <div class="interest-box card">
-        <h2 class="font-weight-bold" style="font-size: 2.5em">Tableau de bord</h2>
-        <hr>
-        <h4 class="font-weight-bold" style="font-size: 1.3em">Base courante</h4>
-        <hr>
+      <div class="position-relative mx-auto" style="width: 20%">
+        <button class="btn btn-primary btn-text font-weight-bold" (click)="highlight(1)" routerLink="/annotation">
+          Annotation
+        </button>
+      </div>
 
-        <div class="position-relative mx-auto" style="width: 20%">
-          <button class="btn btn-primary btn-text font-weight-bold" routerLink="/annotation">
-            Annotation
+      <div class=" row position-relative mx-auto" >
+
+        <div class="col-xs-6">
+          <button class=" disabled btn btn-secondary btn-text font-weight-bold " (click)="highlight(2)">
+            <i class="fas fa-exclamation-circle"></i>
+            Reconnaisseur
           </button>
         </div>
 
-        <div class=" row position-relative mx-auto" >
-
-          <div class="col-xs-6">
-            <button class="btn btn-secondary btn-text font-weight-bold" >
-              <i class="fas fa-exclamation-circle"></i>
-              Reconnaisseur
-            </button>
-          </div>
-
-          <div class="col-xs-6">
-            <button class="btn btn-secondary btn-text font-weight-bold" routerLink="/dbManagement">
-              <i class="fas fa-cog"></i>
-              Gestion de la base de données
-            </button>
-          </div>
-
+        <div class="col-xs-6">
+          <button class="btn btn-secondary btn-text font-weight-bold" (click)="highlight(3)" routerLink="/dbManagement">
+            <i class="fas fa-cog"></i>
+            Gestion de la base de données
+          </button>
         </div>
+
       </div>
     </div>
   </div>
+</div>

@@ -1,0 +1,16 @@
+.navbar-nav a{
+  display: block;
+  text-align: center;
+}
+
+.highlight {
+  border-bottom: 5px solid #F05A42;
+}
+
+.lowlight{
+  border: 5px solid transparent;
+}
+
+.navbar-nav a:hover{
+  border-bottom: 5px solid #F05A42;
+}
