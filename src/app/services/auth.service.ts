@@ -22,7 +22,7 @@ export class AuthService {
   }
 
   logout(token): Observable<any> {
-    return this.http.post('/auth/login', {
+    return this.http.post('/auth/logout', {
       Token: token,
     }, { observe: 'response', headers: new HttpHeaders({'Content-Type': 'application/json'}) });
   }

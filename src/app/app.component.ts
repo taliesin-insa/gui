@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionStorageService } from './services/session-storage.service';
+import { AuthService } from './services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +11,14 @@ import { SessionStorageService } from './services/session-storage.service';
 export class AppComponent {
   title = 'taliesin-frontend';
 
-  constructor(public session: SessionStorageService) {}
+  constructor(public session: SessionStorageService,
+              private auth: AuthService,
+              private router: Router) {}
 
-  logout() {
-    this.session.signOut();
+  logout_user() {
+    this.auth.logout(this.session.getToken()).subscribe(success => {
+      this.session.signOut();
+      this.router.navigate(['/login']);
+    });
   }
 }
