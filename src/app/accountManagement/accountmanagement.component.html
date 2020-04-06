@@ -28,7 +28,7 @@
       </ul>
 
       <div *ngIf="selectedAccount">
-
+        <hr>
         <h2> Account details :</h2>
         <div class=" row position-relative mx-auto" >
           <div class="col 10" >
@@ -51,12 +51,30 @@
             </button>
           </div>
         </div>
-
-
       </div>
-      <div>
-        <form>
+      <hr>
 
+      <div>
+        <form [formGroup]="accountForm" (ngSubmit)="onSubmit(accountForm.value)">
+
+          <div>
+            <label for="name">Identifiant</label>
+            <input type="text" formControlName="name" id="name">
+          </div>
+          <div>
+            <label for="password">Mot de passe</label>
+            <input type="text" formControlName="password" id="password">
+          </div>
+          <div>
+            <label for="email">Mail</label>
+            <input type="text" formControlName="email" id="email">
+          </div>
+          <div>
+            <label for="role">Administrateur</label>
+            <input type="checkbox" formControlName="role" id="role">
+          </div>
+
+          <button type="submit">Nouveau compte</button>
         </form>
       </div>
     </div>
