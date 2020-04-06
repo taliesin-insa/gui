@@ -15,7 +15,6 @@ import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 })
 export class AccountManagementComponent implements OnInit {
 
-
   accounts = ACCOUNTS;
   selectedAccount: Account;
   accountForm: FormGroup;
