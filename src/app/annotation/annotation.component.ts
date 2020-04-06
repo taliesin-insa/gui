@@ -5,7 +5,6 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {catchError} from 'rxjs/operators';
-import {ToastService} from '../toast-global/toast-service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -30,8 +29,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
   constructor(private router: Router,
               private fb: FormBuilder,
               private http: HttpClient,
-              httpErrorHandler: HttpErrorHandler,
-              private toastService: ToastService) {
+              httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('Annotation');
   }
 
@@ -244,7 +242,6 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
       .pipe(catchError(this.handleError('retrieveSnippetsDB', [])))
       // Function handling the result of the HTTP request. Returned value might either be the wanted one or the default one specified above
       .subscribe(returnedData => {
-        this.toastService.showSuccess('Received snippets: \n' + JSON.stringify(returnedData));
         returnedData.forEach(dbEntry => this.snippets.push(new Snippet(dbEntry)));
         this.fillAnnotationForm();
       });
@@ -257,7 +254,6 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
    */
   updateSnippetDB(snippet: Snippet) {
     const updatedSnippet = [ getIdAndValue(snippet) ];
-    this.toastService.showStandard('Sent to db/update/value: \n' + JSON.stringify(updatedSnippet));
     this.http.put('db/update/value', updatedSnippet, {})
       .pipe(catchError(this.handleError('updateSnippetsDB', undefined)))
       .subscribe();
@@ -270,7 +266,6 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
    */
   updateManySnippetsDB(snippetList: Array<Snippet>) {
     const updatedSnippetList = snippetList.map(snippet => getIdAndValue(snippet));
-    this.toastService.showStandard('Sent to db/update/value: \n' + JSON.stringify(updatedSnippetList));
     this.http.put('db/update/value', updatedSnippetList, {})
       .pipe(catchError(this.handleError('updateSnippetsDB', undefined)))
       .subscribe();
@@ -285,7 +280,6 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
     const unreadableSnippets = this.snippets.filter(snippet => snippet.unreadable)
                                             .map(snippet => getUnreadableFlag(snippet));
     if (unreadableSnippets.length > 0) {
-      this.toastService.showStandard('Sent to db/update/flags: \n' + JSON.stringify(unreadableSnippets));
       this.snippets = this.snippets.filter(snippet => !snippet.unreadable);
       this.http.put('db/update/flags', unreadableSnippets, {})
         .pipe(catchError(this.handleError('updateFlagsUnreadableDB', undefined)))
