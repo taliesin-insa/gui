@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router} from '@angular/router';
 import {ErrorMessageService} from '../services/error-messages.service';
+import {AppComponent} from '../app.component';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -12,7 +13,8 @@ export class HomePageComponent implements OnInit {
 
   private statusData: any;
 
-  constructor(private router: Router, private route: ActivatedRoute, private errorMessageService: ErrorMessageService) {
+  // tslint:disable-next-line:max-line-length
+  constructor(private router: Router, private route: ActivatedRoute, private errorMessageService: ErrorMessageService, private appComponent: AppComponent) {
   }
 
   ngOnInit() {
@@ -24,4 +26,15 @@ export class HomePageComponent implements OnInit {
     }
   }
 
+  highlight(id: number) {
+    sessionStorage.clear();
+    if (id === 1) {
+      sessionStorage.setItem('highlight', 'annot');
+    } else if (id === 2) {
+      sessionStorage.setItem('highlight', 'reco');
+    } else if (id === 3) {
+      sessionStorage.setItem('highlight', 'data');
+    }
+    this.appComponent.update();
+  }
 }

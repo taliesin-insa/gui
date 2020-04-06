@@ -10,11 +10,13 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="#" routerLink="/home">Menu principal </a>
-          <a class="nav-item nav-link active" href="#" routerLink="/annotation">Annotation</a>
-          <a class="nav-item nav-link active" href="#" routerLink="/Reco">Reconnaisseur</a>
-          <a class="nav-item nav-link active" href="#" routerLink="/dbManagement">Base de données</a>
+        <div id="navBar" class="navbar-nav">
+          <a #navButton class="nav-item nav-link active highlight" (click)="onclick()"  href="#" routerLink="/home">Menu principal </a>
+          <a id="annotation" #navButton class="nav-item nav-link active" (click)="onclick()"  href="#" routerLink="/annotation">Annotation</a>
+          <a id="reconnaisseur" #navButton class="nav-item nav-link " href="#" routerLink="/Reco">Reconnaisseur</a>
+          <a id="database" #navButton class="nav-item nav-link active" (click)="onclick()"  href="#" routerLink="/dbManagement">Base de données</a>
+          <a #navButton class="nav-item nav-link active" (click)="onclick()"  href="#" routerLink="/login">login</a>
+          <a #navButton class="nav-item nav-link active" (click)="onclick()"  href="#" routerLink="/accountManagement">accountManagement</a>
         </div>
       </div>
     </nav>
@@ -26,3 +28,5 @@
   <error-display></error-display>
   <toasts-container></toasts-container>
 </main>
+
+
