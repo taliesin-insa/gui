@@ -92,12 +92,11 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
     // Clear inputs since we will get new snippets
     this.formArrayInputs.clear();
 
-    // Update data in backend: snippets for which the annotation hasn't been validated and those which are tagged unreadable
+    // Update data in backend: snippets for which the annotation hasn't been validated
     const snippetsToValidate = this.snippets.filter(snippet => (!snippet.annotated && !snippet.unreadable));
     if (snippetsToValidate.length > 0) {
       this.updateManySnippetsDB(snippetsToValidate);
     }
-    this.updateFlagsUnreadableDB();
 
     // Get new snippets to annotate
     this.retrieveSnippetsDB(this.NB_OF_SNIPPETS);
@@ -215,6 +214,10 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
       annotationsInputsArray[id].nativeElement.classList.remove('bg-unreadable');
     }
     input.updateValueAndValidity();
+
+    this.http.put('db/update/flags', [getUnreadableFlag(this.snippets[id])], {})
+      .pipe(catchError(this.handleError('setUnreadable', undefined)))
+      .subscribe();
   }
 
   /**
@@ -276,22 +279,6 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
     this.http.put('db/update/value', updatedSnippetList, {})
       .pipe(catchError(this.handleError('updateSnippetsDB', undefined)))
       .subscribe();
-  }
-
-  /**
-   * Send an array of all the unreadable snippets to update their flag in the database.
-   * Format of the data sent:
-   * [ { id: string, flag: "unreadable", value: true }, ...]
-   */
-  updateFlagsUnreadableDB() {
-    const unreadableSnippets = this.snippets.filter(snippet => snippet.unreadable)
-                                            .map(snippet => getUnreadableFlag(snippet));
-    if (unreadableSnippets.length > 0) {
-      this.snippets = this.snippets.filter(snippet => !snippet.unreadable);
-      this.http.put('db/update/flags', unreadableSnippets, {})
-        .pipe(catchError(this.handleError('updateFlagsUnreadableDB', undefined)))
-        .subscribe();
-    }
   }
 
   updateRecognizerActivation() {
