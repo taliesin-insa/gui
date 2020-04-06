@@ -28,12 +28,17 @@ export class HomePageComponent implements OnInit {
 
   highlight(id: number) {
     sessionStorage.clear();
-    if (id === 1) {
-      sessionStorage.setItem('highlight', 'annot');
-    } else if (id === 2) {
-      sessionStorage.setItem('highlight', 'reco');
-    } else if (id === 3) {
-      sessionStorage.setItem('highlight', 'data');
+    switch (id) {
+      case 1:
+        sessionStorage.setItem('highlight', 'annot');
+        break;
+      case 2:
+        sessionStorage.setItem('highlight', 'reco');
+        break;
+      case 3:
+        sessionStorage.setItem('highlight', 'data');
+        break;
+
     }
     this.appComponent.update();
   }
