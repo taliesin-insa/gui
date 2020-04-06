@@ -6,7 +6,7 @@ import {Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent{
+export class AppComponent {
   title = 'taliesin-frontend';
   @ViewChildren('navButton') navButton: QueryList<ElementRef>;
 
@@ -14,37 +14,33 @@ export class AppComponent{
 
     const nabButtonsArrays = this.navButton.toArray();
     for (const elem of nabButtonsArrays) {
-      elem.nativeElement.classList.remove('highlight');
-      elem.nativeElement.classList.add('lowlight');
+      elem.nativeElement.classList.replace('highlight', 'lowlight');
     }
-    document.activeElement.classList.remove('lowlight');
-    document.activeElement.classList.add('highlight');
+    document.activeElement.classList.replace('lowlight', 'highlight');
+  }
+
+  updateSwitch(value: string) {
+    switch (value) {
+      case 'annot' :
+        document.getElementById('annotation').classList.replace('lowlight', 'highlight');
+        break;
+      case 'reco':
+        document.getElementById('recognizer').classList.replace('lowlight', 'highlight');
+        break;
+      case 'data':
+        document.getElementById('database').classList.replace('lowlight', 'highlight');
+        break;
+    }
   }
 
   update() {
-    const navButtonsArrays = this.navButton.toArray();
-    if ( sessionStorage.getItem('highlight') === 'annot') {
+    if ( sessionStorage.getItem('highlight') !== null) {
+      const navButtonsArrays = this.navButton.toArray();
       for (const elem of navButtonsArrays) {
-        elem.nativeElement.classList.remove('highlight');
-        elem.nativeElement.classList.add('lowlight');
+        elem.nativeElement.classList.replace('highlight', 'lowlight');
       }
-      document.getElementById('annotation').classList.remove('lowlight');
-      document.getElementById('annotation').classList.add('highlight');
-    } else if ( sessionStorage.getItem('highlight') === 'reco') {
-      for (const elem of navButtonsArrays) {
-        elem.nativeElement.classList.remove('highlight');
-        elem.nativeElement.classList.add('lowlight');
-      }
-      document.getElementById('recognizer').classList.remove('lowlight');
-      document.getElementById('recognizer').classList.add('highlight');
-    } else if ( sessionStorage.getItem('highlight') === 'data') {
-      for (const elem of navButtonsArrays) {
-        elem.nativeElement.classList.remove('highlight');
-        elem.nativeElement.classList.add('lowlight');
-      }
-      document.getElementById('database').classList.remove('lowlight');
-      document.getElementById('database').classList.add('highlight');
+      this.updateSwitch(sessionStorage.getItem('highlight'));
     }
-    sessionStorage.clear();
   }
+
 }
