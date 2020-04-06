@@ -4,3 +4,8 @@ export interface Account {
   password: string;
   role: boolean;
 }
+
+export class Account implements Account {
+  constructor(public name= '', public password= '', public email= '', public role= false) {
+  }
+}
