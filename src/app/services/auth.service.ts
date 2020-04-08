@@ -33,4 +33,10 @@ export class AuthService {
     }, { observe: 'response', headers: new HttpHeaders({'Content-Type': 'application/json'}) });
   }
 
+  accountList(token): Observable<any> {
+    return this.http.post('/auth/account/list', {
+      Token: token,
+    }, { observe: 'response', headers: new HttpHeaders({'Content-Type': 'application/json'}) });
+  }
+
 }
