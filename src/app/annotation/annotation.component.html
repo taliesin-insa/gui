@@ -16,9 +16,9 @@
             <h2 class="font-weight-bold mx-0" style="width: auto; font-size: 2.5em">Annotation</h2>
 
           <div class="position-relative mx-auto" style="width: auto">
-            <button class="btn btn-warning suggest font-weight-bold" >
+            <button [ngClass]="[recognizerButtonClass]" (click)="updateRecognizerActivation()">
               <i class="fas fa-bolt"></i>
-              Activer les suggestions
+              {{recognizerButtonText}}
             </button>
           </div>
         </div>
@@ -33,7 +33,8 @@
                   <img class="card-img-top" src="{{snippets[i].url}}">
                 </div>
                 <div class="card-body">
-                  <input #annotationInput type="text" [formControlName]="i" (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)" (click)="focusClick(i)"  >
+                  <input #annotationInput type="text" [formControlName]="i" (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)" (click)="focusClick(i)"
+                         value="{{!isRecognizerActivated && !snippets[i].changed ? '' : snippets[i].value}}" (ngModelChange)="snippets[i].changed = true;">
                   <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)">X</button>
                 </div>
               </div>
@@ -41,7 +42,7 @@
           </div>
           <hr>
           <div class="position-relative mx-auto" style="width: 20%">
-            <button #nextLines class="btn btn-success btn-text font-weight-bold" type="submit" [disabled]="annotationForm.invalid">
+            <button #nextLines class="btn btn-success btn-text font-weight-bold" type="submit" [disabled]="annotationForm.invalid" title="{{annotationForm.invalid ? 'Des images ne sont pas traitées' : ''}}">
               <i class="fas fa-check"></i>
               Lignes suivantes
             </button>
