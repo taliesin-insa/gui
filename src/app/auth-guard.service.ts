@@ -22,7 +22,6 @@ export class AuthGuard implements CanActivate {
         if (this.session.getToken()) {
             return this.auth.verify(this.session.getToken()).pipe(map(e => {
                 if (e) {
-                    console.log(e);
                     return true;
                 }
             }), catchError(error => {
