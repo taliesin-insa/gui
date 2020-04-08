@@ -5,7 +5,6 @@ import {HandleError, HttpErrorHandler} from '../services/http-error-handler.serv
 import {SessionStorageService} from '../services/session-storage.service';
 import {AuthService} from '../services/auth.service';
 import {catchError} from 'rxjs/operators';
-import {ToastService} from '../toast-global/toast-service';
 
 @Component({
   // tslint:disable-next-line:component-selector
