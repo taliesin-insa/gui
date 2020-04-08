@@ -15,6 +15,7 @@ import {httpInterceptorProviders} from './http-interceptors';
 import { ErrorDisplayComponent } from './error-display/error-display.component';
 import {ErrorMessageService} from './services/error-messages.service';
 import {ReactiveFormsModule} from '@angular/forms';
+import {LoginComponent} from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     AnnotationComponent,
     DbManagementComponent,
     DbCreationComponent,
-    ErrorDisplayComponent
+    ErrorDisplayComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
