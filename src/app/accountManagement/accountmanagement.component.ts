@@ -6,6 +6,8 @@ import {Component, OnInit} from '@angular/core';
 import {ACCOUNTS} from './mock-accounts';
 import {Account} from './account';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {AuthService} from '../services/auth.service';
+import {SessionStorageService} from '../services/session-storage.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -20,12 +22,16 @@ export class AccountManagementComponent implements OnInit {
   accountForm: FormGroup;
   private newAccount: Account = new Account();
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private auth: AuthService, private session: SessionStorageService) {
     this.accountForm = this.formBuilder.group({
       name: new FormControl(''),
       password: new FormControl(''),
       email: new FormControl(''),
       role: new FormControl('')
+    });
+
+    this.auth.accountList(this.session.getToken()).subscribe(l => {
+      console.log(l);
     });
   }
 
