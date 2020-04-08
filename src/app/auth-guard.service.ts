@@ -25,20 +25,12 @@ export class AuthGuard implements CanActivate {
                     console.log(e);
                     return true;
                 }
-            }), catchError(() => {
+            }), catchError(error => {
+                console.error(error);
                 this.session.signOut();
                 this.router.navigate(['/login']);
                 return of(false);
             }));
-            /*// logged in so return true
-            return this.auth.verify(this.session.getToken()).subscribe(success => {
-                    return true;
-                }, err => {
-                // invalid token, redirect to login by erasing token (=> guard)
-                    console.log(err);
-                    this.session.signOut();
-                    return false;
-            });*/
         } else {
             // not logged in so redirect to login page with the return url
             this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
