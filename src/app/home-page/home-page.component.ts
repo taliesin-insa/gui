@@ -27,7 +27,7 @@ export class HomePageComponent implements OnInit {
   }
 
   highlight(id: number) {
-    sessionStorage.clear();
+    sessionStorage.setItem('highlight', 'NULL');
     switch (id) {
       case 1:
         sessionStorage.setItem('highlight', 'annot');

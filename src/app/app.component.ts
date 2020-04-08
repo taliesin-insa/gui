@@ -34,7 +34,7 @@ export class AppComponent {
   }
 
   update() {
-    if ( sessionStorage.getItem('highlight') !== null) {
+    if ( sessionStorage.getItem('highlight') !== 'NULL') {
       const navButtonsArrays = this.navButton.toArray();
       for (const elem of navButtonsArrays) {
         elem.nativeElement.classList.replace('highlight', 'lowlight');
