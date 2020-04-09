@@ -4,7 +4,7 @@ import {getIdAndValue, getUnreadableFlag, Snippet} from '../model/Snippet';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
-import {catchError} from 'rxjs/operators';
+import {catchError, first} from 'rxjs/operators';
 import {ToastService} from '../toast-global/toast-service';
 
 @Component({
@@ -44,7 +44,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.annotationInputs.changes.subscribe(changes => {
+    this.annotationInputs.changes.pipe(first()).subscribe(changes => {
       if (changes.toArray().length > 0) {
         changes.toArray()[0].nativeElement.focus();
       }
@@ -147,25 +147,15 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   *
-   *
-   *
-   *
-   *
+   * Changes current hovered card
    */
-
   setHover(id: number) {
     this.hover = id;
   }
 
   /**
-   *
-   *
-   *
-   *
-   *
+   * Called when leaving hovered card
    */
-
   leaveHover() {
     this.hover = -1;
   }
