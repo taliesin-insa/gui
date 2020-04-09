@@ -40,6 +40,10 @@ export class DbManagementComponent implements OnInit {
       this.rejectedNumber = 0;
       this.totalNbSnippets = 0;
     }
+
+    console.log(this.annotationRate);
+    console.log(this.rejectedNumber);
+    console.log(this.totalNbSnippets);
   }
 
   /**
