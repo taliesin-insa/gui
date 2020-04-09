@@ -41,6 +41,7 @@ export class DbManagementComponent implements OnInit {
       this.totalNbSnippets = 0;
     }
 
+    console.log(this.statusData.annotated);
     console.log(this.annotationRate);
     console.log(this.rejectedNumber);
     console.log(this.totalNbSnippets);
