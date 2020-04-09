@@ -15,10 +15,9 @@ export class DbManagementComponent implements OnInit {
   private handleError: HandleError;
   private annotationRate: number;
   private rejectedNumber: number;
-  private isExportPossible: boolean;
   private totalNbSnippets: number;
   private statusData: any;
-  
+
 
   constructor(private router: Router,
               private http: HttpClient,
@@ -35,13 +34,11 @@ export class DbManagementComponent implements OnInit {
       this.annotationRate = this.statusData.annotated / (this.statusData.total - this.statusData.unreadable);
       this.rejectedNumber = this.statusData.unreadable;
       this.totalNbSnippets = this.statusData.total;
-      this.isExportPossible = true;
     } else {
       // values by default is there is no database
       this.annotationRate = 0;
       this.rejectedNumber = 0;
       this.totalNbSnippets = 0;
-      this.isExportPossible = false;
     }
   }
 
