@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {catchError, map} from 'rxjs/operators';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -22,7 +23,8 @@ export class DbManagementComponent implements OnInit {
   constructor(private router: Router,
               private http: HttpClient,
               httpErrorHandler: HttpErrorHandler,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private modalService: NgbModal) {
     this.handleError = httpErrorHandler.createHandleError('DBManagement');
   }
 
