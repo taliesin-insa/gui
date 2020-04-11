@@ -10,15 +10,14 @@ import {AuthGuard} from './auth-guard.service';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'annotation', component: AnnotationComponent, canActivate: [AuthGuard] },
-  { path: 'home', component: HomePageComponent, canActivate: [AuthGuard] },
-  { path: 'annotation', component: AnnotationComponent },
   { path: 'home',
     component: HomePageComponent,
     resolve: {
       statusData: StatusResolverService
-    }
+    },
+    canActivate: [AuthGuard]
   },
+  { path: 'annotation', component: AnnotationComponent, canActivate: [AuthGuard] },
   { path: 'dbManagement',
     component: DbManagementComponent,
     resolve: { // describes what to do before loading the component
