@@ -29,6 +29,8 @@ spec:
             - mountPath: "/snippets/"
               name: file-server
           env:
+            - name: AUTH_API_URL
+              value: "http://auth-api.gitlab-managed-apps.svc.cluster.local:8080"
             - name: DATABASE_API_URL
               value: "http://database-api.gitlab-managed-apps.svc.cluster.local:8080"
             - name: IMPORT_API_URL
@@ -72,6 +74,8 @@ spec:
             - mountPath: "/snippets/"
               name: file-server-dev
           env:
+            - name: AUTH_API_URL
+              value: "http://auth-api-dev.gitlab-managed-apps.svc.cluster.local:8080"
             - name: DATABASE_API_URL
               value: "http://database-api-dev.gitlab-managed-apps.svc.cluster.local:8080"
             - name: IMPORT_API_URL

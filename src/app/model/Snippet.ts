@@ -4,6 +4,7 @@ export class Snippet {
   value: string;
   annotated: boolean;
   unreadable: boolean;
+  changed: boolean;
 
   constructor(dbEntry: any) {
     this.id = dbEntry.Id;
@@ -11,6 +12,7 @@ export class Snippet {
     this.value = dbEntry.PiFF.Data[0].Value;
     this.annotated = false; // even if this flag is present in the entry, we assume we can't have an entry which is already tagged annotated
     this.unreadable = dbEntry.Unreadable;
+    this.changed = false;
   }
 }
 
