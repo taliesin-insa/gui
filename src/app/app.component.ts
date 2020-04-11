@@ -1,9 +1,7 @@
 import { Router } from '@angular/router';
 import {Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
-import { Component, OnInit } from '@angular/core';
 import { SessionStorageService } from './services/session-storage.service';
 import { AuthService } from './services/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
