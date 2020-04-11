@@ -10,12 +10,12 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="#" routerLink="/home">Menu principal </a>
-          <a class="nav-item nav-link active" href="#" routerLink="/annotation">Annotation</a>
-          <a class="nav-item nav-link active" href="#" routerLink="/Reco">Reconnaisseur</a>
-          <a class="nav-item nav-link active" href="#" routerLink="/dbManagement">Base de données</a>
-          <a class="nav-item nav-link active" routerLink="" *ngIf="session.getToken()" (click)="logout_user()">Déconnexion</a>
+        <div id="navBar" class="navbar-nav">
+          <a #navButton class="nav-item nav-link active highlight" (click)="updateIndicator()"  href="#" routerLink="/home">Menu principal </a>
+          <a id="annotation" #navButton class="nav-item nav-link active lowlight" (click)="updateIndicator()"  href="#" routerLink="/annotation">Annotation</a>
+          <a id="recognizer" #navButton class="nav-item nav-link lowlight" href="#" routerLink="/Reco">Reconnaisseur</a>
+          <a id="database" #navButton class="nav-item nav-link active lowlight" (click)="updateIndicator()"  href="#" routerLink="/dbManagement">Base de données</a>
+          <a #navButton class="nav-item nav-link active lowlight" (click)="updateIndicator()"  href="#" routerLink="" *ngIf="session.getToken()" (click)="logout_user()">Déconnexion</a>
         </div>
       </div>
     </nav>
@@ -26,3 +26,5 @@
 
   <error-display></error-display>
 </main>
+
+
