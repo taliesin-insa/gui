@@ -3,7 +3,6 @@ import {HttpErrorResponse} from '@angular/common/http';
 
 import {Observable, of} from 'rxjs';
 import {ErrorMessageService} from './error-messages.service';
-import {ToastService} from '../toast-global/toast-service';
 
 /** Type of the handleError function returned by HttpErrorHandler.createHandleError */
 export type HandleError =
@@ -14,7 +13,7 @@ export type HandleError =
  */
 @Injectable()
 export class HttpErrorHandler {
-  constructor(private errorMessageService: ErrorMessageService, private toastService: ToastService) {
+  constructor(private errorMessageService: ErrorMessageService) {
   }
 
   /** Create curried handleError function that already knows the service name */
