@@ -40,6 +40,8 @@ production:
   rules:
     - if: $CI_MERGE_REQUEST_ID
       when: never # do not run job when in merge request
+    - if: $CI_COMMIT_BRANCH != "master"
+      when: never
     - when: always
   image: docker:latest
   script:
