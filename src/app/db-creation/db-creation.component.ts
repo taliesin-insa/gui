@@ -20,7 +20,7 @@ export class DbCreationComponent implements OnInit {
 
   public files: Set<File> = new Set();
   progresses: { [key: string]: { progress: Observable<number> } }; // map { filename: string, percentOfUpload: Observable<number> }
-  primaryButtonText = 'Upload';
+  primaryButtonText = 'Importer';
   public uploadInProgress = false;
 
   private handleError: HandleError;
@@ -75,6 +75,14 @@ export class DbCreationComponent implements OnInit {
     }
   }
 
+  actionButtonClick() {
+    if (this.primaryButtonText === 'Importer') {
+      this.upload();
+    } else {
+      this.router.navigate(['/home']);
+    }
+  }
+
   /**
    * Call the UploadService to send every file to the backend. Displays progress bars and stores infos about upload status.
    */
@@ -96,13 +104,13 @@ export class DbCreationComponent implements OnInit {
 
     // Adjust the state variables
 
-    // The OK-button should have the text "Finish" now
-    this.primaryButtonText = 'Finish';
-
     // When all progress-observables are completed...
     forkJoin(allProgressObservables).subscribe(end => {
       // ... and the component is no longer uploading
       this.uploadInProgress = false;
+
+      // The OK-button should have the text "Finish" now
+      this.primaryButtonText = 'Terminer';
     });
   }
 }

@@ -33,7 +33,7 @@
             <button class="btn btn-outline-secondary" (click)="addFiles()">
               Ajouter des fichiers
             </button>
-            <button class="btn btn-outline-primary" [disabled]="uploadInProgress || files.size == 0" (click)="upload()"> {{primaryButtonText}} </button>
+            <button class="btn btn-outline-primary" [disabled]="uploadInProgress || files.size == 0" (click)="actionButtonClick()"> {{primaryButtonText}} </button>
 
             <br>
 
