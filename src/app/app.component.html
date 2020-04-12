@@ -10,21 +10,26 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-
-        <div id="navBar" class="navbar-nav">
-          <a #navButton class="nav-item nav-link active highlight" (click)="updateIndicator()" *ngIf="session.getToken()" href="#" routerLink="/home">Menu principal </a>
-          <a id="annotation" #navButton class="nav-item nav-link active lowlight" (click)="updateIndicator()" *ngIf="session.getToken()" href="#" routerLink="/annotation">Annotation</a>
-          <!-- <a id="recognizer" #navButton class="nav-item nav-link lowlight" href="#" *ngIf="session.getToken()" routerLink="/Reco">Reconnaisseur</a>/ --->
-           <a id="database" #navButton class="nav-item nav-link active lowlight" (click)="updateIndicator()" *ngIf="session.getToken()" href="#" routerLink="/dbManagement">Base de données</a>
-           <a #navButton class="nav-item nav-link active lowlight" (click)="updateIndicator()"  href="#" routerLink="" *ngIf="session.getToken()" (click)="logout_user()">Déconnexion</a>
-         </div>
-       </div>
-     </nav>
-   </header>
-   <div class="body">
-     <error-display></error-display>
-     <router-outlet></router-outlet>
-   </div>
+        <ul id="navBar" class="navbar-nav">
+          <li class="nav-item"><a #navButton class="nav-item nav-link active highlight" (click)="updateIndicator()"  href="#" routerLink="/home">Menu principal </a></li>
+          <li class="nav-item"><a id="annotation" #navButton class="nav-item nav-link active lowlight" (click)="updateIndicator()"  href="#" routerLink="/annotation">Annotation</a></li>
+          <!--<li class="nav-item"><a id="recognizer" #navButton class="nav-item nav-link lowlight" href="#" routerLink="/Reco">Reconnaisseur</a></li>/ --->
+          <li class="nav-item"><a id="database" #navButton class="nav-item nav-link active lowlight" (click)="updateIndicator()"  href="#" routerLink="/dbManagement">Base de données</a></li>
+        </ul>
+          <ul class="nav navbar-nav navbar-right ml-auto">
+          <li class="nav-item">
+            <a #navButton class="nav-item-light nav-link active font-weight-bold disconnect" (click)="updateIndicator()"  href="#" routerLink=""  (click)="logout_user()">
+              Déconnexion
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <div class="body">
+    <error-display></error-display>
+    <router-outlet></router-outlet>
+  </div>
 
 </main>
 
