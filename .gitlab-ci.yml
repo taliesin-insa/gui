@@ -46,6 +46,7 @@ production:
   image: docker:latest
   script:
     - wget -q https://storage.googleapis.com/kubernetes-release/release/v1.17.3/bin/linux/amd64/kubectl -O /usr/local/bin/kubectl && chmod +x /usr/local/bin/kubectl
+    - docker pull ${CONTAINER_IMAGE}:dev
     - docker tag ${CONTAINER_IMAGE}:dev ${CONTAINER_IMAGE}:prod
     - docker push ${CONTAINER_IMAGE}:prod
     - kubectl config set-cluster k8s --server="${KUBE_SERVER}" --certificate-authority=${CERTIFICATE_AUTHORITY_DATA} --embed-certs=true
