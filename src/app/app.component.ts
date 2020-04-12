@@ -37,9 +37,9 @@ export class AppComponent {
       case 'annot' :
         document.getElementById('annotation').classList.replace('lowlight', 'highlight');
         break;
-      case 'reco':
+      /*case 'reco':
         document.getElementById('recognizer').classList.replace('lowlight', 'highlight');
-        break;
+        break;*/
       case 'data':
         document.getElementById('database').classList.replace('lowlight', 'highlight');
         break;
