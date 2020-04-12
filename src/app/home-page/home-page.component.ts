@@ -32,9 +32,9 @@ export class HomePageComponent implements OnInit {
       case 1:
         sessionStorage.setItem('highlight', 'annot');
         break;
-      case 2:
+      /*case 2:
         sessionStorage.setItem('highlight', 'reco');
-        break;
+        break;*/
       case 3:
         sessionStorage.setItem('highlight', 'data');
         break;
