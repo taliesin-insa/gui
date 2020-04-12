@@ -23,6 +23,7 @@ spec:
       containers:
         - name: frontend
           image: clyde.local:5005/taliesin/gui/master:prod
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           volumeMounts:
