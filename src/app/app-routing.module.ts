@@ -22,8 +22,7 @@ const routes: Routes = [
     component: DbManagementComponent,
     resolve: { // describes what to do before loading the component
       statusData: StatusResolverService // name of the returned variable: name of the class which provides the service
-    },
-    canActivate: [AuthGuard]
+    }
   },
 { path: 'dbCreation', component: DbCreationComponent, canActivate: [AuthGuard] },
   { path: '',    redirectTo: '/home', pathMatch: 'full'}
