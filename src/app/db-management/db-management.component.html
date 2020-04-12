@@ -10,26 +10,42 @@
           <h3 class="font-weight-bold ml-3" style="font-size: 2.5em">Gestion de la base de données</h3>
         </div>
 
-      </div>
-      <hr>
-      <div class="font-weight-bold">
-        Base n°1
-        <br>
-        Exemples annotés :
-        <ngb-progressbar type="success" [value]="annotationRate" height="1.5rem">{{annotationRate | number: '1.2-2'}}%</ngb-progressbar>
-        Exemples rejetés : {{rejectedNumber}}
-      </div>
-      <hr>
-      <div class="position-relative mx-auto" style="width: fit-content">
-        <button class="btn btn-primary btn-text font-weight-bold" >Ajouter des exemples</button>
-      </div>
-      <div  class="position-relative mx-auto" style="width: fit-content">
-        <button class="btn btn-secondary btn-text font-weight-bold" >Sauvegarder la base</button>
-        <button class="btn btn-secondary btn-text font-weight-bold" >Charger une base</button>
-        <button class="btn btn-secondary btn-text font-weight-bold" *ngIf="totalNbSnippets == 0" routerLink="/dbCreation">Création d'une base</button>
-      </div>
-      <div class="position-relative mx-auto" style="width: fit-content">
-        <button class="btn btn-secondary export font-weight-bold" [disabled]="totalNbSnippets == 0" title="Télécharger les images et leur fichier descriptif au format PiFF" (click)="exportPiFF()">Exporter PiFF</button>
-      </div>
+    </div>
+    <hr>
+    <div class="font-weight-bold">
+      Base n°1
+      <br>
+      Exemples annotés :
+      <ngb-progressbar type="success" [value]="annotationRate">{{annotationRate}}%</ngb-progressbar>
+      Exemples rejetés : {{rejectedNumber}}
+    </div>
+    <hr>
+    <div class="position-relative mx-auto" style="width: fit-content">
+      <button class="btn btn-primary btn-text font-weight-bold" >Ajouter des exemples</button>
+    </div>
+    <div  class="position-relative mx-auto" style="width: fit-content">
+      <button class="btn btn-secondary btn-text font-weight-bold" >Sauvegarder la base</button>
+      <button class="btn btn-secondary btn-text font-weight-bold" >Charger une base</button>
+
+      <!--TEMPLATE FOR THE REPLACE DB BUTTON-->
+      <ng-template #popUpEraseDB let-modal>
+        <div class="modal-header alert-danger">
+          <h4 class="modal-title" id="modal-basic-title">Attention</h4>
+        </div>
+        <div class="modal-body">
+          En créant une nouvelle base de données, vous allez supprimer la base courante. <br> Êtes-vous sûr(e) de vouloir continuer ?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" routerLink="/dbCreation" (click)="modal.close('Save click')">Continuer</button>
+          <button type="button" class="btn btn-light" (click)="modal.close('Save click')">Annuler</button>
+        </div>
+      </ng-template>
+
+      <button class="btn btn-secondary btn-text font-weight-bold" (click)="modalService.open(popUpEraseDB);">Remplacer la base courante</button>
+
+    </div>
+    <div class="position-relative mx-auto" style="width: fit-content">
+      <button class="btn btn-secondary export font-weight-bold" [disabled]="!isExportPossible" title="Télécharger les images et leur fichier descriptif au format PiFF" (click)="exportPiFF()">Exporter PiFF</button>
+    </div>
   </div>
 </div>
