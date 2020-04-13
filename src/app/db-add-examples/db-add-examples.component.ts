@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {forkJoin, Observable} from 'rxjs';
+import {forkJoin, Observable, Subject} from 'rxjs';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {Router} from '@angular/router';
 import {UploadService} from '../services/upload/upload.service';
@@ -14,7 +14,7 @@ import {HttpClient} from '@angular/common/http';
 export class DbAddExamplesComponent implements OnInit {
 
   public files: Set<File> = new Set();
-  progresses: { [key: string]: { progress: Observable<number> } }; // map { filename: string, percentOfUpload: Observable<number> }
+  progresses: { [key: string]: { progress: Observable<number>, subject: Subject<number> } };
   primaryButtonText = 'Importer';
   public uploadInProgress = false;
 
@@ -69,13 +69,18 @@ export class DbAddExamplesComponent implements OnInit {
    */
   upload() {
     this.uploadInProgress = true;
-    this.progresses = this.uploadService.upload(this.files);
+    this.progresses = {};
 
-    console.log(this.progresses);
+    this.files.forEach(file => {
+      const sub = new Subject<number>();
 
-    for (const key in this.progresses) {
-      this.progresses[key].progress.subscribe(val => console.log(val));
-    }
+      this.progresses[file.name] = {
+        subject: sub,
+        progress: sub.asObservable()
+      };
+    });
+
+    this.uploadService.upload(this.files, this.progresses);
 
     // convert the progress map into an array
     const allProgressObservables = [];
