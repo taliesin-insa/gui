@@ -16,7 +16,7 @@ export class TimeoutInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
-      timeout(3000),
+      timeout(15000),
       catchError(e => {
           if (e.name === 'TimeoutError') {
             e = new HttpErrorResponse({
