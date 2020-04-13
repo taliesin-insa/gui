@@ -15,19 +15,17 @@ const routes: Routes = [
     component: HomePageComponent,
     resolve: {
       statusData: StatusResolverService
-    },
-    canActivate: [AuthGuard]
+    }
   },
-  { path: 'annotation', component: AnnotationComponent, canActivate: [AuthGuard] },
+  { path: 'annotation', component: AnnotationComponent },
   { path: 'dbManagement',
     component: DbManagementComponent,
     resolve: { // describes what to do before loading the component
       statusData: StatusResolverService // name of the returned variable: name of the class which provides the service
-    },
-    canActivate: [AuthGuard]
+    }
   },
-  { path: 'dbCreation', component: DbCreationComponent, canActivate: [AuthGuard] },
-  { path: 'dbAddExamples', component: DbAddExamplesComponent, canActivate: [AuthGuard] },
+  { path: 'dbCreation', component: DbCreationComponent },
+  { path: 'dbAddExamples', component: DbAddExamplesComponent },
   { path: '',    redirectTo: '/home', pathMatch: 'full'}
 ];
 
