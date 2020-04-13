@@ -11,10 +11,10 @@
 
       <div class="collapse navbar-collapse" [ngbCollapse]="!isMenuCollapsed">
         <div class="navbar-nav">
-          <a #navButton id="homepage"   class="nav-item nav-link active highlight" (click)="updateIndicator()"  href="#" routerLink="/home">Menu principal </a>
-          <a #navButton id="annotation" class="nav-item nav-link active lowlight" (click)="updateIndicator()"  href="#" routerLink="/annotation">Annotation</a>
-          <a #navButton id="database"   class="nav-item nav-link active lowlight" (click)="updateIndicator()"  href="#" routerLink="/dbManagement">Base de données</a>
-          <a class="nav-item nav-link active lowlight" (click)="updateIndicator()"  href="#" routerLink="" *ngIf="session.getToken()" (click)="logout_user()">Déconnexion</a>
+          <a #navButton id="homepage"   class="nav-item nav-link active highlight"  *ngIf="session.getToken()"  (click)="updateIndicator()"  href="#" routerLink="/home">Menu principal </a>
+          <a #navButton id="annotation" class="nav-item nav-link active lowlight"   *ngIf="session.getToken()"  (click)="updateIndicator()"  href="#" routerLink="/annotation">Annotation</a>
+          <a #navButton id="database"   class="nav-item nav-link active lowlight"   *ngIf="session.getToken()"  (click)="updateIndicator()"  href="#" routerLink="/dbManagement">Base de données</a>
+          <a class="nav-item nav-link active lowlight" *ngIf="session.getToken()"  href="#" routerLink="" (click)="logout_user()">Déconnexion</a>
         </div>
       </div>
     </nav>
