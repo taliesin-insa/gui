@@ -12,10 +12,11 @@
             </button>
           -->
 
-
+          <div class="col-sm">
             <h2 class="font-weight-bold ml-3" style="font-size: 2.5em">Annotation</h2>
+          </div>
 
-          <div class="position-relative mx-auto" style="width: auto">
+          <div class="mx-auto col-sm text-center" style="width: auto">
             <button [ngClass]="[recognizerButtonClass]" (click)="updateRecognizerActivation()">
               <i class="fas fa-bolt"></i>
               {{recognizerButtonText}}
@@ -28,8 +29,8 @@
             <b>Alt + f9 :</b> marquer l'image courante comme illisible
           </ng-template>
 
-          <div class="position-relative mx-auto" style="width: auto" >
-            <button type="button" class="btn btn-info" data-toggle="popover" placement="left"  container="body"
+          <div class="mx-auto col-sm" style="width: auto" >
+            <button type="button" class="btn btn-info float-right mr-3" data-toggle="popover" placement="left"  container="body"
                     popoverTitle="Raccourcis clavier pour l'annotation"
                     [ngbPopover]="popContent">
               Raccourcis clavier
@@ -56,7 +57,7 @@
             </ng-container>
           </div>
           <hr>
-          <div class="position-relative mx-auto" style="width: 20%">
+          <div class="position-relative mx-auto text-center" style="width: 20%">
             <button #nextLines class="btn btn-success btn-text font-weight-bold" type="submit" [disabled]="annotationForm.invalid" title="{{annotationForm.invalid ? 'Des images ne sont pas traitées' : ''}}">
               <i class="fas fa-check"></i>
               Lignes suivantes
