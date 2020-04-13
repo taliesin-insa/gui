@@ -21,45 +21,43 @@ export class UploadService {
   private eventCallback(event: HttpEvent<any>, file: File) {
     switch (event.type) {
       case HttpEventType.Sent:
-        return `Uploading file "${file.name}" of size ${file.size}.`;
-  
+        console.log(`Uploading file "${file.name}" of size ${file.size}.`);
+        break;
       case HttpEventType.UploadProgress:
         // Compute and show the % done:
         const percentDone = Math.round(100 * event.loaded / event.total);
         this.progresses[file.name].subject.next(percentDone);
-        return `File "${file.name}" is ${percentDone}% uploaded.`;
-  
+        break;
       case HttpEventType.Response:
         this.progresses[file.name].subject.complete();
-        return `File "${file.name}" was completely uploaded!`;
-  
+        break;
       default:
-        return `File "${file.name}" unhandled event: ${event.type}.`;
+        console.log(`File "${file.name}" unhandled event: ${event.type}.`);
     }
+
+    return file;
   }
 
   public upload(files: Set<File>, progresses: { [key: string]: { subject: Subject<number>, progress: Observable<number> } }) {
-    // this will be the our resulting map
-
     this.progresses = progresses;
 
     from(files).pipe(
+      // concatMap subscribes to the observables one by one,
+      // it does not subscribe to the next observable until the previous completes.
       concatMap(file => {
         const data = new FormData();
         data.append('file', file, file.name);
 
+        // the pipe with the error/callback handlers is done here rather than
+        // after the "from(files)" pipe because for various reasons
+        // (related to the progress bars) it cannot be done elsewhere
         return this.http.request(new HttpRequest('POST', url, data, {
           reportProgress: true
         })).pipe(retry(2),
                 catchError(this.handleError('upload', undefined)),
                 map(event => this.eventCallback(event, file)));
       })
-    ).subscribe(e => {
-        console.log(e);
-      },
-      error => {
-        console.error(error);
-    });
+    ).toPromise();
 
   }
 }
