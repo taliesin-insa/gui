@@ -16,7 +16,7 @@
       Base n°1
       <br>
       Exemples annotés :
-      <ngb-progressbar type="success" [value]="annotationRate">{{annotationRate}}%</ngb-progressbar>
+      <ngb-progressbar type="success" [value]="annotationRate" height="1.5rem">{{annotationRate | number: '1.2-2'}}%</ngb-progressbar>
       Exemples rejetés : {{rejectedNumber}}
     </div>
     <hr>
