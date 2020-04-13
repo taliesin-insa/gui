@@ -5,6 +5,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {catchError, first} from 'rxjs/operators';
+import {SessionStorageService} from '../services/session-storage.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -33,6 +34,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
   constructor(private router: Router,
               private fb: FormBuilder,
               private http: HttpClient,
+              private session: SessionStorageService,
               httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('Annotation');
     this.isRecognizerActivated = true;
@@ -254,7 +256,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
    */
   updateSnippetDB(snippet: Snippet) {
     const updatedSnippet = [ getIdAndValue(snippet) ];
-    this.http.put('db/update/value', updatedSnippet, {})
+    this.http.put('db/update/value/' + this.session.getUser()[`Username`], updatedSnippet, {})
       .pipe(catchError(this.handleError('updateSnippetsDB', undefined)))
       .subscribe();
   }
@@ -266,7 +268,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
    */
   updateManySnippetsDB(snippetList: Array<Snippet>) {
     const updatedSnippetList = snippetList.map(snippet => getIdAndValue(snippet));
-    this.http.put('db/update/value', updatedSnippetList, {})
+    this.http.put('db/update/value/' + this.session.getUser()[`Username`], updatedSnippetList, {})
       .pipe(catchError(this.handleError('updateSnippetsDB', undefined)))
       .subscribe();
   }
