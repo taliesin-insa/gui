@@ -16,17 +16,12 @@
       Base n°1
       <br>
       Exemples annotés :
-      <ngb-progressbar type="success" [value]="annotationRate">{{annotationRate}}%</ngb-progressbar>
+      <ngb-progressbar type="success" [value]="annotationRate" height="1.5rem">{{annotationRate | number: '1.2-2'}}%</ngb-progressbar>
       Exemples rejetés : {{rejectedNumber}}
     </div>
     <hr>
-    <div class="position-relative mx-auto" style="width: fit-content">
-      <button class="btn btn-primary btn-text font-weight-bold" >Ajouter des exemples</button>
-    </div>
     <div  class="position-relative mx-auto" style="width: fit-content">
-      <button class="btn btn-secondary btn-text font-weight-bold" >Sauvegarder la base</button>
-      <button class="btn btn-secondary btn-text font-weight-bold" >Charger une base</button>
-
+      <button class="btn btn-secondary btn-text font-weight-bold" >Ajouter des exemples</button>
       <!--TEMPLATE FOR THE REPLACE DB BUTTON-->
       <ng-template #popUpEraseDB let-modal>
         <div class="modal-header alert-danger">
@@ -45,7 +40,7 @@
 
     </div>
     <div class="position-relative mx-auto" style="width: fit-content">
-      <button class="btn btn-secondary export font-weight-bold" [disabled]="!isExportPossible" title="Télécharger les images et leur fichier descriptif au format PiFF" (click)="exportPiFF()">Exporter PiFF</button>
+      <button class="btn btn-secondary export font-weight-bold" [disabled]="totalNbSnippets==0" title="Télécharger les images et leur fichier descriptif au format PiFF" (click)="exportPiFF()">Exporter PiFF</button>
     </div>
   </div>
 </div>
