@@ -256,7 +256,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
    */
   updateSnippetDB(snippet: Snippet) {
     const updatedSnippet = [ getIdAndValue(snippet) ];
-    this.http.put('db/update/value/' + this.session.getUser(), updatedSnippet, {})
+    this.http.put('db/update/value/' + this.session.getUser().Username, updatedSnippet, {})
       .pipe(catchError(this.handleError('updateSnippetsDB', undefined)))
       .subscribe();
   }
@@ -268,7 +268,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
    */
   updateManySnippetsDB(snippetList: Array<Snippet>) {
     const updatedSnippetList = snippetList.map(snippet => getIdAndValue(snippet));
-    this.http.put('db/update/value/' + this.session.getUser(), updatedSnippetList, {})
+    this.http.put('db/update/value/' + this.session.getUser().Username, updatedSnippetList, {})
       .pipe(catchError(this.handleError('updateSnippetsDB', undefined)))
       .subscribe();
   }
