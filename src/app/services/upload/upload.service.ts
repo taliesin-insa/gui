@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpEventType, HttpRequest, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpEventType, HttpRequest, HttpEvent} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
+import {map, retry, concatMap, catchError} from 'rxjs/operators';
+import {from} from 'rxjs';
+import { HandleError, HttpErrorHandler } from '../http-error-handler.service';
 
 const url = '/import/upload';
 
@@ -8,52 +11,53 @@ const url = '/import/upload';
   providedIn: 'root'
 })
 export class UploadService {
+  handleError: HandleError;
+  progresses: { [key: string]: { subject: Subject<number>, progress: Observable<number> } } = {};
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
+    this.handleError = httpErrorHandler.createHandleError('UploadService');
   }
 
-  public upload(files: Set<File>): { [key: string]: { progress: Observable<number> } } {
-    // this will be the our resulting map
-    const status: { [key: string]: { progress: Observable<number> } } = {};
+  private eventCallback(event: HttpEvent<any>, file: File) {
+    switch (event.type) {
+      case HttpEventType.Sent:
+        console.log(`Uploading file "${file.name}" of size ${file.size}.`);
+        break;
+      case HttpEventType.UploadProgress:
+        // Compute and show the % done:
+        const percentDone = Math.round(100 * event.loaded / event.total);
+        this.progresses[file.name].subject.next(percentDone);
+        break;
+      case HttpEventType.Response:
+        this.progresses[file.name].subject.complete();
+        break;
+      default:
+        console.log(`File "${file.name}" unhandled event: ${event.type}.`);
+    }
 
-    files.forEach(file => {
-      // create a new multipart-form for every file
-      const formData: FormData = new FormData();
-      formData.append('file', file, file.name);
+    return file;
+  }
 
-      // create a http-post request and pass the form
-      // tell it to report the upload progress
-      const req = new HttpRequest('POST', url, formData, {
-        reportProgress: true
-      });
+  public upload(files: Set<File>, progresses: { [key: string]: { subject: Subject<number>, progress: Observable<number> } }) {
+    this.progresses = progresses;
 
-      // create a new progress-subject for every file
-      const progress = new Subject<number>();
+    from(files).pipe(
+      // concatMap subscribes to the observables one by one,
+      // it does not subscribe to the next observable until the previous completes.
+      concatMap(file => {
+        const data = new FormData();
+        data.append('file', file, file.name);
 
-      // send the http-request and subscribe for progress-updates
+        // the pipe with the error/callback handlers is done here rather than
+        // after the "from(files)" pipe because for various reasons
+        // (related to the progress bars) it cannot be done elsewhere
+        return this.http.request(new HttpRequest('POST', url, data, {
+          reportProgress: true
+        })).pipe(retry(2),
+                catchError(this.handleError('upload', undefined)),
+                map(event => this.eventCallback(event, file)));
+      })
+    ).toPromise();
 
-      const startTime = new Date().getTime();
-      this.http.request(req).subscribe(event => {
-        if (event.type === HttpEventType.UploadProgress) {
-          // calculate the progress percentage
-
-          const percentDone = Math.round((100 * event.loaded) / event.total);
-          // pass the percentage into the progress-stream
-          progress.next(percentDone);
-        } else if (event instanceof HttpResponse) {
-          // Close the progress-stream if we get an answer from the API
-          // The upload is complete
-          progress.complete();
-        }
-      });
-
-      // Save every progress-observable in a map of all observables
-      status[file.name] = {
-        progress: progress.asObservable()
-      };
-    });
-
-    // return the map of progress.observables
-    return status;
   }
 }
