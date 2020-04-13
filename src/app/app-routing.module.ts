@@ -7,6 +7,7 @@ import {DbCreationComponent} from './db-creation/db-creation.component';
 import {StatusResolverService} from './services/data-resolver.service';
 import {LoginComponent} from './login/login.component';
 import {AuthGuard} from './auth-guard.service';
+import {DbAddExamplesComponent} from './db-add-examples/db-add-examples.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -26,6 +27,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   { path: 'dbCreation', component: DbCreationComponent, canActivate: [AuthGuard] },
+  { path: 'dbAddExamples', component: DbAddExamplesComponent, canActivate: [AuthGuard] },
   { path: '',    redirectTo: '/home', pathMatch: 'full'}
 ];
 
