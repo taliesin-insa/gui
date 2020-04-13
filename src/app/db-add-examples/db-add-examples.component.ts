@@ -1,24 +1,17 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+import {forkJoin, Observable, Subject} from 'rxjs';
+import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {Router} from '@angular/router';
 import {UploadService} from '../services/upload/upload.service';
-import {forkJoin, from} from 'rxjs';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {HttpClient, HttpEventType, HttpEvent, HttpRequest, HttpResponse, HttpUserEvent} from '@angular/common/http';
-import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
-import {catchError, map, concatMap} from 'rxjs/operators';
-import {Observable, Subject} from 'rxjs';
-
+import {FormBuilder} from '@angular/forms';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'db-creation',
-  templateUrl: './db-creation.component.html',
-  styleUrls: ['./db-creation.component.scss']
+  selector: 'app-db-add-examples',
+  templateUrl: './db-add-examples.component.html',
+  styleUrls: ['./db-add-examples.component.scss']
 })
-export class DbCreationComponent implements OnInit {
-
-  dbCreationForm: FormGroup; // Form
-  public creationSuccessful = false;
+export class DbAddExamplesComponent implements OnInit {
 
   public files: Set<File> = new Set();
   progresses: { [key: string]: { progress: Observable<number>, subject: Subject<number> } };
@@ -30,29 +23,15 @@ export class DbCreationComponent implements OnInit {
   // link referring to the hidden File Input in HTML
   @ViewChild('file', {static: false}) file;
 
-
   constructor(private router: Router,
               private uploadService: UploadService,
               private fb: FormBuilder,
               private http: HttpClient,
               httpErrorHandler: HttpErrorHandler) {
-    this.handleError = httpErrorHandler.createHandleError('DBCreation');
+    this.handleError = httpErrorHandler.createHandleError('DBAddExamples');
   }
 
   ngOnInit() {
-    this.dbCreationForm = this.fb.group({dbName: ['', Validators.required]});
-  }
-
-  /**
-   * First part of creation: initializes the database in the backend
-   */
-  onSubmit(dbCreationFormData: any) {
-    // TODO: change http call to save db name as well
-    this.http.post('import/createDB', {}, { observe: 'response' })
-      .pipe(
-        map(response => response.status === 200),
-        catchError(this.handleError('createDB', false)))
-      .subscribe(creationStatus => this.creationSuccessful = creationStatus);
   }
 
   /* ===== UPLOAD PART ===== */
@@ -120,4 +99,5 @@ export class DbCreationComponent implements OnInit {
       this.primaryButtonText = 'Terminer';
     });
   }
+
 }
