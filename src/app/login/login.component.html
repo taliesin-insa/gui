@@ -2,22 +2,16 @@
 <div >
   <div>
     <div class="interest-box card">
-      <h2 class="font-weight-bold" style="font-size: 2.5em">Login</h2>
+      <h2 class="font-weight-bold" style="font-size: 2.5em">Connexion</h2>
       <hr>
-
       <form [formGroup]="loginForm" #form (ngSubmit)="onSubmit()">
         <div>
-
             <div>
-
-                <h4 class="font-weight-bold" style="font-size: 1.3em">Pseudo</h4>
-                <input formControlName="username" type="text" />
-
-                <h4 class="font-weight-bold" style="font-size: 1.3em">MDP</h4>
-                <input formControlName="password" type="password" />
-
+                <h4 class="font-weight-bold" style="font-size: 1.3em">Identifiant :</h4>
+                <input formControlName="username" type="text" style="border-radius: 5px; padding: 3px; border: 1px solid grey"/>
+                <h4 class="font-weight-bold" style="font-size: 1.3em">Mot de passe :</h4>
+                <input formControlName="password" type="password" style="border-radius: 5px; padding: 3px; border: 1px solid grey"/>
             </div>
-
         </div>
         <hr>
         <div class="position-relative mx-auto text-center" style="width: 20%">
