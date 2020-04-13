@@ -52,6 +52,11 @@ export class HttpErrorHandler {
 
       let message;
       switch (error.status) {
+        case 401:
+          if (serviceName === 'Login') {
+            message = `Wrong username or password`;
+          }
+          break;
         case 404:
           message = `Server or URL not found (` + error.message + ' // ' + backendError + ')';
           break;
