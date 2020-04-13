@@ -9,7 +9,10 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  @ViewChildren('navButton') navButton: QueryList<ElementRef>;
+
   title = 'taliesin-frontend';
+  public isMenuCollapsed = false;
 
   constructor(public session: SessionStorageService,
               private auth: AuthService,
@@ -21,10 +24,9 @@ export class AppComponent {
       this.router.navigate(['/login']);
     });
   }
-  @ViewChildren('navButton') navButton: QueryList<ElementRef>;
+
 
   updateIndicator() {
-
     const nabButtonsArrays = this.navButton.toArray();
     for (const elem of nabButtonsArrays) {
       elem.nativeElement.classList.replace('highlight', 'lowlight');
@@ -37,9 +39,6 @@ export class AppComponent {
       case 'annot' :
         document.getElementById('annotation').classList.replace('lowlight', 'highlight');
         break;
-      /*case 'reco':
-        document.getElementById('recognizer').classList.replace('lowlight', 'highlight');
-        break;*/
       case 'data':
         document.getElementById('database').classList.replace('lowlight', 'highlight');
         break;

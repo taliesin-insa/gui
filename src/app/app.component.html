@@ -1,30 +1,31 @@
 <main>
   <header>
-    <!-- <h3 class="font-weight-bold">Taliesin</h3
 
-    <span class="sr-only">(current)</span>>--->
-    <!--/ --->
     <nav class="navbar navbar-expand-lg navbar-light">
-      <a class="navbar-brand font-weight-bold" href="#" routerLink="/webpage">Taliesin</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div id="navBar" class="navbar-nav">
-          <a #navButton class="nav-item nav-link active highlight" (click)="updateIndicator()" *ngIf="session.getToken()" href="#" routerLink="/home">Menu principal </a>
-          <a id="annotation" #navButton class="nav-item nav-link active lowlight" (click)="updateIndicator()" *ngIf="session.getToken()" href="#" routerLink="/annotation">Annotation</a>
-          <!-- <a id="recognizer" #navButton class="nav-item nav-link lowlight" href="#" *ngIf="session.getToken()" routerLink="/Reco">Reconnaisseur</a>/ --->
-           <a id="database" #navButton class="nav-item nav-link active lowlight" (click)="updateIndicator()" *ngIf="session.getToken()" href="#" routerLink="/dbManagement">Base de données</a>
-           <a #navButton class="nav-item nav-link active lowlight" (click)="updateIndicator()"  href="#" routerLink="" *ngIf="session.getToken()" (click)="logout_user()">Déconnexion</a>
-         </div>
-       </div>
-     </nav>
-   </header>
-   <div class="body">
-     <error-display></error-display>
-     <router-outlet></router-outlet>
-   </div>
 
- </main>
+      <a class="navbar-brand font-weight-bold" href="#" routerLink="/webpage">Taliesin</a>
+
+      <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
+        &#9776;
+      </button>
+
+      <div class="collapse navbar-collapse" [ngbCollapse]="!isMenuCollapsed">
+        <div class="navbar-nav">
+          <a #navButton id="homepage"   class="nav-item nav-link active highlight"  *ngIf="session.getToken()"  (click)="updateIndicator()"  href="#" routerLink="/home">Menu principal </a>
+          <a #navButton id="annotation" class="nav-item nav-link active lowlight"   *ngIf="session.getToken()"  (click)="updateIndicator()"  href="#" routerLink="/annotation">Annotation</a>
+          <a #navButton id="database"   class="nav-item nav-link active lowlight"   *ngIf="session.getToken()"  (click)="updateIndicator()"  href="#" routerLink="/dbManagement">Base de données</a>
+          <a class="nav-item nav-link active lowlight" *ngIf="session.getToken()"  href="#" routerLink="" (click)="logout_user()">Déconnexion</a>
+        </div>
+      </div>
+    </nav>
+
+  </header>
+
+  <div class="body">
+    <error-display></error-display>
+    <router-outlet></router-outlet>
+  </div>
+
+</main>
 
 
