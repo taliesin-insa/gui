@@ -45,7 +45,7 @@
 
     </div>
     <div class="position-relative mx-auto" style="width: fit-content">
-      <button class="btn btn-secondary export font-weight-bold" [disabled]="!isExportPossible" title="Télécharger les images et leur fichier descriptif au format PiFF" (click)="exportPiFF()">Exporter PiFF</button>
+      <button class="btn btn-secondary export font-weight-bold" [disabled]="totalNbSnippets==0" title="Télécharger les images et leur fichier descriptif au format PiFF" (click)="exportPiFF()">Exporter PiFF</button>
     </div>
   </div>
 </div>
