@@ -31,7 +31,9 @@ export class AppComponent {
     if ( currentNavIndicator !== 'NULL') {
       document.getElementById(currentNavIndicator).classList.remove('navbar-highlight');
     }
-    document.getElementById(navLinkId).classList.add('navbar-highlight');
+    if (navLinkId !== 'NULL') {
+      document.getElementById(navLinkId).classList.add('navbar-highlight');
+    }
     sessionStorage.setItem('navbar-highlight', navLinkId);
   }
 
