@@ -16,10 +16,12 @@ export class AppComponent {
   constructor(public session: SessionStorageService,
               private auth: AuthService,
               private router: Router) {
-    if (this.session.getNavIndicator() !== null) {
-      this.updateNavIndicator(this.session.getNavIndicator());
-    } else {
-      this.updateNavIndicator('home-nav');
+    if (session.getToken()) {
+      if (this.session.getNavIndicator() !== null) {
+        this.updateNavIndicator(this.session.getNavIndicator());
+      } else {
+        this.updateNavIndicator('home-nav');
+      }
     }
   }
 
@@ -35,7 +37,10 @@ export class AppComponent {
     if ( currentNavIndicator !== null) {
       document.getElementById(currentNavIndicator).classList.remove('navbar-highlight');
     }
-    document.getElementById(navLinkId).classList.add('navbar-highlight');
+    const elem = document.getElementById(navLinkId);
+    if (elem !== null) {
+      elem.classList.add('navbar-highlight');
+    }
     this.session.setNavIndicator(navLinkId);
   }
 
