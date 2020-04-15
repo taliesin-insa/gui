@@ -3,7 +3,8 @@
 
     <nav class="navbar navbar-expand-lg navbar-light">
 
-      <a class="navbar-brand" href="#" [routerLink]="session.getToken() ? '/home' : null" [ngClass]="session.getToken() ? null : 'user-not-logged'">
+      <a class="navbar-brand" href="#" [routerLink]="session.getToken() ? '/home' : null"
+         [ngClass]="session.getToken() ? null : 'user-not-logged'" (click)="updateNavIndicator('homePage-nav')">
         <img src="assets/img/taliesin-logo-bicolor-alpha-blackcursor.png" alt="Logo taliesin" style="max-height: 42px;">
       </a>
 
@@ -14,18 +15,18 @@
       <div class="collapse navbar-collapse" [ngbCollapse]="!isMenuCollapsed" *ngIf="session.getToken()">
         <ul class="nav navbar-nav">
           <li class="nav-item">
-            <a #navButton id="homePage-nav" class="nav-item nav-link active navbar-highlight" (click)="updateIndicator()" href="#" routerLink="/home">Menu principal</a>
+            <a id="homePage-nav" class="nav-item nav-link active navbar-highlight" (click)="updateNavIndicator('homePage-nav')" href="#" routerLink="/home">Menu principal</a>
           </li>
           <li class="nav-item">
-            <a #navButton id="annotation-nav" class="nav-item nav-link active"   (click)="updateIndicator()"  href="#" routerLink="/annotation">Annotation</a>
+            <a id="annotation-nav" class="nav-item nav-link active" (click)="updateNavIndicator('annotation-nav')" href="#" routerLink="/annotation">Annotation</a>
           </li>
           <li class="nav-item">
-            <a #navButton id="dbManagement-nav"   class="nav-item nav-link active"   (click)="updateIndicator()"  href="#" routerLink="/dbManagement">Base de données</a>
+            <a id="dbManagement-nav" class="nav-item nav-link active" (click)="updateNavIndicator('dbManagement-nav')" href="#" routerLink="/dbManagement">Base de données</a>
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right ml-auto">
           <li class="nav-item">
-            <a #navButton class="nav-link active font-weight-bold disconnect" href="#" routerLink="" (click)="logoutUser()">
+            <a class="nav-link active font-weight-bold disconnect" href="#" routerLink="" (click)="logoutUser()">
               <i class="fas fa-sign-out-alt fa-lg" style="color: white"></i>
             </a>
           </li>
