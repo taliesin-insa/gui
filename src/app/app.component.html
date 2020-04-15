@@ -3,7 +3,9 @@
 
     <nav class="navbar navbar-expand-lg navbar-light">
 
-      <a class="navbar-brand font-weight-bold" href="#" routerLink="/webpage">Taliesin</a>
+      <a class="navbar-brand" [routerLink]="session.getToken() ? '/home' : null" routerLinkActive="user-logged">
+        <img src="assets/img/taliesin-logo-bicolor-alpha-blackcursor.png" alt="Logo taliesin" style="max-height: 42px;">
+      </a>
 
       <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
         &#9776;
