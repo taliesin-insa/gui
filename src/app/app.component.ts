@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import {Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
 import { SessionStorageService } from './services/session-storage.service';
 import { AuthService } from './services/auth.service';
 
@@ -8,7 +8,7 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit{
 
   title = 'taliesin-frontend';
   public isMenuCollapsed = false;
@@ -16,11 +16,14 @@ export class AppComponent {
   constructor(public session: SessionStorageService,
               private auth: AuthService,
               private router: Router) {
-      // Called in the case where the page is refreshed
-      if (session.getToken() && this.session.getNavIndicator() !== null) {
-        document.getElementById('home-nav').classList.remove('navbar-highlight');
-        document.getElementById(this.session.getNavIndicator()).classList.add('navbar-highlight');
-      }
+  }
+
+  ngAfterViewInit() {
+    // Called in the case where the page is refreshed
+    if (this.session.getToken() && this.session.getNavIndicator() !== null) {
+      document.getElementById('home-nav').classList.remove('navbar-highlight');
+      document.getElementById(this.session.getNavIndicator()).classList.add('navbar-highlight');
+    }
   }
 
   logoutUser() {
