@@ -3,7 +3,6 @@ import {Router} from '@angular/router';
 import {ACCOUNTS} from './mock-accounts';
 import {Account} from './account';
 import {Component, OnInit} from '@angular/core';
-import {ACCOUNTS} from './mock-accounts';
 import {Account} from './account';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {AuthService} from '../services/auth.service';
@@ -17,7 +16,7 @@ import {SessionStorageService} from '../services/session-storage.service';
 })
 export class AccountManagementComponent implements OnInit {
 
-  accounts = ACCOUNTS;
+  public accounts: Account[] = [];
   selectedAccount: Account;
   accountForm: FormGroup;
   private newAccount: Account = new Account();
@@ -29,13 +28,14 @@ export class AccountManagementComponent implements OnInit {
       email: new FormControl(''),
       role: new FormControl('')
     });
-
-    this.auth.accountList(this.session.getToken()).subscribe(l => {
-      console.log(l);
-    });
   }
 
   ngOnInit() {
+    this.auth.accountList(this.session.getToken()).subscribe(list => {
+      for (const item in list) {
+        console.log(item);
+      }
+    });
   }
 
   Delete(account: Account) {
@@ -48,7 +48,7 @@ export class AccountManagementComponent implements OnInit {
 
   onSubmit(values: any) {
     const{name, password, email, role} = values;
-    this.newAccount = new Account(name, password, email, role);
+    this.newAccount = new Account(name, email, role);
     console.log(this.newAccount);
     this.accounts.push(this.newAccount);
     console.log(this.accounts);
