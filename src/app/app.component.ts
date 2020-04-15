@@ -16,6 +16,11 @@ export class AppComponent {
   constructor(public session: SessionStorageService,
               private auth: AuthService,
               private router: Router) {
+    if (this.session.getNavIndicator() !== null) {
+      this.updateNavIndicator(this.session.getNavIndicator());
+    } else {
+      this.updateNavIndicator('home-nav');
+    }
   }
 
   logoutUser() {
