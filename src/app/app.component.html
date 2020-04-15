@@ -4,7 +4,7 @@
     <nav class="navbar navbar-expand-lg navbar-light">
 
       <a class="navbar-brand" href="#" [routerLink]="session.getToken() ? '/home' : null"
-         [ngClass]="session.getToken() ? null : 'user-not-logged'" (click)="updateNavIndicator('homePage-nav')">
+         [ngClass]="session.getToken() ? null : 'user-not-logged'" (click)="updateNavIndicator('home-nav')">
         <img src="assets/img/taliesin-logo-bicolor-alpha-blackcursor.png" alt="Logo taliesin" style="max-height: 42px;">
       </a>
 
@@ -15,7 +15,7 @@
       <div class="collapse navbar-collapse" [ngbCollapse]="!isMenuCollapsed" *ngIf="session.getToken()">
         <ul class="nav navbar-nav">
           <li class="nav-item">
-            <a id="homePage-nav" class="nav-item nav-link active navbar-highlight" (click)="updateNavIndicator('homePage-nav')" href="#" routerLink="/home">Menu principal</a>
+            <a id="home-nav" class="nav-item nav-link active navbar-highlight" (click)="updateNavIndicator('home-nav')" href="#" routerLink="/home">Menu principal</a>
           </li>
           <li class="nav-item">
             <a id="annotation-nav" class="nav-item nav-link active" (click)="updateNavIndicator('annotation-nav')" href="#" routerLink="/annotation">Annotation</a>

@@ -15,7 +15,8 @@ export class AppComponent {
 
   constructor(public session: SessionStorageService,
               private auth: AuthService,
-              private router: Router) {}
+              private router: Router) {
+  }
 
   logoutUser() {
     this.auth.logout(this.session.getToken()).subscribe(success => {
