@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
       this.session.saveToken(data.body.Token);
       this.session.saveUser(data.body);
       this.router.navigate(['/home']);
-      sessionStorage.setItem('navbar-highlight', 'home-nav');
+      this.session.setNavIndicator('home-nav');
     });
   }
 }

@@ -26,12 +26,12 @@ export class AppComponent {
   }
 
   updateNavIndicator(navLinkId: string) {
-    const currentNavIndicator = sessionStorage.getItem('navbar-highlight');
+    const currentNavIndicator = this.session.getNavIndicator();
     if ( currentNavIndicator !== null) {
       document.getElementById(currentNavIndicator).classList.remove('navbar-highlight');
     }
     document.getElementById(navLinkId).classList.add('navbar-highlight');
-    sessionStorage.setItem('navbar-highlight', navLinkId);
+    this.session.setNavIndicator(navLinkId);
   }
 
 }
