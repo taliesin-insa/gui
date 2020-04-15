@@ -18,8 +18,7 @@ const routes: Routes = [
     },
     canActivate: [AuthGuard]
   },
-  { path: 'annotation', component: AnnotationComponent,
-    canActivate: [AuthGuard] },
+  { path: 'annotation', component: AnnotationComponent, canActivate: [AuthGuard] },
   { path: 'dbManagement',
     component: DbManagementComponent,
     resolve: { // describes what to do before loading the component
@@ -27,10 +26,8 @@ const routes: Routes = [
     },
     canActivate: [AuthGuard]
   },
-  { path: 'dbCreation', component: DbCreationComponent,
-    canActivate: [AuthGuard] },
-  { path: 'dbAddExamples', component: DbAddExamplesComponent,
-    canActivate: [AuthGuard] },
+  { path: 'dbCreation', component: DbCreationComponent, canActivate: [AuthGuard] },
+  { path: 'dbAddExamples', component: DbAddExamplesComponent, canActivate: [AuthGuard] },
   { path: '',    redirectTo: '/home', pathMatch: 'full'}
 ];
 
