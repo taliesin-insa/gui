@@ -34,12 +34,8 @@ export class LoginComponent implements OnInit {
       // user is already logged in, redirect him to returnUrl or by default to home
       if (this.route.snapshot.paramMap.has('returnUrl')) {
         this.router.navigate([this.route.snapshot.paramMap.get('returnUrl')]);
-        this.appComponent.updateNavIndicator(this.route.snapshot.paramMap.get('returnUrl') + '-nav');
-        console.log('init login nav return' + this.route.snapshot.paramMap.get('returnUrl'));
       } else {
         this.router.navigate(['/home']);
-        this.appComponent.updateNavIndicator('home-nav');
-        console.log('init login nav home');
       }
     }
   }
