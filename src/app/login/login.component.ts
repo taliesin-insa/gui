@@ -35,10 +35,11 @@ export class LoginComponent implements OnInit {
       if (this.route.snapshot.paramMap.has('returnUrl')) {
         this.router.navigate([this.route.snapshot.paramMap.get('returnUrl')]);
         this.appComponent.updateNavIndicator(this.route.snapshot.paramMap.get('returnUrl') + '-nav');
-        console.log(this.route.snapshot.paramMap.get('returnUrl'));
+        console.log('init login nav return' + this.route.snapshot.paramMap.get('returnUrl'));
       } else {
         this.router.navigate(['/home']);
         this.appComponent.updateNavIndicator('home-nav');
+        console.log('init login nav home');
       }
     }
   }
@@ -51,6 +52,7 @@ export class LoginComponent implements OnInit {
       this.session.saveUser(data.body);
       this.router.navigate(['/home']);
       this.appComponent.updateNavIndicator('home-nav');
+      console.log('connexion nav home');
     });
   }
 }

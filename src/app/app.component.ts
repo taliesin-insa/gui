@@ -27,7 +27,9 @@ export class AppComponent {
   }
 
   updateNavIndicator(navLinkId: string) {
+    console.log('input=' + navLinkId);
     const currentNavIndicator = sessionStorage.getItem('navbar-highlight');
+    console.log('stored=' + currentNavIndicator);
     if ( currentNavIndicator !== 'NULL') {
       document.getElementById(currentNavIndicator).classList.remove('navbar-highlight');
     }
