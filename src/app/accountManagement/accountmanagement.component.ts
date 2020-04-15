@@ -67,10 +67,9 @@ export class AccountManagementComponent implements OnInit {
     this.auth.newAccount(name, password, roleText, this.session.getToken())
       .pipe(catchError(this.handleError('creating account', null)))
       .subscribe(data => {
-        this.accounts.push(new Account(name, undefined, role));
+        this.reloadList();
       });
 
-    this.reloadList();
   }
 
   onSelect(account: Account): void {
