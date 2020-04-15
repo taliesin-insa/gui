@@ -15,7 +15,7 @@
       <div class="collapse navbar-collapse" [ngbCollapse]="!isMenuCollapsed" *ngIf="session.getToken()">
         <ul class="nav navbar-nav">
           <li class="nav-item">
-            <a id="home-nav" class="nav-item nav-link active" (click)="updateNavIndicator('home-nav')" href="#" routerLink="/home">Menu principal</a>
+            <a id="home-nav" class="nav-item nav-link active navbar-highlight" (click)="updateNavIndicator('home-nav')" href="#" routerLink="/home">Menu principal</a>
           </li>
           <li class="nav-item">
             <a id="annotation-nav" class="nav-item nav-link active" (click)="updateNavIndicator('annotation-nav')" href="#" routerLink="/annotation">Annotation</a>

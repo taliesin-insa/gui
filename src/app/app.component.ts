@@ -16,13 +16,11 @@ export class AppComponent {
   constructor(public session: SessionStorageService,
               private auth: AuthService,
               private router: Router) {
-    if (session.getToken()) {
-      if (this.session.getNavIndicator() !== null) {
-        this.updateNavIndicator(this.session.getNavIndicator());
-      } else {
-        this.updateNavIndicator('home-nav');
+      // Called in the case where the page is refreshed
+      if (session.getToken() && this.session.getNavIndicator() !== null) {
+        document.getElementById('home-nav').classList.remove('navbar-highlight');
+        document.getElementById(this.session.getNavIndicator()).classList.add('navbar-highlight');
       }
-    }
   }
 
   logoutUser() {
