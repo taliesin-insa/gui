@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import {Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
 import { SessionStorageService } from './services/session-storage.service';
 import { AuthService } from './services/auth.service';
 
@@ -8,52 +8,41 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  @ViewChildren('navButton') navButton: QueryList<ElementRef>;
+export class AppComponent implements AfterViewInit{
 
   title = 'taliesin-frontend';
   public isMenuCollapsed = false;
 
   constructor(public session: SessionStorageService,
               private auth: AuthService,
-              private router: Router) {}
+              private router: Router) {
+  }
 
-  logout_user() {
+  ngAfterViewInit() {
+    // Called in the case where the page is refreshed
+    if (this.session.getToken() && this.session.getNavIndicator() !== null) {
+      document.getElementById('home-nav').classList.remove('navbar-highlight');
+      document.getElementById(this.session.getNavIndicator()).classList.add('navbar-highlight');
+    }
+  }
+
+  logoutUser() {
     this.auth.logout(this.session.getToken()).subscribe(success => {
-      this.updateIndicator();
       this.session.signOut();
       this.router.navigate(['/login']);
     });
   }
 
-
-  updateIndicator() {
-    const nabButtonsArrays = this.navButton.toArray();
-    for (const elem of nabButtonsArrays) {
-      elem.nativeElement.classList.replace('highlight', 'lowlight');
+  updateNavIndicator(navLinkId: string) {
+    const currentNavIndicator = this.session.getNavIndicator();
+    if ( currentNavIndicator !== null) {
+      document.getElementById(currentNavIndicator).classList.remove('navbar-highlight');
     }
-    document.activeElement.classList.replace('lowlight', 'highlight');
-  }
-
-  updateSwitch(value: string) {
-    switch (value) {
-      case 'annot' :
-        document.getElementById('annotation').classList.replace('lowlight', 'highlight');
-        break;
-      case 'data':
-        document.getElementById('database').classList.replace('lowlight', 'highlight');
-        break;
+    const elem = document.getElementById(navLinkId);
+    if (elem !== null) {
+      elem.classList.add('navbar-highlight');
     }
-  }
-
-  update() {
-    if ( sessionStorage.getItem('highlight') !== 'NULL') {
-      const navButtonsArrays = this.navButton.toArray();
-      for (const elem of navButtonsArrays) {
-        elem.nativeElement.classList.replace('highlight', 'lowlight');
-      }
-      this.updateSwitch(sessionStorage.getItem('highlight'));
-    }
+    this.session.setNavIndicator(navLinkId);
   }
 
 }
