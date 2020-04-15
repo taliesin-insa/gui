@@ -30,24 +30,33 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+
     if (this.session.getToken()) {
       // user is already logged in, redirect him to returnUrl or by default to home
-      if (this.route.snapshot.paramMap.has('returnUrl')) {
-        this.router.navigate([this.route.snapshot.paramMap.get('returnUrl')]);
+      if (this.route.snapshot.queryParamMap.has('returnUrl')) {
+        this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl')]);
       } else {
         this.router.navigate(['/home']);
       }
     }
+
   }
 
   onSubmit() {
+
     this.auth.login(this.loginForm)
     .pipe(catchError(this.handleError('authenticating', null)))
     .subscribe(data => {
       this.session.saveToken(data.body.Token);
       this.session.saveUser(data.body);
-      this.router.navigate(['/home']);
-      this.session.setNavIndicator('home-nav');
+
+      if (this.route.snapshot.queryParamMap.has('returnUrl')) {
+        this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl')]);
+      } else {
+        this.router.navigate(['/home']);
+        this.session.setNavIndicator('home-nav');
+      }
+
     });
   }
 }
