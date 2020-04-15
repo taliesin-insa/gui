@@ -11,12 +11,12 @@ export class SessionStorageService {
   constructor() { }
 
   signOut() {
-    window.sessionStorage.clear();
+    sessionStorage.clear();
   }
 
   public saveToken(token: string) {
-    window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.setItem(TOKEN_KEY, token);
+    sessionStorage.removeItem(TOKEN_KEY);
+    sessionStorage.setItem(TOKEN_KEY, token);
   }
 
   public getToken(): string {
@@ -24,8 +24,8 @@ export class SessionStorageService {
   }
 
   public saveUser(user) {
-    window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+    sessionStorage.removeItem(USER_KEY);
+    sessionStorage.setItem(USER_KEY, JSON.stringify(user));
   }
 
   public getUser() {
