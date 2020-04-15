@@ -39,4 +39,12 @@ export class AuthService {
     }, { observe: 'response', headers: new HttpHeaders({'Content-Type': 'application/json'}) });
   }
 
+  newAccount(username, password, role, token): Observable<any> {
+    return this.http.post('/auth/account/create', {
+      AdminToken: token,
+      Username: username,
+      Password: password,
+      Role: role
+    }, { observe: 'response', headers: new HttpHeaders({'Content-Type': 'application/json'}) });
+  }
 }

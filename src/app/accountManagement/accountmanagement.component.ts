@@ -39,14 +39,21 @@ export class AccountManagementComponent implements OnInit {
     this.handleError = httpErrorHandler.createHandleError('Account Management');
   }
 
-  ngOnInit() {
+  reloadList() {
+    this.accounts = [];
+    this.accountForm.reset();
+
     this.auth.accountList(this.session.getToken())
     .pipe(catchError(this.handleError('listing accounts', null)))
     .subscribe(data => {
       for (const item of data.body) {
-        console.log(item);
+        this.accounts.push(new Account(item.Username, undefined, item.Role === '0'));
       }
     });
+  }
+
+  ngOnInit() {
+    this.reloadList();
   }
 
   Delete(account: Account) {
@@ -59,11 +66,15 @@ export class AccountManagementComponent implements OnInit {
 
   onSubmit(values: any) {
     const{name, password, email, role} = values;
-    this.newAccount = new Account(name, email, role);
-    console.log(this.newAccount);
-    this.accounts.push(this.newAccount);
-    console.log(this.accounts);
-    this.accountForm.reset();
+
+    const roleText = (role) ? '0' : '1';
+    this.auth.newAccount(name, password, roleText, this.session.getToken())
+      .pipe(catchError(this.handleError('creating account', null)))
+      .subscribe(data => {
+        this.accounts.push(new Account(name, undefined, role));
+      });
+
+    this.reloadList();
   }
 
   onSelect(account: Account): void {
