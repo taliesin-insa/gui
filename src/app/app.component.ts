@@ -29,12 +29,10 @@ export class AppComponent {
     console.log('input=' + navLinkId);
     const currentNavIndicator = sessionStorage.getItem('navbar-highlight');
     console.log('stored=' + currentNavIndicator);
-    if ( currentNavIndicator !== 'NULL') {
+    if ( currentNavIndicator !== null) {
       document.getElementById(currentNavIndicator).classList.remove('navbar-highlight');
     }
-    if (navLinkId !== 'NULL') {
-      document.getElementById(navLinkId).classList.add('navbar-highlight');
-    }
+    document.getElementById(navLinkId).classList.add('navbar-highlight');
     sessionStorage.setItem('navbar-highlight', navLinkId);
   }
 
