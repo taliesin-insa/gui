@@ -25,21 +25,4 @@ export class HomePageComponent implements OnInit {
       this.errorMessageService.add(`Snippets database is not available`);
     }
   }
-
-  highlight(id: number) {
-    sessionStorage.setItem('highlight', 'NULL');
-    switch (id) {
-      case 1:
-        sessionStorage.setItem('highlight', 'annot');
-        break;
-      /*case 2:
-        sessionStorage.setItem('highlight', 'reco');
-        break;*/
-      case 3:
-        sessionStorage.setItem('highlight', 'data');
-        break;
-
-    }
-    this.appComponent.update();
-  }
 }

@@ -5,6 +5,7 @@ import {HandleError, HttpErrorHandler} from '../services/http-error-handler.serv
 import {SessionStorageService} from '../services/session-storage.service';
 import {AuthService} from '../services/auth.service';
 import {catchError} from 'rxjs/operators';
+import {AppComponent} from '../app.component';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router,
               private session: SessionStorageService, private httpErrorHandler: HttpErrorHandler,
-              private formBuilder: FormBuilder, private auth: AuthService) {
+              private formBuilder: FormBuilder, private auth: AuthService, private appComponent: AppComponent) {
     this.loginForm = this.formBuilder.group({
       username: '',
       password: '',
@@ -46,6 +47,7 @@ export class LoginComponent implements OnInit {
       this.session.saveToken(data.body.Token);
       this.session.saveUser(data.body);
       this.router.navigate(['/home']);
+      this.session.setNavIndicator('home-nav');
     });
   }
 }

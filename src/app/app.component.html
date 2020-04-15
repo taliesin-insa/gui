@@ -3,29 +3,32 @@
 
     <nav class="navbar navbar-expand-lg navbar-light">
 
-      <a class="navbar-brand font-weight-bold" href="#" routerLink="/webpage">Taliesin</a>
+      <a class="navbar-brand" href="#" [routerLink]="session.getToken() ? '/home' : null"
+         [ngClass]="session.getToken() ? null : 'user-not-logged'" (click)="updateNavIndicator('home-nav')">
+        <img src="assets/img/taliesin-logo-bicolor-alpha-blackcursor.png" alt="Logo taliesin" style="max-height: 42px;">
+      </a>
 
-      <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
+      <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed" *ngIf="session.getToken()">
         &#9776;
       </button>
 
-      <div class="collapse navbar-collapse" [ngbCollapse]="!isMenuCollapsed">
+      <div class="collapse navbar-collapse" [ngbCollapse]="!isMenuCollapsed" *ngIf="session.getToken()">
         <ul class="nav navbar-nav">
           <li class="nav-item">
-            <a #navButton id="homepage"   class="nav-item nav-link active highlight"  *ngIf="session.getToken()"  (click)="updateIndicator()"  href="#" routerLink="/home">Menu principal</a>
+            <a id="home-nav" class="nav-item nav-link active navbar-highlight" (click)="updateNavIndicator('home-nav')" href="#" routerLink="/home">Menu principal</a>
           </li>
           <li class="nav-item">
-            <a #navButton id="annotation" class="nav-item nav-link active lowlight"   *ngIf="session.getToken()"  (click)="updateIndicator()"  href="#" routerLink="/annotation">Annotation</a>
+            <a id="annotation-nav" class="nav-item nav-link active" (click)="updateNavIndicator('annotation-nav')" href="#" routerLink="/annotation">Annotation</a>
           </li>
           <li class="nav-item">
-            <a #navButton id="database"   class="nav-item nav-link active lowlight"   *ngIf="session.getToken()"  (click)="updateIndicator()"  href="#" routerLink="/dbManagement">Base de données</a>
+            <a id="dbManagement-nav" class="nav-item nav-link active" (click)="updateNavIndicator('dbManagement-nav')" href="#" routerLink="/dbManagement">Base de données</a>
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right ml-auto">
           <li class="nav-item">
-            <a #navButton class="nav-item-light nav-link active font-weight-bold disconnect" href="#" routerLink="" *ngIf="session.getToken()" (click)="logout_user()">
-              Déconnexion
-            </a>
+            <button class="btn btn-danger" href="#" (click)="logoutUser()">
+              <i class="fas fa-sign-out-alt fa-lg" style="color: white"></i>
+            </button>
           </li>
         </ul>
       </div>
