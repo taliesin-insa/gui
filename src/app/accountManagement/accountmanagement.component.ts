@@ -7,6 +7,8 @@ import {Account} from './account';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {AuthService} from '../services/auth.service';
 import {SessionStorageService} from '../services/session-storage.service';
+import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
+import {catchError} from 'rxjs/operators';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -21,18 +23,27 @@ export class AccountManagementComponent implements OnInit {
   accountForm: FormGroup;
   private newAccount: Account = new Account();
 
-  constructor(private formBuilder: FormBuilder, private auth: AuthService, private session: SessionStorageService) {
+  handleError: HandleError;
+
+  constructor(private formBuilder: FormBuilder,
+              private auth: AuthService,
+              private session: SessionStorageService,
+              private httpErrorHandler: HttpErrorHandler) {
     this.accountForm = this.formBuilder.group({
       name: new FormControl(''),
       password: new FormControl(''),
       email: new FormControl(''),
       role: new FormControl('')
     });
+
+    this.handleError = httpErrorHandler.createHandleError('Account Management');
   }
 
   ngOnInit() {
-    this.auth.accountList(this.session.getToken()).subscribe(list => {
-      for (const item in list) {
+    this.auth.accountList(this.session.getToken())
+    .pipe(catchError(this.handleError('listing accounts', null)))
+    .subscribe(data => {
+      for (const item of data.body) {
         console.log(item);
       }
     });
