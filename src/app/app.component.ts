@@ -20,7 +20,6 @@ export class AppComponent {
 
   logoutUser() {
     this.auth.logout(this.session.getToken()).subscribe(success => {
-      this.updateNavIndicator('NULL');
       this.session.signOut();
       this.router.navigate(['/login']);
     });
