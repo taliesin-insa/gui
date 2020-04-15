@@ -1,10 +1,12 @@
+@import 'src/scss/theme';
+
 .navbar-nav a{
   display: block;
   text-align: center;
 }
 
 .highlight {
-  border-bottom: 5px solid #F05A42;
+  border-bottom: 5px solid $taliesin-orange;
 }
 
 .lowlight{
@@ -12,11 +14,10 @@
 }
 
 .navbar-nav a:hover{
-  border-bottom: 5px solid #F05A42;
+  border-bottom: 5px solid $taliesin-orange;
 }
 .navbar-nav .disconnect {
-  background: #F05A42;
-  color: #eeeeee ;
+  background: $taliesin-red;
   border-radius: 5px;
   border : none;
   font-size: 0.9em;
