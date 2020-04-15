@@ -7,22 +7,15 @@
       <hr>
 
       <div class="position-relative mx-auto text-center" style="width: 20%">
-        <button class="btn btn-primary btn-text font-weight-bold" (click)="highlight(1)" routerLink="/annotation">
+        <button class="btn btn-primary btn-text font-weight-bold" (click)="navbarHighlight('annotation-nav')" routerLink="/annotation">
           Annotation
         </button>
       </div>
 
       <div class=" row position-relative mx-auto" >
-        <!--
-        <div class="col-xs-6">
-          <button class=" disabled btn btn-secondary btn-text font-weight-bold " (click)="highlight(2)">
-            <i class="fas fa-exclamation-circle"></i>
-            Reconnaisseur
-          </button>
-        </div>
-        / --->
+
         <div class="col-xs-6 text-center">
-          <button class="btn btn-secondary btn-text font-weight-bold" (click)="highlight(3)" routerLink="/dbManagement">
+          <button class="btn btn-secondary btn-text font-weight-bold" (click)="navbarHighlight('dbManagement-nav')" routerLink="/dbManagement">
             <i class="fas fa-cog"></i>
             Gestion de la base de données
           </button>

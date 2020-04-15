@@ -5,17 +5,14 @@
   text-align: center;
 }
 
-.highlight {
+.navbar-highlight {
   border-bottom: 5px solid $taliesin-orange;
-}
-
-.lowlight{
-  border: 5px solid transparent;
 }
 
 .navbar-nav a:hover{
   border-bottom: 5px solid $taliesin-orange;
 }
+
 .navbar-nav .disconnect {
   background: $taliesin-red;
   border-radius: 5px;

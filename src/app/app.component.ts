@@ -18,7 +18,7 @@ export class AppComponent {
               private auth: AuthService,
               private router: Router) {}
 
-  logout_user() {
+  logoutUser() {
     this.auth.logout(this.session.getToken()).subscribe(success => {
       this.updateIndicator();
       this.session.signOut();
@@ -30,29 +30,29 @@ export class AppComponent {
   updateIndicator() {
     const nabButtonsArrays = this.navButton.toArray();
     for (const elem of nabButtonsArrays) {
-      elem.nativeElement.classList.replace('highlight', 'lowlight');
+      elem.nativeElement.classList.remove('navbar-highlight');
     }
-    document.activeElement.classList.replace('lowlight', 'highlight');
+    document.activeElement.classList.add('navbar-highlight');
   }
 
   updateSwitch(value: string) {
     switch (value) {
-      case 'annot' :
-        document.getElementById('annotation').classList.replace('lowlight', 'highlight');
+      case 'annotation-nav' :
+        document.getElementById('annotation-nav').classList.add('navbar-highlight');
         break;
-      case 'data':
-        document.getElementById('database').classList.replace('lowlight', 'highlight');
+      case 'dbManagement-nav':
+        document.getElementById('dbManagement-nav').classList.add('navbar-highlight');
         break;
     }
   }
 
   update() {
-    if ( sessionStorage.getItem('highlight') !== 'NULL') {
+    if ( sessionStorage.getItem('navbar-highlight') !== 'NULL') {
       const navButtonsArrays = this.navButton.toArray();
       for (const elem of navButtonsArrays) {
-        elem.nativeElement.classList.replace('highlight', 'lowlight');
+        elem.nativeElement.classList.remove('navbar-highlight');
       }
-      this.updateSwitch(sessionStorage.getItem('highlight'));
+      this.updateSwitch(sessionStorage.getItem('navbar-highlight'));
     }
   }
 
