@@ -57,11 +57,13 @@ export class AccountManagementComponent implements OnInit {
   }
 
   Delete(account: Account) {
-    for (const item of this.accounts) {
-      if ( item === account) {
-        this.accounts.splice((this.accounts.indexOf(item)), 1);
-      }
-    }
+
+    this.auth.deleteAccount(account.name, this.session.getToken())
+    .pipe(catchError(this.handleError('deleting account', null)))
+    .subscribe(data => {
+      this.reloadList();
+    });
+
   }
 
   onSubmit(values: any) {
