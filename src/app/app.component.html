@@ -3,7 +3,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light">
 
-      <a class="navbar-brand" [routerLink]="session.getToken() ? '/home' : null" routerLinkActive="user-logged">
+      <a class="navbar-brand" href="#" [routerLink]="session.getToken() ? '/home' : null" [ngClass]="session.getToken() ? null : 'user-not-logged'">
         <img src="assets/img/taliesin-logo-bicolor-alpha-blackcursor.png" alt="Logo taliesin" style="max-height: 42px;">
       </a>
 
