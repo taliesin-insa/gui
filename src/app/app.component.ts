@@ -19,9 +19,13 @@ export class AppComponent implements AfterViewInit{
   }
 
   ngAfterViewInit() {
+    console.log('AFTER INIT');
     // Called in the case where the page is refreshed or after the login component
     if (this.session.getToken() && this.session.getNavIndicator() !== null) {
-      document.getElementById(this.session.getNavIndicator()).classList.add('navbar-highlight');
+      const elem = document.getElementById(this.session.getNavIndicator());
+      if (elem !== null) {
+        elem.classList.add('navbar-highlight');
+      }
     }
   }
 
