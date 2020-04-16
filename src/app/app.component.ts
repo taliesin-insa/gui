@@ -12,7 +12,8 @@ export class AppComponent implements AfterViewInit {
 
   @ViewChild('navbarItems', {static: false}) set navbarItems(element) {
     if (element) {
-      console.log(element);
+      // After login
+      this.refreshNavIndicator();
     }
   }
 
@@ -25,7 +26,11 @@ export class AppComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // Called in the case where the page is refreshed
+    // If the user presses F5
+    this.refreshNavIndicator();
+  }
+
+  refreshNavIndicator() {
     if (this.session.getToken() && this.session.getNavIndicator() !== null) {
       const elem = document.getElementById(this.session.getNavIndicator());
       if (elem !== null) {
