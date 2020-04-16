@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import { SessionStorageService } from './services/session-storage.service';
 import { AuthService } from './services/auth.service';
 
@@ -8,7 +8,13 @@ import { AuthService } from './services/auth.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit{
+export class AppComponent implements AfterViewInit {
+
+  @ViewChild('navbarItems', {static: false}) set navbarItems(element) {
+    if (element) {
+      console.log(element);
+    }
+  }
 
   title = 'taliesin-frontend';
   public isMenuCollapsed = false;

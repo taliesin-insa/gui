@@ -12,7 +12,7 @@
         &#9776;
       </button>
 
-      <div class="collapse navbar-collapse" [ngbCollapse]="!isMenuCollapsed" *ngIf="this.session.getToken()">
+      <div #navbarItems class="collapse navbar-collapse" [ngbCollapse]="!isMenuCollapsed" *ngIf="this.session.getToken()">
         <ul class="nav navbar-nav">
           <li class="nav-item">
             <a id="home-nav" class="nav-item nav-link active" (click)="updateNavIndicator('home-nav')" href="#" routerLink="/home">Menu principal</a>

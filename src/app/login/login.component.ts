@@ -6,6 +6,7 @@ import {SessionStorageService} from '../services/session-storage.service';
 import {AuthService} from '../services/auth.service';
 import {catchError} from 'rxjs/operators';
 import {AppComponent} from '../app.component';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -41,8 +42,6 @@ export class LoginComponent implements OnInit {
     .pipe(catchError(this.handleError('authenticating', null)))
     .subscribe(data => {
       this.session.saveToken(data.body.Token);
-      console.log(this.session.getToken());
-      console.log(document.getElementById('home-nav'));
       this.session.saveUser(data.body);
       this.navigateAndUpdateNavbar();
     });
@@ -51,12 +50,12 @@ export class LoginComponent implements OnInit {
   navigateAndUpdateNavbar() {
     if (this.route.snapshot.queryParamMap.has('returnUrl')) {
       this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl')]);
-      this.appComponent.updateNavIndicator(
+      this.session.setNavIndicator(
         this.route.snapshot.queryParamMap.get('returnUrl').replace('/', '') + '-nav'
       );
     } else {
       this.router.navigate(['/home']);
-      this.appComponent.updateNavIndicator('home-nav');
+      this.session.setNavIndicator('home-nav');
     }
   }
 }
