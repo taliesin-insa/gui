@@ -19,12 +19,13 @@ export class AppComponent implements AfterViewInit{
   }
 
   ngAfterViewInit() {
-    console.log('After init');
-    // Called in the case where the page is refreshed or after the login component
+    // Called in the case where the page is refreshed
     if (this.session.getToken() && this.session.getNavIndicator() !== null) {
       const elem = document.getElementById(this.session.getNavIndicator());
       if (elem !== null) {
         elem.classList.add('navbar-highlight');
+      } else {
+        console.log('nul after init');
       }
     }
   }
@@ -44,6 +45,8 @@ export class AppComponent implements AfterViewInit{
     const elem = document.getElementById(navLinkId);
     if (elem !== null) {
       elem.classList.add('navbar-highlight');
+    } else {
+      console.log('null');
     }
     this.session.setNavIndicator(navLinkId);
   }

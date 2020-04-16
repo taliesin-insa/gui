@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-
     this.auth.login(this.loginForm)
     .pipe(catchError(this.handleError('authenticating', null)))
     .subscribe(data => {
@@ -51,12 +50,12 @@ export class LoginComponent implements OnInit {
   navigateAndUpdateNavbar() {
     if (this.route.snapshot.queryParamMap.has('returnUrl')) {
       this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl')]);
-      this.session.setNavIndicator(
+      this.appComponent.updateNavIndicator(
         this.route.snapshot.queryParamMap.get('returnUrl').replace('/', '') + '-nav'
       );
     } else {
       this.router.navigate(['/home']);
-      this.session.setNavIndicator('home-nav');
+      this.appComponent.updateNavIndicator('home-nav');
     }
   }
 }
