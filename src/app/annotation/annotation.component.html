@@ -9,7 +9,7 @@
     </div>
 
     <!-- Enable/disable suggestions -->
-    <div class="mx-auto col-sm text-center" style="width: auto">
+    <div class="mx-auto col-sm text-center" style="width: auto" *ngIf="snippets.length > 0">
       <button [ngClass]="[recognizerButtonClass]" (click)="updateRecognizerActivation()">
         <i class="fas fa-bolt"></i>
         {{recognizerButtonText}}
@@ -35,7 +35,15 @@
   <hr>
   <!-- /Row with title and buttons -->
 
-  <div class="col-lg-10 offset-lg-1">
+  <div *ngIf="snippets.length === 0">
+    <p>
+      Il n'y a actuellement aucune image à annoter. Si vous venez d'ajouter des images dans la base de données,
+      il se peut qu'elles soient encore en cours d'importation.
+    </p>
+  </div>
+
+  <!-- Annotation body -->
+  <div class="col-lg-10 offset-lg-1" *ngIf="snippets.length > 0">
     <!-- Form used to display all the snippets (image + text field) -->
     <form [formGroup]="annotationForm" (ngSubmit)="onSubmit(annotationForm.value)" (keydown.enter)="$event.preventDefault()">
       <div formArrayName="snippetInputs">
@@ -50,7 +58,6 @@
               <input #annotationInput class="w-75" type="text" [formControlName]="i"
                      (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)" (click)="focusClick(i)"
                      (ngModelChange)="snippets[i].changed = true;">
-<!--              value="{{!isRecognizerActivated && !snippets[i].changed ? '' : snippets[i].value}}"-->
 
               <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)"
                       title="{{snippets[i].unreadable ? 'Déclarer l\'image lisible' : 'Déclarer l\'image illisible'}}">
@@ -72,5 +79,6 @@
 
     </form>
   </div>
+  <!-- /Annotation body -->
 
 </div>

@@ -7,6 +7,8 @@ import {HandleError, HttpErrorHandler} from '../services/http-error-handler.serv
 import {catchError, first} from 'rxjs/operators';
 import {SessionStorageService} from '../services/session-storage.service';
 
+const NB_OF_SNIPPETS_TO_GET = 20; // Number of snippets inside the batch to annotate
+
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'annotation',
@@ -21,8 +23,6 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
 
   snippets: Snippet[] = []; // Batch of snippets
   annotationForm: FormGroup; // Form that contains text inputs for snippets' transcriptions
-  private NB_OF_SNIPPETS = 20; // Number of snippets inside the batch to annotate
-
   private handleError: HandleError;
 
   private hover = -1 ;
@@ -47,7 +47,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
       snippetInputs: this.fb.array([])
     });
 
-    this.retrieveSnippetsDB(this.NB_OF_SNIPPETS);
+    this.retrieveSnippetsDB(NB_OF_SNIPPETS_TO_GET);
   }
 
   ngAfterViewInit() {
@@ -101,7 +101,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
     }
 
     // Get new snippets to annotate
-    this.retrieveSnippetsDB(this.NB_OF_SNIPPETS);
+    this.retrieveSnippetsDB(NB_OF_SNIPPETS_TO_GET);
   }
 
   /* ===== DYNAMIC INTERACTIONS ===== */
