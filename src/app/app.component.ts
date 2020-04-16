@@ -54,8 +54,6 @@ export class AppComponent implements AfterViewInit {
     const elem = document.getElementById(navLinkId);
     if (elem !== null) {
       elem.classList.add('navbar-highlight');
-    } else {
-      console.log(this.session.getToken());
     }
     this.session.setNavIndicator(navLinkId);
   }
