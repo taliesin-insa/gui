@@ -33,6 +33,7 @@ export class AppComponent implements AfterViewInit{
   }
 
   updateNavIndicator(navLinkId: string) {
+    console.log('input=' + navLinkId);
     const currentNavIndicator = this.session.getNavIndicator();
     if ( currentNavIndicator !== null) { // An item is already highlighted
       document.getElementById(currentNavIndicator).classList.remove('navbar-highlight');
@@ -40,6 +41,8 @@ export class AppComponent implements AfterViewInit{
     const elem = document.getElementById(navLinkId);
     if (elem !== null) {
       elem.classList.add('navbar-highlight');
+    } else {
+      console.log('elem is null');
     }
     this.session.setNavIndicator(navLinkId);
   }

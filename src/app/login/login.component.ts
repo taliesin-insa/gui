@@ -50,6 +50,7 @@ export class LoginComponent implements OnInit {
 
   navigateAndUpdateNavbar() {
     if (this.route.snapshot.queryParamMap.has('returnUrl')) {
+      console.log('Return URL');
       this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl')]);
       this.appComponent.updateNavIndicator( this.route.snapshot.queryParamMap.get('returnUrl').replace('/', '') );
     } else {
