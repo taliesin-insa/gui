@@ -33,13 +33,8 @@ export class LoginComponent implements OnInit {
 
     if (this.session.getToken()) {
       // user is already logged in, redirect him to returnUrl or by default to home
-      if (this.route.snapshot.queryParamMap.has('returnUrl')) {
-        this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl')]);
-      } else {
-        this.router.navigate(['/home']);
-      }
+      this.navigateAndUpdateNavbar();
     }
-
   }
 
   onSubmit() {
@@ -49,14 +44,17 @@ export class LoginComponent implements OnInit {
     .subscribe(data => {
       this.session.saveToken(data.body.Token);
       this.session.saveUser(data.body);
-
-      if (this.route.snapshot.queryParamMap.has('returnUrl')) {
-        this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl')]);
-      } else {
-        this.router.navigate(['/home']);
-        this.session.setNavIndicator('home-nav');
-      }
-
+      this.navigateAndUpdateNavbar();
     });
+  }
+
+  navigateAndUpdateNavbar() {
+    if (this.route.snapshot.queryParamMap.has('returnUrl')) {
+      this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl')]);
+      this.appComponent.updateNavIndicator( this.route.snapshot.queryParamMap.get('returnUrl').replace('/', '') );
+    } else {
+      this.router.navigate(['/home']);
+      this.appComponent.updateNavIndicator('home-nav');
+    }
   }
 }

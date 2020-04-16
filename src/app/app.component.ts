@@ -21,7 +21,6 @@ export class AppComponent implements AfterViewInit{
   ngAfterViewInit() {
     // Called in the case where the page is refreshed
     if (this.session.getToken() && this.session.getNavIndicator() !== null) {
-      document.getElementById('home-nav').classList.remove('navbar-highlight');
       document.getElementById(this.session.getNavIndicator()).classList.add('navbar-highlight');
     }
   }
@@ -35,7 +34,7 @@ export class AppComponent implements AfterViewInit{
 
   updateNavIndicator(navLinkId: string) {
     const currentNavIndicator = this.session.getNavIndicator();
-    if ( currentNavIndicator !== null) {
+    if ( currentNavIndicator !== null) { // An item is already highlighted
       document.getElementById(currentNavIndicator).classList.remove('navbar-highlight');
     }
     const elem = document.getElementById(navLinkId);
