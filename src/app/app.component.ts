@@ -19,6 +19,7 @@ export class AppComponent implements AfterViewInit{
   }
 
   ngAfterViewInit() {
+    console.log('After init');
     // Called in the case where the page is refreshed or after the login component
     if (this.session.getToken() && this.session.getNavIndicator() !== null) {
       const elem = document.getElementById(this.session.getNavIndicator());
