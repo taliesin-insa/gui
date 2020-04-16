@@ -49,7 +49,8 @@
             <div class="card-body">
               <input #annotationInput class="w-75" type="text" [formControlName]="i"
                      (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)" (click)="focusClick(i)"
-                     value="{{!isRecognizerActivated && !snippets[i].changed ? '' : snippets[i].value}}" (ngModelChange)="snippets[i].changed = true;">
+                     (ngModelChange)="snippets[i].changed = true;">
+<!--              value="{{!isRecognizerActivated && !snippets[i].changed ? '' : snippets[i].value}}"-->
 
               <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)"
                       title="{{snippets[i].unreadable ? 'Déclarer l\'image lisible' : 'Déclarer l\'image illisible'}}">

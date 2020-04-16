@@ -192,6 +192,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
   setUnreadable(id: number) {
     const annotationsInputsArray = this.annotationInputs.toArray();
     this.snippets[id].unreadable = !this.snippets[id].unreadable;
+    this.snippets[id].changed = true;
     const input = this.formArrayInputs.at(id);
 
     if (this.snippets[id].unreadable) {
@@ -219,6 +220,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
    */
   validateAnnotation(id: number) {
     const snippet = this.snippets[id];
+    snippet.changed = true;
     const input = this.formArrayInputs.at(id);
     if (!input.invalid) {
       snippet.value = input.value;
@@ -276,13 +278,36 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
   updateRecognizerActivation() {
     this.isRecognizerActivated = !this.isRecognizerActivated;
 
-    if (this.isRecognizerActivated) {
+    console.log(this.snippets);
+
+    if (this.isRecognizerActivated) { // Suggestions ON
       this.recognizerButtonClass = 'btn btn-warning suggest font-weight-bold';
       this.recognizerButtonText = 'Suggestions activées';
-    } else {
+
+      // Change value inside inputs
+      for (let i = 0; i < this.snippets.length; i++) {
+        if (!this.snippets[i].changed) {    // Untouched input, empty -> we put back the suggestion
+          this.formArrayInputs.at(i).setValue(this.snippets[i].value);
+          this.snippets[i].changed = false;
+        } // else, the user has written text as well, we let its modification
+      }
+
+    } else {                          // Suggestions OFF
       this.recognizerButtonClass = 'btn btn-warning bg-transparent suggest font-weight-bold';
       this.recognizerButtonText = 'Suggestions désactivées';
+
+      // Change value inside inputs
+      for (let i = 0; i < this.snippets.length; i++) {
+        if (!this.snippets[i].changed) {    // Untouched input, only the suggestion -> we remove it
+          this.formArrayInputs.at(i).setValue('');
+          this.snippets[i].changed = false;
+        } // else, the user has written text as well, we let its modification
+      }
     }
+
+
+
+
   }
 
 }
