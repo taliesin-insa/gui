@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-
     if (this.session.getToken()) {
       // user is already logged in, redirect him to returnUrl or by default to home
       this.navigateAndUpdateNavbar();
@@ -48,6 +47,7 @@ export class LoginComponent implements OnInit {
   }
 
   navigateAndUpdateNavbar() {
+    console.log(this.session.getToken());
     if (this.route.snapshot.queryParamMap.has('returnUrl')) {
       this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl')]);
       this.appComponent.updateNavIndicator(

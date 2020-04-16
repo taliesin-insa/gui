@@ -24,8 +24,6 @@ export class AppComponent implements AfterViewInit{
       const elem = document.getElementById(this.session.getNavIndicator());
       if (elem !== null) {
         elem.classList.add('navbar-highlight');
-      } else {
-        console.log('nul after init');
       }
     }
   }
@@ -45,8 +43,6 @@ export class AppComponent implements AfterViewInit{
     const elem = document.getElementById(navLinkId);
     if (elem !== null) {
       elem.classList.add('navbar-highlight');
-    } else {
-      console.log('null');
     }
     this.session.setNavIndicator(navLinkId);
   }
