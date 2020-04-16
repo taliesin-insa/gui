@@ -41,6 +41,8 @@ export class LoginComponent implements OnInit {
     .pipe(catchError(this.handleError('authenticating', null)))
     .subscribe(data => {
       this.session.saveToken(data.body.Token);
+      console.log(this.session.getToken());
+      console.log(document.getElementById('home-nav'));
       this.session.saveUser(data.body);
       this.navigateAndUpdateNavbar();
     });
