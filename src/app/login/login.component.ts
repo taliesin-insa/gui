@@ -52,10 +52,10 @@ export class LoginComponent implements OnInit {
     if (this.route.snapshot.queryParamMap.has('returnUrl')) {
       console.log('Return URL');
       this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl')]);
-      this.appComponent.updateNavIndicator( this.route.snapshot.queryParamMap.get('returnUrl').replace('/', '') );
+      this.session.setNavIndicator( this.route.snapshot.queryParamMap.get('returnUrl').replace('/', '') );
     } else {
       this.router.navigate(['/home']);
-      this.appComponent.updateNavIndicator('home-nav');
+      this.session.setNavIndicator('home-nav');
     }
   }
 }
