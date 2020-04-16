@@ -19,7 +19,7 @@
     <!-- Variable to use HTML in popover content-->
     <ng-template #popContent>
       <b>Entrée :</b> valider la transcription courante <br>
-      <b>Alt + f9 :</b> marquer l'image courante comme illisible
+      <b>F9 :</b> marquer l'image courante comme illisible
     </ng-template>
 
     <!-- Shortcuts -->
@@ -47,9 +47,13 @@
               <img class="card-img-top" src="{{snippets[i].url}}">
             </div>
             <div class="card-body">
-              <input #annotationInput class="w-75" type="text" [formControlName]="i" (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)" (click)="focusClick(i)"
+              <input #annotationInput class="w-75" type="text" [formControlName]="i"
+                     (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)" (click)="focusClick(i)"
                      value="{{!isRecognizerActivated && !snippets[i].changed ? '' : snippets[i].value}}" (ngModelChange)="snippets[i].changed = true;">
-              <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)" title="{{snippets[i].unreadable ? 'Déclarer l\'image lisible' : 'Déclarer l\'image illisible'}}">X</button>
+
+              <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)"
+                      title="{{snippets[i].unreadable ? 'Déclarer l\'image lisible' : 'Déclarer l\'image illisible'}}">
+                X</button>
             </div>
           </div>
 
