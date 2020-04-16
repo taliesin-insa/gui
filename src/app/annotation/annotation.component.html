@@ -14,15 +14,27 @@
         <i class="fas fa-bolt"></i>
         {{recognizerButtonText}}
       </button>
+
+      <!-- Help for suggestions -->
+      <button type="button" class="btn btn-outline-secondary" placement="right"
+              style="border: 2px solid !important;"
+              ngbPopover="Afin de faciliter le travail d'annotation, un reconnaisseur automatique d'écriture est
+              mis en place dans l'application. Ce reconnaisseur peut ainsi vous proposer des suggestions de
+              transcription pour les images.">
+        <i class="fas fa-question"></i>
+      </button>
     </div>
 
-    <!-- Variable to use HTML in popover content-->
+
+
+    <!-- Shortcuts -->
+
+    <!-- Template for shortcuts popover -->
     <ng-template #popContent>
       <b>Entrée :</b> valider la transcription courante <br>
       <b>F9 :</b> marquer l'image courante comme illisible
     </ng-template>
 
-    <!-- Shortcuts -->
     <div class="mx-auto col-sm" style="width: auto" >
       <button type="button" class="btn btn-info float-right mr-3" data-toggle="popover" placement="left"  container="body"
               popoverTitle="Raccourcis clavier pour l'annotation"
@@ -30,6 +42,7 @@
         Raccourcis clavier
       </button>
     </div>
+    <!-- /Shortcuts -->
 
   </div>
   <hr>
