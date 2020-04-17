@@ -18,6 +18,7 @@
   <hr>
   <div class="position-relative mx-auto" style="width: fit-content">
     <button class="btn btn-primary btn-text font-weight-bold" routerLink="/dbAddExamples">Ajouter des exemples</button>
+
     <!--TEMPLATE FOR THE REPLACE DB BUTTON-->
     <ng-template #popUpEraseDB let-modal>
       <div class="modal-header alert-danger">
@@ -28,21 +29,30 @@
         continuer ?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" routerLink="/dbCreation" (click)="modal.close('Save click')">
-          Continuer
-        </button>
-        <button type="button" class="btn btn-light" (click)="modal.close('Save click')">Annuler</button>
+        <div class="col-sm">
+          <button class="btn btn-secondary export font-weight-bold" [disabled]="totalNbSnippets==0 || isExportInProgress" (click)="exportPiFF(true)">
+            <span *ngIf="isExportInProgress && isExportInPopUp" class="spinner-border spinner-border-sm mb-1" role="status" aria-hidden="true"></span>
+            {{isExportInProgress && isExportInPopUp ? 'Export en cours...' : 'Exporter PiFF'}}
+          </button>
+        </div>
+        <div class="col-sm">
+          <button type="button" class="btn btn-primary" routerLink="/dbCreation" (click)="modal.close('Save click')">
+            Continuer
+          </button>
+          <button type="button" class="btn btn-light" (click)="modal.close('Save click')">Annuler</button>
+        </div>
       </div>
     </ng-template>
 
-    <button class="btn btn-secondary btn-text font-weight-bold" (click)="modalService.open(popUpEraseDB);">Remplacer la
+    <button class="btn btn-secondary btn-text font-weight-bold" (click)="modalService.open(popUpEraseDB, {backdrop  : 'static'});">Remplacer la
       base courante
     </button>
 
   </div>
   <div class="position-relative mx-auto" style="width: fit-content">
-    <button class="btn btn-secondary export font-weight-bold" [disabled]="totalNbSnippets==0" (click)="exportPiFF()">
-      Exporter PiFF
+    <button class="btn btn-secondary export font-weight-bold" [disabled]="totalNbSnippets==0 || isExportInProgress" (click)="exportPiFF(false)">
+      <span *ngIf="isExportInProgress && !isExportInPopUp" class="spinner-border spinner-border-sm mb-1" role="status" aria-hidden="true"></span>
+      {{isExportInProgress && !isExportInPopUp ? 'Export en cours...' : 'Exporter PiFF'}}
     </button>
   </div>
 </div>
