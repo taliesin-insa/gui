@@ -54,7 +54,8 @@ export class HttpErrorHandler {
       switch (error.status) {
         case 401:
           if (serviceName === 'Login') {
-            message = `Wrong username or password`;
+            this.errorMessageService.add(`L'identifiant ou le mot de passe est incorrect.`);
+            this.errorMessageService.close(this.errorMessageService.nbErrors - 1, 5000);
           }
           break;
         case 404:
@@ -76,10 +77,11 @@ export class HttpErrorHandler {
             message = `Unknown error, with body "${error.error}"`;
           }
       }
-      message += ` (${error.status})`;
 
-      // TODO: Change here the way we send errors to the ErrorMessageService
-      this.errorMessageService.add(`${serviceName}: ${operation} failed: ${message}`);
+      if (!(error.status === 401 && serviceName === 'Login')) {
+        message += ` (${error.status})`;
+        this.errorMessageService.add(`${serviceName}: ${operation} failed: ${message}`);
+      }
 
       // Let the app keep running by returning a safe result (with a default value defined locally where the error occured).
       return of(defaultResult);

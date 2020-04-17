@@ -21,8 +21,8 @@ export class ErrorMessageService {
     this.nbErrors++;
   }
 
-  close(key: number) {
-    this.errors.delete(key);
+  close(key: number, time: number) {
+    setTimeout(() => this.errors.delete(key), time);
   }
 
   clear() {
