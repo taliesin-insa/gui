@@ -52,8 +52,7 @@ $taliesin-blue: #2f5d77;
 $taliesin-blue-dark: #0e2a47;
 $taliesin-blue-dark2: #314256;
 $taliesin-blue-light: #94c2db;
-$taliesin-blue-active: rgb(0, 0, 255);
-$taliesin-blue-hover: rgb(0, 0, 255);
+$taliesin-blue-active: rgb(105, 105, 206);
 
 // GRAY
 // Background
@@ -73,7 +72,7 @@ $theme-colors: (
   "validated": $taliesin-green-light,
   "info": $taliesin-blue-light,
   "active": $taliesin-blue-active,
-  "hover": $taliesin-blue-hover,
+  "hover": $taliesin-blue-active,
   "warning": $taliesin-yellow,
   "danger": $taliesin-red,
   "unreadable": $taliesin-red-light,

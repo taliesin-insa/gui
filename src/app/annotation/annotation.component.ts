@@ -141,6 +141,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
         annotationsInputsArray[id].nativeElement.classList.add('bg-validated');
       }
       annotationsInputsArray[id].nativeElement.classList.remove('border-active');
+      annotationsInputsArray[id].nativeElement.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
       annotationsInputsArray[nextId].nativeElement.focus();
       annotationsInputsArray[nextId].nativeElement.classList.add('border-active');
     }
