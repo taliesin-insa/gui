@@ -1,36 +1,31 @@
-<div>
-  <div>
-    <div class="col-lg-8 offset-lg-2 card">
+<div class="col-lg-8 offset-lg-2 card">
 
-      <div class=" row" style=" vertical-align:middle;">
-        <button class="btn btn-primary btn-text font-weight-bold ml-1" style="width: auto" routerLink="/dbManagement">
-          <i class="fas fa-arrow-left"></i>
-        </button>
-        <div class="div-title">
-          <h3 class="font-weight-bold ml-3" style="font-size: 2.5em">Ajout de nouveaux fichiers</h3>
-        </div>
-      </div>
-
-      <hr>
-
-      <div>
-        <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple/>
-
-        <button class="btn btn-outline-secondary" (click)="addFiles()">
-          Ajouter des fichiers
-        </button>
-
-        <button class="btn btn-outline-primary" [disabled]="uploadInProgress || files.size == 0"
-                (click)="actionButtonClick()"> {{primaryButtonText}} </button>
-      </div>
-      <br>
-
-      <div *ngFor="let file of files">
-        <h2>{{file.name}}</h2>
-        <ngb-progressbar *ngIf="progresses" type="success"
-                         [value]="progresses[file.name].progress | async"></ngb-progressbar>
-      </div>
+  <div class=" row" style=" vertical-align:middle;">
+    <button class="btn btn-primary btn-text font-weight-bold ml-1" style="width: auto" routerLink="/dbManagement">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <div class="div-title">
+      <h3 class="font-weight-bold ml-3" style="font-size: 2.5em">Ajout de nouveaux fichiers</h3>
     </div>
+  </div>
 
+  <hr>
+
+  <div>
+    <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple/>
+
+    <button class="btn btn-outline-secondary" (click)="addFiles()">
+      Ajouter des fichiers
+    </button>
+
+    <button class="btn btn-outline-primary" [disabled]="uploadInProgress || files.size == 0"
+            (click)="actionButtonClick()"> {{primaryButtonText}} </button>
+  </div>
+  <br>
+
+  <div *ngFor="let file of files">
+    <h2>{{file.name}}</h2>
+    <ngb-progressbar *ngIf="progresses" type="success"
+                     [value]="progresses[file.name].progress | async"></ngb-progressbar>
   </div>
 </div>
