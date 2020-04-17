@@ -62,8 +62,8 @@
 
         <ng-container *ngFor="let snippetInput of formArrayInputs.controls; let i=index">
 
-          <div #inputCard class="card text-center mb-3 w-100" (mouseover)="setHoveredInput(i)" (mouseout)="leaveHoveredInput()"
-               [ngClass]="(i === hoveredInput) ? 'border-active' : null">
+          <div #inputCard class="card text-center mb-3 w-100" (mouseover)="setHoveredCard(i)" (mouseout)="leaveHoveredCard()"
+               [ngClass]="(i === hoveredCard) ? 'border-active' : null">
             <div>
               <img class="card-img-top" src="{{snippets[i].url}}">
             </div>

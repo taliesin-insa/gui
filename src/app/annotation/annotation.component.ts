@@ -35,7 +35,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
   annotationForm: FormGroup; // Form that contains text inputs for snippets' transcriptions
   private handleError: HandleError;
 
-  private hoveredInput = -1 ;
+  private hoveredCard = -1 ;
 
   // Attributes used when enabling/disabling the automatic suggestions
   private isRecognizerActivated: boolean;
@@ -175,15 +175,15 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Changes current hovered card
    */
-  setHoveredInput(id: number) {
-    this.hoveredInput = id;
+  setHoveredCard(id: number) {
+    this.hoveredCard = id;
   }
 
   /**
    * Called when leaving hovered card
    */
-  leaveHoveredInput() {
-    this.hoveredInput = -1;
+  leaveHoveredCard() {
+    this.hoveredCard = -1;
   }
 
   /* ============================== ANNOTATION RELATED INTERACTIONS ============================== */
