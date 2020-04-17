@@ -54,8 +54,7 @@ export class HttpErrorHandler {
       switch (error.status) {
         case 401:
           if (serviceName === 'Login') {
-            message = `L'identifiant ou le mot de passe est incorrect.`;
-            this.errorMessageService.add(`${serviceName}: ${operation} failed: ${message}`);
+            this.errorMessageService.add(`L'identifiant ou le mot de passe est incorrect.`);
             this.errorMessageService.close(this.errorMessageService.nbErrors - 1, 5000);
           }
           break;
