@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {Router} from '@angular/router';
 import {getIdAndValue, getUnreadableFlag, Snippet} from '../model/Snippet';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -16,7 +25,7 @@ const NB_OF_SNIPPETS_TO_GET = 20; // Number of snippets inside the batch to anno
   templateUrl: './annotation.component.html',
   styleUrls: ['./annotation.component.scss']
 })
-export class AnnotationComponent implements OnInit, AfterViewInit {
+export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChildren('annotationInput') annotationInputs: QueryList<ElementRef>;
   @ViewChild('nextLines', { static : false}) nextLinesButton: ElementRef;
@@ -37,7 +46,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
               private http: HttpClient,
               private session: SessionStorageService,
               private modalService: NgbModal,
-              httpErrorHandler: HttpErrorHandler) {
+              private httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('Annotation');
     this.isRecognizerActivated = true;
     this.recognizerButtonClass = 'btn btn-warning suggest font-weight-bold' ;
@@ -304,10 +313,10 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
         } // else, the user has written text as well, we let its modification
       }
     }
+  }
 
-
-
-
+  ngOnDestroy() {
+    this.httpErrorHandler.clearErrors();
   }
 
 }

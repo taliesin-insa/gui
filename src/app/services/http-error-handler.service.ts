@@ -88,6 +88,10 @@ export class HttpErrorHandler {
     };
 
   }
+
+  clearErrors() {
+    this.errorMessageService.clear();
+  }
 }
 
 
