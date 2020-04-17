@@ -29,15 +29,6 @@ spec:
           volumeMounts:
             - mountPath: "/snippets/"
               name: file-server
-          env:
-            - name: AUTH_API_URL
-              value: "http://auth-api.gitlab-managed-apps.svc.cluster.local:8080"
-            - name: DATABASE_API_URL
-              value: "http://database-api.gitlab-managed-apps.svc.cluster.local:8080"
-            - name: IMPORT_API_URL
-              value: "http://import-api.gitlab-managed-apps.svc.cluster.local:8080"
-            - name: EXPORT_API_URL
-              value: "http://export-api.gitlab-managed-apps.svc.cluster.local:22022"
       volumes:
         - name: file-server
           persistentVolumeClaim:
@@ -74,15 +65,6 @@ spec:
           volumeMounts:
             - mountPath: "/snippets/"
               name: file-server-dev
-          env:
-            - name: AUTH_API_URL
-              value: "http://auth-api-dev.gitlab-managed-apps.svc.cluster.local:8080"
-            - name: DATABASE_API_URL
-              value: "http://database-api-dev.gitlab-managed-apps.svc.cluster.local:8080"
-            - name: IMPORT_API_URL
-              value: "http://import-api-dev.gitlab-managed-apps.svc.cluster.local:8080"
-            - name: EXPORT_API_URL
-              value: "http://export-api-dev.gitlab-managed-apps.svc.cluster.local:22022"
       volumes:
         - name: file-server-dev
           persistentVolumeClaim:
