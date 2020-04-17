@@ -69,7 +69,14 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  /** Getter used to retrieve the list of snippet inputs
+  ngOnDestroy() {
+    this.httpErrorHandler.clearErrors();
+  }
+
+  /* ============================== FORM RELATED FUNCTIONS ============================== */
+
+  /**
+   * Getter used to retrieve the list of snippet inputs
    * Each text input inside this array is a FormControl, representing the transcription of the n-th snippet
    */
   get formArrayInputs() {
@@ -115,7 +122,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
     this.retrieveSnippetsDB(NB_OF_SNIPPETS_TO_GET);
   }
 
-  /* ===== DYNAMIC INTERACTIONS ===== */
+  /* ============================== DYNAMIC INTERACTIONS (focus, scroll, hover) ============================== */
 
   /**
    * Focuses the next input in the array of snippet text inputs
@@ -189,6 +196,9 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
+  /* ============================== ANNOTATION RELATED INTERACTIONS ============================== */
+
+
   /**
    * Change current snippet input readability.
    * In case it was tagged readable:
@@ -242,7 +252,40 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /* ===== HTTP REQUESTS ===== */
+  /**
+   * Changes the input fields to display or not the recognizer's suggestions,
+   * whether the user has activated them or not
+   */
+  updateRecognizerActivation() {
+    this.isRecognizerActivated = !this.isRecognizerActivated;
+
+    if (this.isRecognizerActivated) { // Suggestions ON
+      this.recognizerButtonClass = 'btn btn-warning suggest font-weight-bold';
+      this.recognizerButtonText = 'Suggestions activées';
+
+      // Change value inside inputs
+      for (let i = 0; i < this.snippets.length; i++) {
+        if (!this.snippets[i].changed) {    // Untouched input, empty -> we put back the suggestion
+          this.formArrayInputs.at(i).setValue(this.snippets[i].value);
+          this.snippets[i].changed = false;
+        } // else, the user has written text as well, we let its modification
+      }
+
+    } else {                          // Suggestions OFF
+      this.recognizerButtonClass = 'btn btn-warning bg-transparent suggest font-weight-bold';
+      this.recognizerButtonText = 'Suggestions désactivées';
+
+      // Change value inside inputs
+      for (let i = 0; i < this.snippets.length; i++) {
+        if (!this.snippets[i].changed) {    // Untouched input, only the suggestion -> we remove it
+          this.formArrayInputs.at(i).setValue('');
+          this.snippets[i].changed = false;
+        } // else, the user has written text as well, we let its modification
+      }
+    }
+  }
+
+  /* ============================== HTTP REQUESTS ============================== */
 
   /**
    * Retrieves a given number of snippets from the database. Expected format:
@@ -285,39 +328,6 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
     this.http.put('db/update/value/' + this.session.getUser()[`Username`], updatedSnippetList, {})
       .pipe(catchError(this.handleError('updateSnippetsDB', undefined)))
       .subscribe();
-  }
-
-  updateRecognizerActivation() {
-    this.isRecognizerActivated = !this.isRecognizerActivated;
-
-    if (this.isRecognizerActivated) { // Suggestions ON
-      this.recognizerButtonClass = 'btn btn-warning suggest font-weight-bold';
-      this.recognizerButtonText = 'Suggestions activées';
-
-      // Change value inside inputs
-      for (let i = 0; i < this.snippets.length; i++) {
-        if (!this.snippets[i].changed) {    // Untouched input, empty -> we put back the suggestion
-          this.formArrayInputs.at(i).setValue(this.snippets[i].value);
-          this.snippets[i].changed = false;
-        } // else, the user has written text as well, we let its modification
-      }
-
-    } else {                          // Suggestions OFF
-      this.recognizerButtonClass = 'btn btn-warning bg-transparent suggest font-weight-bold';
-      this.recognizerButtonText = 'Suggestions désactivées';
-
-      // Change value inside inputs
-      for (let i = 0; i < this.snippets.length; i++) {
-        if (!this.snippets[i].changed) {    // Untouched input, only the suggestion -> we remove it
-          this.formArrayInputs.at(i).setValue('');
-          this.snippets[i].changed = false;
-        } // else, the user has written text as well, we let its modification
-      }
-    }
-  }
-
-  ngOnDestroy() {
-    this.httpErrorHandler.clearErrors();
   }
 
 }
