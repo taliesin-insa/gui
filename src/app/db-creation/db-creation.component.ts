@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {UploadService} from '../services/upload/upload.service';
 import {forkJoin, from} from 'rxjs';
@@ -15,7 +15,7 @@ import {Observable, Subject} from 'rxjs';
   templateUrl: './db-creation.component.html',
   styleUrls: ['./db-creation.component.scss']
 })
-export class DbCreationComponent implements OnInit {
+export class DbCreationComponent implements OnInit, OnDestroy {
 
   dbCreationForm: FormGroup; // Form
   public creationSuccessful = false;
@@ -35,7 +35,7 @@ export class DbCreationComponent implements OnInit {
               private uploadService: UploadService,
               private fb: FormBuilder,
               private http: HttpClient,
-              httpErrorHandler: HttpErrorHandler) {
+              private httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('DBCreation');
   }
 
@@ -119,5 +119,9 @@ export class DbCreationComponent implements OnInit {
       // The OK-button should have the text "Finish" now
       this.primaryButtonText = 'Terminer';
     });
+  }
+
+  ngOnDestroy() {
+    this.httpErrorHandler.clearErrors();
   }
 }
