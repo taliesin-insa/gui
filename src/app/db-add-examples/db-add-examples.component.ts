@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {forkJoin, Observable, Subject} from 'rxjs';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {Router} from '@angular/router';
@@ -11,7 +11,7 @@ import {HttpClient} from '@angular/common/http';
   templateUrl: './db-add-examples.component.html',
   styleUrls: ['./db-add-examples.component.scss']
 })
-export class DbAddExamplesComponent implements OnInit {
+export class DbAddExamplesComponent implements OnInit, OnDestroy {
 
   public files: Set<File> = new Set();
   progresses: { [key: string]: { progress: Observable<number>, subject: Subject<number> } };
@@ -27,7 +27,7 @@ export class DbAddExamplesComponent implements OnInit {
               private uploadService: UploadService,
               private fb: FormBuilder,
               private http: HttpClient,
-              httpErrorHandler: HttpErrorHandler) {
+              private httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('DBAddExamples');
   }
 
@@ -98,6 +98,10 @@ export class DbAddExamplesComponent implements OnInit {
       // The OK-button should have the text "Finish" now
       this.primaryButtonText = 'Terminer';
     });
+  }
+
+  ngOnDestroy() {
+    this.httpErrorHandler.clearErrors();
   }
 
 }
