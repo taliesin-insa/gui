@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {catchError, first} from 'rxjs/operators';
 import {SessionStorageService} from '../services/session-storage.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 const NB_OF_SNIPPETS_TO_GET = 20; // Number of snippets inside the batch to annotate
 
@@ -35,6 +36,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
               private fb: FormBuilder,
               private http: HttpClient,
               private session: SessionStorageService,
+              private modalService: NgbModal,
               httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('Annotation');
     this.isRecognizerActivated = true;
