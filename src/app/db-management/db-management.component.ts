@@ -18,6 +18,8 @@ export class DbManagementComponent implements OnInit, OnDestroy {
   private rejectedNumber: number;
   private totalNbSnippets: number;
   private statusData: any;
+  private isExportInProgress: boolean;
+  private isExportInPopUp: boolean;
 
 
   constructor(private router: Router,
@@ -48,12 +50,16 @@ export class DbManagementComponent implements OnInit, OnDestroy {
   /**
    * Gets all the piff files and their image and shows a "save as" dialog to the user
    */
-  exportPiFF() {
+  exportPiFF(inPopUp: boolean) {
+    this.isExportInProgress = true;
+    this.isExportInPopUp = inPopUp;
+
     this.http.get('/export/piff', {responseType: 'blob'})
       .pipe(
         map(response => (response) as Blob),
         catchError(this.handleError('exportPiFF', null)))
       .subscribe(body => {
+        this.isExportInProgress = false;
         if (body !== null) {
           // get the response data
           const archiveContent = new Blob([body], {type: 'application/zip'});
