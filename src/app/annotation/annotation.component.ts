@@ -138,7 +138,6 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       // We validate the form
       this.focusedInput = -1;
       this.nextLinesButton.nativeElement.click();
-      console.log(this.nextLinesButton);
     } else {                              // form invalid, some snippets still need to be completed
       const annotationsInputsArray = this.annotationInputs.toArray();
       let nextInput = currentInput;
@@ -149,9 +148,10 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       this.focusedInput = nextInput;
+      annotationsInputsArray[nextInput].nativeElement.focus({preventScroll: true});
       // smooth scroll
-      annotationsInputsArray[currentInput].nativeElement.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
-      annotationsInputsArray[nextInput].nativeElement.focus();
+      annotationsInputsArray[nextInput].nativeElement.parentElement.parentElement
+        .scrollIntoView({behavior: 'smooth', block: 'center'}  );
     }
   }
 
