@@ -16,7 +16,7 @@
       </button>
 
       <!-- Help for suggestions -->
-      <button type="button" class="btn btn-outline-secondary" placement="right"
+      <button type="button" class="btn btn-outline-info" placement="right"
               style="border: 2px solid !important;"
               ngbPopover="Afin de faciliter le travail d'annotation, un reconnaisseur automatique d'écriture est
               mis en place dans l'application. Ce reconnaisseur peut ainsi vous proposer des suggestions de
@@ -24,7 +24,6 @@
         <i class="fas fa-question"></i>
       </button>
     </div>
-
 
 
     <!-- Shortcuts -->
@@ -84,10 +83,27 @@
       <hr>
       <!-- Button to get new lines -->
       <div class="position-relative mx-auto text-center" style="width: 20%">
-        <button #nextLines class="btn btn-success btn-text font-weight-bold" type="submit" [disabled]="annotationForm.invalid" title="{{annotationForm.invalid ? 'Des images ne sont pas traitées' : ''}}">
+        <button #nextLines class="btn btn-success btn-text font-weight-bold" [disabled]="annotationForm.invalid"
+                ngbPopover="{{annotationForm.invalid ? 'Des images ne sont pas traitées' : ''}}" triggers="mouseenter:mouseleave"
+                (click)="modalService.open(popUpNextLines);" type="button">
           <i class="fas fa-check"></i>
           Lignes suivantes
         </button>
+
+        <!--TEMPLATE FOR THE CONFIRMATION MODAL ATTACHED WITH THE NEW LINES BUTTON -->
+        <ng-template #popUpNextLines let-modal>
+          <div class="modal-header alert-danger">
+            <h4 class="modal-title" id="modal-basic-title">Attention</h4>
+          </div>
+          <div class="modal-body">
+            En demandant de nouvelles lignes à annoter, vous allez valider définitivement les annotations en cours. Vous ne pourrez plus les corriger. <br>
+            Êtes-vous sûr(e) de vouloir continuer ?
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" (click)="modal.close(); onSubmit(annotationForm.value);">Continuer</button>
+            <button type="button" class="btn btn-light" (click)="modal.close()">Annuler</button>
+          </div>
+        </ng-template>
       </div>
 
     </form>
