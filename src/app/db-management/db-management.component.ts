@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
@@ -11,7 +11,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './db-management.component.html',
   styleUrls: ['./db-management.component.scss']
 })
-export class DbManagementComponent implements OnInit {
+export class DbManagementComponent implements OnInit, OnDestroy {
 
   private handleError: HandleError;
   private annotationRate: number;
@@ -22,7 +22,7 @@ export class DbManagementComponent implements OnInit {
 
   constructor(private router: Router,
               private http: HttpClient,
-              httpErrorHandler: HttpErrorHandler,
+              private httpErrorHandler: HttpErrorHandler,
               private route: ActivatedRoute,
               private modalService: NgbModal) {
     this.handleError = httpErrorHandler.createHandleError('DBManagement');
@@ -71,6 +71,10 @@ export class DbManagementComponent implements OnInit {
           window.URL.revokeObjectURL(urlFile);
         }
       });
+  }
+
+  ngOnDestroy() {
+    this.httpErrorHandler.clearErrors();
   }
 
 }

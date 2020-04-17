@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {FormBuilder} from '@angular/forms';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
@@ -13,7 +13,7 @@ import {AppComponent} from '../app.component';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm;
   handleError: HandleError;
@@ -56,5 +56,9 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/home']);
       this.session.setNavIndicator('home-nav');
     }
+  }
+
+  ngOnDestroy() {
+    this.httpErrorHandler.clearErrors();
   }
 }
