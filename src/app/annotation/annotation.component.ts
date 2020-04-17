@@ -205,6 +205,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
     snippet.changed = true;
     const input = this.formArrayInputs.at(id);
     if (!input.invalid) {
+      input.disable();
       snippet.value = input.value;
       snippet.annotated = true;
       this.updateSnippetDB(snippet);
