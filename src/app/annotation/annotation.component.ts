@@ -278,8 +278,6 @@ export class AnnotationComponent implements OnInit, AfterViewInit {
   updateRecognizerActivation() {
     this.isRecognizerActivated = !this.isRecognizerActivated;
 
-    console.log(this.snippets);
-
     if (this.isRecognizerActivated) { // Suggestions ON
       this.recognizerButtonClass = 'btn btn-warning suggest font-weight-bold';
       this.recognizerButtonText = 'Suggestions activées';
