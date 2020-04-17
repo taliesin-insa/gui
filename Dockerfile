@@ -11,10 +11,7 @@ RUN npm run build
 
 FROM nginx:1.17.1-alpine
 
-ADD nginx.conf /etc/nginx/conf.d/default.conf.template
+ADD nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /usr/src/app/dist/taliesin-frontend /usr/share/nginx/html
 
-# hack to allow to use environment variables in nginx configuration
-# https://serverfault.com/a/755541
-
-CMD ["/bin/sh" , "-c" , "cp /etc/nginx/conf.d/default.conf.template /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"]
+CMD ["/bin/sh" , "-c" , "sed -i 's/^client_max_body_size.*/client_max_body_size 0;/' /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"]
