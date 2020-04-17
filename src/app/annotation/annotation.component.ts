@@ -29,14 +29,15 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChildren('annotationInput') annotationInputs: QueryList<ElementRef>;
   @ViewChild('nextLines', { static : false}) nextLinesButton: ElementRef;
-  @ViewChildren('card') card: QueryList<ElementRef>;
+  @ViewChildren('inputCard') inputsCards: QueryList<ElementRef>;
 
   snippets: Snippet[] = []; // Batch of snippets
   annotationForm: FormGroup; // Form that contains text inputs for snippets' transcriptions
   private handleError: HandleError;
 
-  private hover = -1 ;
+  private hoveredInput = -1 ;
 
+  // Attributes used when enabling/disabling the automatic suggestions
   private isRecognizerActivated: boolean;
   private recognizerButtonClass: string;
   private recognizerButtonText: string;
@@ -131,7 +132,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
    *
    * @param id of the current input
    */
-  changeFocus(id: number) {
+  focusNextInput(id: number) {
     const annotationsInputsArray = this.annotationInputs.toArray();
     let nextId = id + 1;
     if (nextId === annotationsInputsArray.length) {
@@ -174,27 +175,16 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Changes current hovered card
    */
-  setHover(id: number) {
-    this.hover = id;
+  setHoveredInput(id: number) {
+    this.hoveredInput = id;
   }
 
   /**
    * Called when leaving hovered card
    */
-  leaveHover() {
-    this.hover = -1;
+  leaveHoveredInput() {
+    this.hoveredInput = -1;
   }
-
-  changeClassesCard(id: number) {
-    let classValue = '';
-    if (id === this.hover) {
-      classValue += ' border-active';
-    } else {
-      classValue += '';
-    }
-    return classValue;
-  }
-
 
   /* ============================== ANNOTATION RELATED INTERACTIONS ============================== */
 
@@ -222,7 +212,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       input.clearValidators();
       annotationsInputsArray[id].nativeElement.classList.remove('bg-validated');
       annotationsInputsArray[id].nativeElement.classList.add('bg-unreadable');
-      this.changeFocus(id);
+      this.focusNextInput(id);
     } else {
       input.enable();
       input.setValidators(Validators.required);
@@ -248,7 +238,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       snippet.value = input.value;
       snippet.annotated = true;
       this.updateSnippetDB(snippet);
-      this.changeFocus(id);
+      this.focusNextInput(id);
     }
   }
 
