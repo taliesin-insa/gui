@@ -6,7 +6,6 @@ import {SessionStorageService} from '../services/session-storage.service';
 import {AuthService} from '../services/auth.service';
 import {catchError} from 'rxjs/operators';
 import {AppComponent} from '../app.component';
-import {BehaviorSubject, Observable} from 'rxjs';
 
 @Component({
   // tslint:disable-next-line:component-selector
