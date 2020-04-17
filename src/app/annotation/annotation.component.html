@@ -1,69 +1,97 @@
+<div  class="col-lg-8 offset-lg-2 card">
 
+  <!-- Row with title and buttons -->
+  <div class="row">
 
-  <div >
-    <div >
-      <div  class="interest-box card">
-        <div class=" row">
-
-          <!-- Old display with menu button in the card, now the button is in the navbar
-            <button class="btn btn-secondary  font-weight-bold mx-0 px-1" style="width: auto; font-size: 0.8em; text-transform: uppercase" routerLink="/home">
-              <i class="fas fa-home"></i>
-              Menu principal
-            </button>
-          -->
-
-          <div class="col-sm">
-            <h2 class="font-weight-bold ml-3" style="font-size: 2.5em">Annotation</h2>
-          </div>
-
-          <div class="mx-auto col-sm text-center" style="width: auto">
-            <button [ngClass]="[recognizerButtonClass]" (click)="updateRecognizerActivation()">
-              <i class="fas fa-bolt"></i>
-              {{recognizerButtonText}}
-            </button>
-          </div>
-
-          <!-- Variable to use HTML in popover content-->
-          <ng-template #popContent>
-            <b>Entrée :</b> valider la transcription courante <br>
-            <b>Alt + f9 :</b> marquer l'image courante comme illisible
-          </ng-template>
-
-          <div class="mx-auto col-sm" style="width: auto" >
-            <button type="button" class="btn btn-info float-right mr-3" data-toggle="popover" placement="left"  container="body"
-                    popoverTitle="Raccourcis clavier pour l'annotation"
-                    [ngbPopover]="popContent">
-              Raccourcis clavier
-            </button>
-          </div>
-
-        </div>
-        <hr>
-
-        <!-- Form used to display all the snippets (image + text field) -->
-        <form [formGroup]="annotationForm" (ngSubmit)="onSubmit(annotationForm.value)" (keydown.enter)="$event.preventDefault()">
-          <div formArrayName="snippetInputs">
-            <ng-container *ngFor="let snippetInput of formArrayInputs.controls; let i=index">
-              <div #card class="card text-center mb-3 w-100 " (mouseover)="setHover(i)" (mouseout)="leaveHover()" [ngClass]="changeClassesCard(i)">
-                <div>
-                  <img class="card-img-top" src="{{snippets[i].url}}">
-                </div>
-                <div class="card-body">
-                  <input #annotationInput class="w-50" type="text" [formControlName]="i" (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)" (click)="focusClick(i)"
-                         value="{{!isRecognizerActivated && !snippets[i].changed ? '' : snippets[i].value}}" (ngModelChange)="snippets[i].changed = true;">
-                  <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)" title="{{snippets[i].unreadable ? 'Déclarer l\'image lisible' : 'Déclarer l\'image illisible'}}">X</button>
-                </div>
-              </div>
-            </ng-container>
-          </div>
-          <hr>
-          <div class="position-relative mx-auto text-center" style="width: 20%">
-            <button #nextLines class="btn btn-success btn-text font-weight-bold" type="submit" [disabled]="annotationForm.invalid" title="{{annotationForm.invalid ? 'Des images ne sont pas traitées' : ''}}">
-              <i class="fas fa-check"></i>
-              Lignes suivantes
-            </button>
-          </div>
-        </form>
-      </div>
+    <!-- Title -->
+    <div class="col-sm">
+      <h2 class="font-weight-bold ml-3" style="font-size: 2.5em">Annotation</h2>
     </div>
+
+    <!-- Enable/disable suggestions -->
+    <div class="mx-auto col-sm text-center" style="width: auto" *ngIf="snippets.length > 0">
+      <button [ngClass]="[recognizerButtonClass]" (click)="updateRecognizerActivation()">
+        <i class="fas fa-bolt"></i>
+        {{recognizerButtonText}}
+      </button>
+
+      <!-- Help for suggestions -->
+      <button type="button" class="btn btn-outline-secondary" placement="right"
+              style="border: 2px solid !important;"
+              ngbPopover="Afin de faciliter le travail d'annotation, un reconnaisseur automatique d'écriture est
+              mis en place dans l'application. Ce reconnaisseur peut ainsi vous proposer des suggestions de
+              transcription pour les images.">
+        <i class="fas fa-question"></i>
+      </button>
+    </div>
+
+
+
+    <!-- Shortcuts -->
+
+    <!-- Template for shortcuts popover -->
+    <ng-template #popContent>
+      <b>Entrée :</b> valider la transcription courante <br>
+      <b>F9 :</b> marquer l'image courante comme illisible
+    </ng-template>
+
+    <div class="mx-auto col-sm" style="width: auto" >
+      <button type="button" class="btn btn-info float-right mr-3" data-toggle="popover" placement="left"  container="body"
+              popoverTitle="Raccourcis clavier pour l'annotation"
+              [ngbPopover]="popContent">
+        Raccourcis clavier
+      </button>
+    </div>
+    <!-- /Shortcuts -->
+
   </div>
+  <hr>
+  <!-- /Row with title and buttons -->
+
+  <div *ngIf="snippets.length === 0">
+    <p>
+      Il n'y a actuellement aucune image à annoter. Si vous venez d'ajouter des images dans la base de données,
+      il se peut qu'elles soient encore en cours d'importation.
+    </p>
+  </div>
+
+  <!-- Annotation body -->
+  <div class="col-lg-10 offset-lg-1" *ngIf="snippets.length > 0">
+    <!-- Form used to display all the snippets (image + text field) -->
+    <form [formGroup]="annotationForm" (ngSubmit)="onSubmit(annotationForm.value)" (keydown.enter)="$event.preventDefault()">
+      <div formArrayName="snippetInputs">
+
+        <ng-container *ngFor="let snippetInput of formArrayInputs.controls; let i=index">
+
+          <div #card class="card text-center mb-3 w-100" (mouseover)="setHover(i)" (mouseout)="leaveHover()" [ngClass]="changeClassesCard(i)">
+            <div>
+              <img class="card-img-top" src="{{snippets[i].url}}">
+            </div>
+            <div class="card-body">
+              <input #annotationInput class="w-75" type="text" [formControlName]="i"
+                     (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)" (click)="focusClick(i)"
+                     (ngModelChange)="snippets[i].changed = true;">
+
+              <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)"
+                      title="{{snippets[i].unreadable ? 'Déclarer l\'image lisible' : 'Déclarer l\'image illisible'}}">
+                X</button>
+            </div>
+          </div>
+
+        </ng-container>
+
+      </div>
+      <hr>
+      <!-- Button to get new lines -->
+      <div class="position-relative mx-auto text-center" style="width: 20%">
+        <button #nextLines class="btn btn-success btn-text font-weight-bold" type="submit" [disabled]="annotationForm.invalid" title="{{annotationForm.invalid ? 'Des images ne sont pas traitées' : ''}}">
+          <i class="fas fa-check"></i>
+          Lignes suivantes
+        </button>
+      </div>
+
+    </form>
+  </div>
+  <!-- /Annotation body -->
+
+</div>
