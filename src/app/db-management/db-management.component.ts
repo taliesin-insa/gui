@@ -74,6 +74,7 @@ export class DbManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log('PASSAGE DANS NG ON DESTROY');
     this.httpErrorHandler.clearErrors();
   }
 
