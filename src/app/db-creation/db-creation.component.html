@@ -25,7 +25,7 @@
     <!-- Second part of the creation, that uploads files. Displayed only if new db was initialized successfully -->
     <ng-container id="upload" *ngIf="creationSuccessful">
       <!-- hidden input triggered by addFiles(), allowing to use buttons instead of inputs -->
-      <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple/>
+      <input #file type="file" [accept]="acceptedFileTypes.join(',')" style="display: none" (change)="onFilesAdded()" multiple/>
 
       <button class="btn btn-outline-secondary" (click)="addFiles()">
         Ajouter des fichiers
