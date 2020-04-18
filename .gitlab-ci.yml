@@ -32,7 +32,7 @@ dev:
     - kubectl config set-context default --cluster=k8s --user=gitlab
     - kubectl config use-context default
     - kubectl apply -f deployment.yml
-    - kubectl apply -f service.yml
+    - kubectl apply -f ingress-dev.yml
     - kubectl rollout restart deployment/frontend-dev -n gitlab-managed-apps
 
 production:
@@ -54,5 +54,5 @@ production:
     - kubectl config set-context default --cluster=k8s --user=gitlab
     - kubectl config use-context default
     - kubectl apply -f deployment.yml
-    - kubectl apply -f service.yml
+    - kubectl apply -f ingress-prod.yml
     - kubectl rollout restart deployment/frontend -n gitlab-managed-apps
