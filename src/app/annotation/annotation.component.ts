@@ -147,10 +147,10 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       this.focusedInput = nextInput;
+      annotationsInputsArray[nextInput].nativeElement.focus({preventScroll: true});
       // smooth scroll
       annotationsInputsArray[nextInput].nativeElement.parentElement.parentElement
         .scrollIntoView({behavior: 'smooth', block: 'center'}  );
-      annotationsInputsArray[nextInput].nativeElement.focus({preventScroll: true});
     }
   }
 
@@ -170,10 +170,10 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.focusedInput = previousInput;
+    annotationsInputsArray[previousInput].nativeElement.focus({preventScroll: true});
     // smooth scroll
     annotationsInputsArray[previousInput].nativeElement.parentElement.parentElement
       .scrollIntoView({behavior: 'smooth', block: 'center'}  );
-    annotationsInputsArray[previousInput].nativeElement.focus({preventScroll: true});
   }
 
   /* ============================== ANNOTATION RELATED INTERACTIONS ============================== */
