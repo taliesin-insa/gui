@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {UploadService} from '../services/upload/upload.service';
 import {FormBuilder} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
+import {catchError} from 'rxjs/operators';
 
 @Component({
   selector: 'app-db-add-examples',
@@ -98,7 +99,14 @@ export class DbAddExamplesComponent implements OnInit, OnDestroy {
 
       // The OK-button should have the text "Finish" now
       this.primaryButtonText = 'Terminer';
+      this.sendImgsToRecognizer();
     });
+  }
+
+  sendImgsToRecognizer() {
+    this.http.post('/recognizer/sendImgs', null, {})
+      .pipe(catchError(this.handleError('sendImgsToReco', undefined)))
+      .subscribe();
   }
 
   ngOnDestroy() {
