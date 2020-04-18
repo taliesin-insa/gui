@@ -127,9 +127,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
   /* ============================== DYNAMIC INTERACTIONS (focus, scroll, hover) ============================== */
 
   /**
-   * Focuses the next input in the array of snippet text inputs
-   *
-   * Add (or remove) classes to show visuals indicators for the user
+   * Focuses the next input in the array of snippet text inputs that is enabled
    *
    * @param currentInput id of the actual input
    */
@@ -140,19 +138,42 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       this.nextLinesButton.nativeElement.click();
     } else {                              // form invalid, some snippets still need to be completed
       const annotationsInputsArray = this.annotationInputs.toArray();
-      let nextInput = currentInput;
+      const len = annotationsInputsArray.length;
+      let nextInput = (currentInput  + 1) % len;
 
       // Try to find the next input that isn't disabled (unreadable or validated), cycle back to top if necessary
       while (annotationsInputsArray[nextInput].nativeElement.disabled) {
-        nextInput = (nextInput + 1) % (annotationsInputsArray.length);
+        nextInput = (nextInput + 1) % len;
       }
 
       this.focusedInput = nextInput;
-      annotationsInputsArray[nextInput].nativeElement.focus({preventScroll: true});
       // smooth scroll
       annotationsInputsArray[nextInput].nativeElement.parentElement.parentElement
         .scrollIntoView({behavior: 'smooth', block: 'center'}  );
+      annotationsInputsArray[nextInput].nativeElement.focus({preventScroll: true});
     }
+  }
+
+  /**
+   * Focuses the previous input in the array of snippet text inputs that is enabled
+   *
+   * @param currentInput id of the actual input
+   */
+  focusPreviousInput(currentInput: number) {
+    const annotationsInputsArray = this.annotationInputs.toArray();
+    const len = annotationsInputsArray.length;
+    let previousInput = (currentInput + len - 1) % len;
+
+    // Try to find the next input that isn't disabled (unreadable or validated), cycle back to top if necessary
+    while (annotationsInputsArray[previousInput].nativeElement.disabled) {
+      previousInput = (previousInput + len - 1) % len;
+    }
+
+    this.focusedInput = previousInput;
+    // smooth scroll
+    annotationsInputsArray[previousInput].nativeElement.parentElement.parentElement
+      .scrollIntoView({behavior: 'smooth', block: 'center'}  );
+    annotationsInputsArray[previousInput].nativeElement.focus({preventScroll: true});
   }
 
   /* ============================== ANNOTATION RELATED INTERACTIONS ============================== */
