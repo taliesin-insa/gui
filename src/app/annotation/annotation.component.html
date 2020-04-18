@@ -80,7 +80,7 @@
                      (keydown.arrowDown)="focusNextInput(i)" (keydown.arrowUp)="focusPreviousInput(i)"
                      (ngModelChange)="snippets[i].changed = true;">
 
-              <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)"
+              <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)" [disabled]="snippets[i].annotated"
                       title="{{snippets[i].unreadable ? 'Déclarer l\'image lisible' : 'Déclarer l\'image illisible'}}">
                 X</button>
             </div>
