@@ -119,7 +119,14 @@ export class DbCreationComponent implements OnInit, OnDestroy {
 
       // The OK-button should have the text "Finish" now
       this.primaryButtonText = 'Terminer';
+      this.sendImgsToRecognizer();
     });
+  }
+
+  sendImgsToRecognizer() {
+    this.http.post('/recognizer/sendImgs', null, {})
+      .pipe(catchError(this.handleError('sendImgsToReco', undefined)))
+      .subscribe();
   }
 
   ngOnDestroy() {
