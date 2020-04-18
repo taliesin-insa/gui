@@ -14,6 +14,8 @@
   <div>
     <input #file type="file" [accept]="acceptedFileTypes.join(',')" style="display: none" (change)="onFilesAdded()" multiple/>
 
+    <span class="ml-2"><i>Formats acceptés: PNG, JPEG</i></span>
+    <br>
     <button class="btn btn-outline-secondary" (click)="addFiles()">
       Ajouter des fichiers
     </button>
