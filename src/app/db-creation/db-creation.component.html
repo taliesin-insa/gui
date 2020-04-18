@@ -19,7 +19,9 @@
         <input type="text" formControlName="dbName">
       </label>
 
-      <button class="btn btn-primary font-weight-bold" type="submit" [disabled]="dbCreationForm.invalid">Créer</button>
+      <button class="btn btn-primary font-weight-bold" type="submit" [disabled]="dbCreationForm.invalid" *ngIf="!creationSuccessful">
+        Créer
+      </button>
 
     </form>
     <!-- Second part of the creation, that uploads files. Displayed only if new db was initialized successfully -->
