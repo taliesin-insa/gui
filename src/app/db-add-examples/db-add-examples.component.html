@@ -12,7 +12,7 @@
   <hr>
 
   <div>
-    <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple/>
+    <input #file type="file" [accept]="acceptedFileTypes.join(',')" style="display: none" (change)="onFilesAdded()" multiple/>
 
     <button class="btn btn-outline-secondary" (click)="addFiles()">
       Ajouter des fichiers

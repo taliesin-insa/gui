@@ -20,6 +20,7 @@ export class DbCreationComponent implements OnInit, OnDestroy {
   dbCreationForm: FormGroup; // Form
   public creationSuccessful = false;
 
+  private acceptedFileTypes = ['image/png', 'image/jpeg'];
   public files: Set<File> = new Set();
   progresses: { [key: string]: { progress: Observable<number>, subject: Subject<number> } };
   primaryButtonText = 'Importer';
@@ -71,7 +72,7 @@ export class DbCreationComponent implements OnInit, OnDestroy {
     const incomingFiles: { [key: string]: File } = this.file.nativeElement.files;
     for (const key in incomingFiles) {
       // tslint:disable-next-line:radix
-      if (!isNaN(parseInt(key))) {
+      if (!isNaN(parseInt(key)) && this.acceptedFileTypes.includes(incomingFiles[key].type)) {
         this.files.add(incomingFiles[key]);
       }
     }
