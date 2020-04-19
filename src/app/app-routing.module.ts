@@ -8,6 +8,7 @@ import {StatusResolverService} from './services/data-resolver.service';
 import {LoginComponent} from './login/login.component';
 import {AuthGuard} from './auth-guard.service';
 import {DbAddExamplesComponent} from './db-add-examples/db-add-examples.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -28,7 +29,9 @@ const routes: Routes = [
   },
   { path: 'dbCreation', component: DbCreationComponent, canActivate: [AuthGuard] },
   { path: 'dbAddExamples', component: DbAddExamplesComponent, canActivate: [AuthGuard] },
-  { path: '',    redirectTo: '/home', pathMatch: 'full'}
+  { path: '404', component: NotFoundComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full'},
+  { path: '**', redirectTo: '/404' }
 ];
 
 @NgModule({
