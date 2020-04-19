@@ -30,7 +30,12 @@
 
     <!-- Template for shortcuts popover -->
     <ng-template #popContent>
-      <b>Entrée :</b> valider la transcription courante <br>
+      <b>Entrée :</b> valider la transcription courante
+      <br>
+      <b>Flèche bas :</b> passer à l'image suivante
+      <br>
+      <b>Flèche haut :</b> passer à l'image précédente
+      <br>
       <b>F9 :</b> marquer l'image courante comme illisible
     </ng-template>
 
@@ -62,16 +67,20 @@
 
         <ng-container *ngFor="let snippetInput of formArrayInputs.controls; let i=index">
 
-          <div #card class="card text-center mb-3 w-100" (mouseover)="setHover(i)" (mouseout)="leaveHover()" [ngClass]="changeClassesCard(i)">
+          <div #inputCard class="card text-center mb-3 w-100" (mouseover)="hoveredCard = i" (mouseout)="hoveredCard = -1"
+               [ngClass]="(i === hoveredCard) ? 'border-active' : null">
             <div>
               <img class="card-img-top" src="{{snippets[i].url}}">
             </div>
             <div class="card-body">
               <input #annotationInput class="w-75" type="text" [formControlName]="i"
-                     (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)" (click)="focusClick(i)"
+                     [ngClass]="(i === focusedInput) ? 'border-active' : null"
+                     (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)"
+                     (focusin)="focusedInput = i" (focusout)="focusedInput = -1"
+                     (keydown.arrowDown)="focusNextInput(i)" (keydown.arrowUp)="focusPreviousInput(i)"
                      (ngModelChange)="snippets[i].changed = true;">
 
-              <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)"
+              <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)" [disabled]="snippets[i].annotated"
                       title="{{snippets[i].unreadable ? 'Déclarer l\'image lisible' : 'Déclarer l\'image illisible'}}">
                 X</button>
             </div>
