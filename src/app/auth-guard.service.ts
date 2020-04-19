@@ -6,6 +6,11 @@ import {Observable} from 'rxjs';
 import { of } from 'rxjs';
 
 import { SessionStorageService } from './services/session-storage.service';
+import { DbManagementComponent } from './db-management/db-management.component';
+import { DbCreationComponent } from './db-creation/db-creation.component';
+import { DbAddExamplesComponent } from './db-add-examples/db-add-examples.component';
+
+const PRIVILEGED_COMPONENTS = [DbManagementComponent, DbCreationComponent, DbAddExamplesComponent];
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
@@ -22,7 +27,10 @@ export class AuthGuard implements CanActivate {
         if (this.session.getToken()) {
             return this.auth.verify(this.session.getToken()).pipe(map(e => {
                 if (e) {
-                    return true;
+                    // check permissions
+                    return e.body.Role === 0 || !(route.component in PRIVILEGED_COMPONENTS);
+                } else {
+                    return false;
                 }
             }), catchError(error => {
                 console.error(error);
