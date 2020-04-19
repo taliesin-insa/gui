@@ -11,7 +11,7 @@
 
   <div class=" row position-relative mx-auto">
 
-    <div class="col-xs-6 text-center">
+    <div class="col-xs-6 text-center" *ngIf="session.getUser()['Role'] === 0">
       <button class="btn btn-secondary btn-text font-weight-bold"
               (click)="this.appComponent.updateNavIndicator('dbManagement-nav')" routerLink="/dbManagement">
         <i class="fas fa-cog"></i>
