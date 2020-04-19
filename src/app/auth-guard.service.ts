@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import {catchError, map} from 'rxjs/operators';
@@ -28,7 +28,8 @@ export class AuthGuard implements CanActivate {
             return this.auth.verify(this.session.getToken()).pipe(map(e => {
                 if (e) {
                     // check permissions
-                    return e.body.Role === 0 || !(route.component in PRIVILEGED_COMPONENTS);
+                    // if admin or not privileged component
+                    return e.body.Role === 0 || PRIVILEGED_COMPONENTS.find(elt => elt === route.component) == null;
                 } else {
                     return false;
                 }

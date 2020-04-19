@@ -10,6 +10,8 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent implements AfterViewInit {
 
+  role;
+
   @ViewChild('navbarItems', {static: false}) set navbarItems(element) {
     if (element) {
       // After login
@@ -23,6 +25,7 @@ export class AppComponent implements AfterViewInit {
   constructor(public session: SessionStorageService,
               private auth: AuthService,
               private router: Router) {
+    this.role = session.getUser()[`Role`];
   }
 
   ngAfterViewInit() {
