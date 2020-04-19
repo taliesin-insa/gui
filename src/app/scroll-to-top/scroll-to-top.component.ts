@@ -19,9 +19,9 @@ export class ScrollToTopComponent {
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    if (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop > 200) {
+    if ( (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop) > 100) {
       this.windowScrolled = true;
-    } else if (this.windowScrolled && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 50) {
+    } else if ( (this.windowScrolled && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop) < 50) {
       this.windowScrolled = false;
     }
   }
