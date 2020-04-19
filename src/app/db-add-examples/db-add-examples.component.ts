@@ -19,6 +19,7 @@ export class DbAddExamplesComponent implements OnInit, OnDestroy {
   progresses: { [key: string]: { progress: Observable<number>, subject: Subject<number> } };
   primaryButtonText = 'Importer';
   public uploadInProgress = false;
+  private uploadStarted = false;
 
   private handleError: HandleError;
 
@@ -71,6 +72,7 @@ export class DbAddExamplesComponent implements OnInit, OnDestroy {
    */
   upload() {
     this.uploadInProgress = true;
+    this.uploadStarted = true;
     this.progresses = {};
 
     this.files.forEach(file => {
