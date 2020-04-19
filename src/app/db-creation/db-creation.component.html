@@ -31,7 +31,7 @@
 
       <span class="ml-2"><i>Formats acceptés: PNG, JPEG</i></span>
       <br>
-      <button class="btn btn-outline-secondary" (click)="addFiles()" *ngIf="!uploadInProgress">
+      <button class="btn btn-outline-secondary" (click)="addFiles()" *ngIf="!uploadStarted">
         Ajouter des fichiers
       </button>
       <button class="btn btn-outline-primary" [disabled]="uploadInProgress || files.size == 0"
