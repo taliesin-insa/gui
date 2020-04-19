@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {UploadService} from '../services/upload/upload.service';
 import {FormBuilder} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
+import {catchError} from 'rxjs/operators';
 
 @Component({
   selector: 'app-db-add-examples',
@@ -13,10 +14,12 @@ import {HttpClient} from '@angular/common/http';
 })
 export class DbAddExamplesComponent implements OnInit, OnDestroy {
 
+  private acceptedFileTypes = ['image/png', 'image/jpeg'];
   public files: Set<File> = new Set();
   progresses: { [key: string]: { progress: Observable<number>, subject: Subject<number> } };
   primaryButtonText = 'Importer';
   public uploadInProgress = false;
+  private uploadStarted = false;
 
   private handleError: HandleError;
 
@@ -50,7 +53,7 @@ export class DbAddExamplesComponent implements OnInit, OnDestroy {
     const incomingFiles: { [key: string]: File } = this.file.nativeElement.files;
     for (const key in incomingFiles) {
       // tslint:disable-next-line:radix
-      if (!isNaN(parseInt(key))) {
+      if (!isNaN(parseInt(key)) && this.acceptedFileTypes.includes(incomingFiles[key].type)) {
         this.files.add(incomingFiles[key]);
       }
     }
@@ -69,6 +72,7 @@ export class DbAddExamplesComponent implements OnInit, OnDestroy {
    */
   upload() {
     this.uploadInProgress = true;
+    this.uploadStarted = true;
     this.progresses = {};
 
     this.files.forEach(file => {
@@ -97,7 +101,14 @@ export class DbAddExamplesComponent implements OnInit, OnDestroy {
 
       // The OK-button should have the text "Finish" now
       this.primaryButtonText = 'Terminer';
+      this.sendImgsToRecognizer();
     });
+  }
+
+  sendImgsToRecognizer() {
+    this.http.post('/recognizer/sendImgs', null, {})
+      .pipe(catchError(this.handleError('sendImgsToReco', undefined)))
+      .subscribe();
   }
 
   ngOnDestroy() {

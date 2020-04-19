@@ -20,10 +20,12 @@ export class DbCreationComponent implements OnInit, OnDestroy {
   dbCreationForm: FormGroup; // Form
   public creationSuccessful = false;
 
+  private acceptedFileTypes = ['image/png', 'image/jpeg'];
   public files: Set<File> = new Set();
   progresses: { [key: string]: { progress: Observable<number>, subject: Subject<number> } };
   primaryButtonText = 'Importer';
   public uploadInProgress = false;
+  private uploadStarted = false;
 
   private handleError: HandleError;
 
@@ -71,7 +73,7 @@ export class DbCreationComponent implements OnInit, OnDestroy {
     const incomingFiles: { [key: string]: File } = this.file.nativeElement.files;
     for (const key in incomingFiles) {
       // tslint:disable-next-line:radix
-      if (!isNaN(parseInt(key))) {
+      if (!isNaN(parseInt(key)) && this.acceptedFileTypes.includes(incomingFiles[key].type)) {
         this.files.add(incomingFiles[key]);
       }
     }
@@ -90,6 +92,7 @@ export class DbCreationComponent implements OnInit, OnDestroy {
    */
   upload() {
     this.uploadInProgress = true;
+    this.uploadStarted = true;
     this.progresses = {};
 
     this.files.forEach(file => {
@@ -118,7 +121,14 @@ export class DbCreationComponent implements OnInit, OnDestroy {
 
       // The OK-button should have the text "Finish" now
       this.primaryButtonText = 'Terminer';
+      this.sendImgsToRecognizer();
     });
+  }
+
+  sendImgsToRecognizer() {
+    this.http.post('/recognizer/sendImgs', null, {})
+      .pipe(catchError(this.handleError('sendImgsToReco', undefined)))
+      .subscribe();
   }
 
   ngOnDestroy() {

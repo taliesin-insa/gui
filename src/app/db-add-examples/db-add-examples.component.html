@@ -12,19 +12,25 @@
   <hr>
 
   <div>
-    <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple/>
+    <input #file type="file" [accept]="acceptedFileTypes.join(',')" style="display: none" (change)="onFilesAdded()" multiple/>
 
-    <button class="btn btn-outline-secondary" (click)="addFiles()">
+    <span class="ml-2"><i>Formats acceptés : PNG, JPEG. Taille maximale d'une image : 32Mo.</i></span>
+    <br>
+    <button class="btn btn-outline-secondary" (click)="addFiles()" *ngIf="!uploadStarted">
       Ajouter des fichiers
     </button>
 
     <button class="btn btn-outline-primary" [disabled]="uploadInProgress || files.size == 0"
             (click)="actionButtonClick()"> {{primaryButtonText}} </button>
   </div>
-  <br>
+  <hr>
 
   <div *ngFor="let file of files">
-    <h2>{{file.name}}</h2>
+    <button type="button"  class="btn btn-danger btn-sm font-weight-bold mr-2"
+            (click)="files.delete(file)" *ngIf="!uploadStarted">
+      X
+    </button>
+    <span style="font-size: larger; vertical-align: middle;">{{file.name}}</span>
     <ngb-progressbar *ngIf="progresses" type="success"
                      [value]="progresses[file.name].progress | async"></ngb-progressbar>
   </div>

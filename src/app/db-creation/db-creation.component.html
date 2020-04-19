@@ -19,24 +19,32 @@
         <input type="text" formControlName="dbName">
       </label>
 
-      <button class="btn btn-primary font-weight-bold" type="submit" [disabled]="dbCreationForm.invalid">Créer</button>
+      <button class="btn btn-primary font-weight-bold" type="submit" [disabled]="dbCreationForm.invalid" *ngIf="!creationSuccessful">
+        Créer
+      </button>
 
     </form>
     <!-- Second part of the creation, that uploads files. Displayed only if new db was initialized successfully -->
     <ng-container id="upload" *ngIf="creationSuccessful">
       <!-- hidden input triggered by addFiles(), allowing to use buttons instead of inputs -->
-      <input type="file" #file style="display: none" (change)="onFilesAdded()" multiple/>
+      <input #file type="file" [accept]="acceptedFileTypes.join(',')" style="display: none" (change)="onFilesAdded()" multiple/>
 
-      <button class="btn btn-outline-secondary" (click)="addFiles()">
+      <span class="ml-2"><i>Formats acceptés : PNG, JPEG. Taille maximale d'une image : 32Mo.</i></span>
+      <br>
+      <button class="btn btn-outline-secondary" (click)="addFiles()" *ngIf="!uploadStarted">
         Ajouter des fichiers
       </button>
       <button class="btn btn-outline-primary" [disabled]="uploadInProgress || files.size == 0"
               (click)="actionButtonClick()"> {{primaryButtonText}} </button>
 
-      <br>
+      <hr>
 
       <div *ngFor="let file of files">
-        <h2>{{file.name}}</h2>
+        <button type="button"  class="btn btn-danger btn-sm font-weight-bold mr-2"
+                (click)="files.delete(file)" *ngIf="!uploadStarted">
+          X
+        </button>
+        <span style="font-size: larger; vertical-align: middle;">{{file.name}}</span>
         <ngb-progressbar *ngIf="progresses" type="success"
                          [value]="progresses[file.name].progress | async"></ngb-progressbar>
       </div>

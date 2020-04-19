@@ -29,6 +29,10 @@ spec:
         backend:
           serviceName: import-api-dev
           servicePort: 8080
+      - path: /recognizer/
+        backend:
+          serviceName: recognizer-api-dev
+          servicePort: 8080
       - path: /
         backend:
           serviceName: frontend-dev-service
