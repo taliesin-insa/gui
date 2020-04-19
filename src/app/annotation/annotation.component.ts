@@ -29,14 +29,16 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChildren('annotationInput') annotationInputs: QueryList<ElementRef>;
   @ViewChild('nextLines', { static : false}) nextLinesButton: ElementRef;
-  @ViewChildren('card') card: QueryList<ElementRef>;
+  @ViewChildren('inputCard') inputsCards: QueryList<ElementRef>;
 
   snippets: Snippet[] = []; // Batch of snippets
   annotationForm: FormGroup; // Form that contains text inputs for snippets' transcriptions
   private handleError: HandleError;
 
-  private hover = -1 ;
+  private hoveredCard = -1 ;
+  private focusedInput = 0;
 
+  // Attributes used when enabling/disabling the automatic suggestions
   private isRecognizerActivated: boolean;
   private recognizerButtonClass: string;
   private recognizerButtonText: string;
@@ -69,7 +71,14 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  /** Getter used to retrieve the list of snippet inputs
+  ngOnDestroy() {
+    this.httpErrorHandler.clearErrors();
+  }
+
+  /* ============================== FORM RELATED FUNCTIONS ============================== */
+
+  /**
+   * Getter used to retrieve the list of snippet inputs
    * Each text input inside this array is a FormControl, representing the transcription of the n-th snippet
    */
   get formArrayInputs() {
@@ -115,78 +124,60 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
     this.retrieveSnippetsDB(NB_OF_SNIPPETS_TO_GET);
   }
 
-  /* ===== DYNAMIC INTERACTIONS ===== */
+  /* ============================== DYNAMIC INTERACTIONS (focus, scroll, hover) ============================== */
 
   /**
-   * Focuses the next input in the array of snippet text inputs
+   * Focuses the next input in the array of snippet text inputs that is enabled
    *
-   * Add (or remove) classes to show visuals indicators for the user
-   *
-   * @param id of the current input
+   * @param currentInput id of the actual input
    */
-  changeFocus(id: number) {
-    const annotationsInputsArray = this.annotationInputs.toArray();
-    let nextId = id + 1;
-    if (nextId === annotationsInputsArray.length) {
-      // We are at the bottom at the page, suppose all the snippets are annotated
-      this.nextLinesButton.nativeElement.focus();
+  focusNextInput(currentInput: number) {
+    if (!this.annotationForm.invalid) {   // form valid, all the fields are completed
+      // We validate the form
+      this.focusedInput = -1;
+      this.nextLinesButton.nativeElement.disabled = false;
       this.nextLinesButton.nativeElement.click();
-    } else {
-      // Try to find the next input that isn't disabled (unreadable)
-      while (annotationsInputsArray[nextId].nativeElement.disabled) {
-        nextId++;
+    } else {                              // form invalid, some snippets still need to be completed
+      const annotationsInputsArray = this.annotationInputs.toArray();
+      const len = annotationsInputsArray.length;
+      let nextInput = (currentInput  + 1) % len;
+
+      // Try to find the next input that isn't disabled (unreadable or validated), cycle back to top if necessary
+      while (annotationsInputsArray[nextInput].nativeElement.disabled) {
+        nextInput = (nextInput + 1) % len;
       }
-      if (!this.snippets[id].unreadable) {
-        annotationsInputsArray[id].nativeElement.classList.remove('bg-unreadable');
-        annotationsInputsArray[id].nativeElement.classList.add('bg-validated');
-      }
-      annotationsInputsArray[id].nativeElement.classList.remove('border-active');
-      annotationsInputsArray[id].nativeElement.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
-      annotationsInputsArray[nextId].nativeElement.focus();
-      annotationsInputsArray[nextId].nativeElement.classList.add('border-active');
+
+      this.focusedInput = nextInput;
+      annotationsInputsArray[nextInput].nativeElement.focus({preventScroll: true});
+      // smooth scroll
+      annotationsInputsArray[nextInput].nativeElement.parentElement.parentElement
+        .scrollIntoView({behavior: 'smooth', block: 'center'}  );
     }
   }
 
   /**
-   * Focuses the clicked input in the array of snippet text inputs
+   * Focuses the previous input in the array of snippet text inputs that is enabled
    *
-   * Add (or remove) classes to show visuals indicators for the user
-   *
-   * @param id of the current input
+   * @param currentInput id of the actual input
    */
-
-  focusClick(id: number) {
+  focusPreviousInput(currentInput: number) {
     const annotationsInputsArray = this.annotationInputs.toArray();
-    for ( const elem of annotationsInputsArray) {
-        elem.nativeElement.classList.remove('border-active');
+    const len = annotationsInputsArray.length;
+    let previousInput = (currentInput + len - 1) % len;
+
+    // Try to find the next input that isn't disabled (unreadable or validated), cycle back to top if necessary
+    while (annotationsInputsArray[previousInput].nativeElement.disabled) {
+      previousInput = (previousInput + len - 1) % len;
     }
-    annotationsInputsArray[id].nativeElement.classList.add('border-active');
-    annotationsInputsArray[id].nativeElement.focus();
+
+    this.focusedInput = previousInput;
+    annotationsInputsArray[previousInput].nativeElement.focus({preventScroll: true});
+    // smooth scroll
+    annotationsInputsArray[previousInput].nativeElement.parentElement.parentElement
+      .scrollIntoView({behavior: 'smooth', block: 'center'}  );
   }
 
-  /**
-   * Changes current hovered card
-   */
-  setHover(id: number) {
-    this.hover = id;
-  }
-
-  /**
-   * Called when leaving hovered card
-   */
-  leaveHover() {
-    this.hover = -1;
-  }
-
-  changeClassesCard(id: number) {
-    let classValue = '';
-    if (id === this.hover) {
-      classValue += ' border-active';
-    } else {
-      classValue += '';
-    }
-    return classValue;
-  }
+  /* ============================== ANNOTATION RELATED INTERACTIONS ============================== */
 
 
   /**
@@ -205,24 +196,25 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
     const annotationsInputsArray = this.annotationInputs.toArray();
     this.snippets[id].unreadable = !this.snippets[id].unreadable;
     this.snippets[id].changed = true;
+
+    this.http.put('db/update/flags', [getUnreadableFlag(this.snippets[id])], {})
+      .pipe(catchError(this.handleError('setUnreadable', undefined)))
+      .subscribe();
+
     const input = this.formArrayInputs.at(id);
 
     if (this.snippets[id].unreadable) {
       input.disable();
       input.clearValidators();
-      annotationsInputsArray[id].nativeElement.classList.remove('bg-validated');
+      input.updateValueAndValidity();
       annotationsInputsArray[id].nativeElement.classList.add('bg-unreadable');
-      this.changeFocus(id);
+      this.focusNextInput(id);
     } else {
       input.enable();
       input.setValidators(Validators.required);
       annotationsInputsArray[id].nativeElement.classList.remove('bg-unreadable');
     }
     input.updateValueAndValidity();
-
-    this.http.put('db/update/flags', [getUnreadableFlag(this.snippets[id])], {})
-      .pipe(catchError(this.handleError('setUnreadable', undefined)))
-      .subscribe();
   }
 
   /**
@@ -235,14 +227,49 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
     snippet.changed = true;
     const input = this.formArrayInputs.at(id);
     if (!input.invalid) {
+      input.disable();
       snippet.value = input.value;
       snippet.annotated = true;
+      this.annotationInputs.toArray()[id].nativeElement.classList.add('bg-validated');
       this.updateSnippetDB(snippet);
-      this.changeFocus(id);
+      this.focusNextInput(id);
     }
   }
 
-  /* ===== HTTP REQUESTS ===== */
+  /**
+   * Changes the input fields to display or not the recognizer's suggestions,
+   * whether the user has activated them or not
+   */
+  updateRecognizerActivation() {
+    this.isRecognizerActivated = !this.isRecognizerActivated;
+
+    if (this.isRecognizerActivated) { // Suggestions ON
+      this.recognizerButtonClass = 'btn btn-warning suggest font-weight-bold';
+      this.recognizerButtonText = 'Suggestions activées';
+
+      // Change value inside inputs
+      for (let i = 0; i < this.snippets.length; i++) {
+        if (!this.snippets[i].changed) {    // Untouched input, empty -> we put back the suggestion
+          this.formArrayInputs.at(i).setValue(this.snippets[i].value);
+          this.snippets[i].changed = false;
+        } // else, the user has written text as well, we let its modification
+      }
+
+    } else {                          // Suggestions OFF
+      this.recognizerButtonClass = 'btn btn-warning bg-transparent suggest font-weight-bold';
+      this.recognizerButtonText = 'Suggestions désactivées';
+
+      // Change value inside inputs
+      for (let i = 0; i < this.snippets.length; i++) {
+        if (!this.snippets[i].changed) {    // Untouched input, only the suggestion -> we remove it
+          this.formArrayInputs.at(i).setValue('');
+          this.snippets[i].changed = false;
+        } // else, the user has written text as well, we let its modification
+      }
+    }
+  }
+
+  /* ============================== HTTP REQUESTS ============================== */
 
   /**
    * Retrieves a given number of snippets from the database. Expected format:
@@ -285,39 +312,6 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
     this.http.put('db/update/value/' + this.session.getUser()[`Username`], updatedSnippetList, {})
       .pipe(catchError(this.handleError('updateSnippetsDB', undefined)))
       .subscribe();
-  }
-
-  updateRecognizerActivation() {
-    this.isRecognizerActivated = !this.isRecognizerActivated;
-
-    if (this.isRecognizerActivated) { // Suggestions ON
-      this.recognizerButtonClass = 'btn btn-warning suggest font-weight-bold';
-      this.recognizerButtonText = 'Suggestions activées';
-
-      // Change value inside inputs
-      for (let i = 0; i < this.snippets.length; i++) {
-        if (!this.snippets[i].changed) {    // Untouched input, empty -> we put back the suggestion
-          this.formArrayInputs.at(i).setValue(this.snippets[i].value);
-          this.snippets[i].changed = false;
-        } // else, the user has written text as well, we let its modification
-      }
-
-    } else {                          // Suggestions OFF
-      this.recognizerButtonClass = 'btn btn-warning bg-transparent suggest font-weight-bold';
-      this.recognizerButtonText = 'Suggestions désactivées';
-
-      // Change value inside inputs
-      for (let i = 0; i < this.snippets.length; i++) {
-        if (!this.snippets[i].changed) {    // Untouched input, only the suggestion -> we remove it
-          this.formArrayInputs.at(i).setValue('');
-          this.snippets[i].changed = false;
-        } // else, the user has written text as well, we let its modification
-      }
-    }
-  }
-
-  ngOnDestroy() {
-    this.httpErrorHandler.clearErrors();
   }
 
 }
