@@ -17,6 +17,7 @@ import {httpInterceptorProviders} from './http-interceptors';
 import { ErrorDisplayComponent } from './error-display/error-display.component';
 import {ErrorMessageService} from './services/error-messages.service';
 import {ReactiveFormsModule} from '@angular/forms';
+import { ScrollToTopComponent } from './scroll-to-top/scroll-to-top.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     ErrorDisplayComponent,
     LoginComponent,
     DbAddExamplesComponent,
+    ScrollToTopComponent,
   ],
   imports: [
     BrowserModule,
