@@ -1,80 +1,105 @@
-
 <div >
   <div>
     <div class="interest-box card">
       <h2 class="font-weight-bold" style="font-size: 2.5em">Gestion des comptes</h2>
       <hr>
       <ul class="account">
+
+        <div class=" row position-relative mx-auto" >
+          <label class="font-weight-bold col 3 text-center" style="text-decoration: underline" > Identifiant</label>
+          <label class="font-weight-bold col 3 text-center" style="text-decoration: underline"> Adresse mail</label>
+          <label class="font-weight-bold col 3 text-center" style="text-decoration: underline">  Administrateur</label>
+        </div>
+
         <li *ngFor="let account of accounts"
             [class.selected]="account === selectedAccount"
-            (click)="onSelect(account)">
-          <div class=" row position-relative mx-auto" >
-            <div class="col 3" style="background-color: #94c2db">
-              <label> Identifiant : {{account.name}} </label>
+            (click)="onSelect(account)"
+            style="list-style: none">
+          <div class="div div-list" style="padding-bottom: 3px">
+            <div class="row position-relative mx-auto acc-visual">
+              <label class="col 3 text-center">{{account.name}}</label>
+              <label class="col 3 text-center">{{account.email}}</label>
+              <input class="col 3 text-center" [(ngModel)]="account.role" type="checkbox" placeholder="admin" (click)="false"/>
             </div>
-            <div class="col 3" style="background-color: antiquewhite">
-              <label> Mot de passe : {{account.password}}</label>
-            </div>
-            <div class="col 3" style="background-color: #94c2db">
-              <label> Adresse mail : {{account.email}}</label>
-            </div>
-            <div class="col 3" style="background-color: antiquewhite">
-             <label>  Administrateur : {{account.role}} </label>
-           </div>
-
           </div>
-
         </li>
       </ul>
 
       <div *ngIf="selectedAccount">
         <hr>
-        <h2> Account details :</h2>
-        <div class=" row position-relative mx-auto" >
-          <div class="col 10" >
-            <label>name:
-              <input [(ngModel)]="selectedAccount.name" placeholder="name"/>
-            </label>
-            <label>password:
-              <input [(ngModel)]="selectedAccount.password" placeholder="password"/>
-            </label>
-            <label>email:
-              <input [(ngModel)]="selectedAccount.email" placeholder="email"/>
-            </label>
-            <label>role:
-              <input [(ngModel)]="selectedAccount.role" placeholder="admin"/>
-            </label>
+        <h4 class="font-weight-bold" >Détails du compte : </h4>
+        <form [formGroup]="changeAccountForm" (ngSubmit)="onUpdate(changeAccountForm.value)">
+          <div class=" row position-relative mx-auto" >
+            <div class="col 3" >
+              <label for="name">Identifiant :</label>
+              <input [ngModel]="selectedAccount.name" placeholder="name" type="text" formControlName="name" id="changeName">
+            </div>
+            <div class="col 3" >
+              <label for="password">Mot de passe :</label>
+              <input [ngModel]="selectedAccount.password" type="password" placeholder="password" type="password" formControlName="password" id="changePassword">
+            </div>
+            <div class="col 3" >
+              <label for="email">Adresse mail :</label>
+              <input [ngModel]="selectedAccount.email" placeholder="email" type="text" formControlName="email" id="changeEmail">
+            </div>
+            <div class="col 3" >
+              <label for="role">Droit d'administrateur :</label>
+              <input [ngModel]="selectedAccount.role" type="checkbox" placeholder="admin" formControlName="role" id="changeRole">
+            </div>
           </div>
-          <div class="col 2">
-            <button class="btn btn-primary btn-text font-weight-bold" (click)="Delete(selectedAccount)">
+          <div class="col-xs-6 text-center">
+            <button type="submit" class="btn btn-info btn-text font-weight-bold">
+              Enregistrer
+            </button>
+            <button class="btn btn-danger btn-text font-weight-bold" (click)="modalService.open(popUpDelete) ">
               Supprimer
             </button>
           </div>
-        </div>
+        </form>
+
+        <!--TEMPLATE FOR THE CONFIRMATION MODAL ATTACHED WITH THE SUPPRESSION BUTTON -->
+        <ng-template #popUpDelete let-modal>
+          <div class="modal-header alert-danger">
+            <h4 class="modal-title" id="modal-basic-title">Attention</h4>
+          </div>
+          <div class="modal-body">
+            Vous allez supprimer le compte sélectionné, êtes-vous certain de votre décision ?
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" (click)="modal.close() ; onSubmit(Delete(selectedAccount));">Continuer</button>
+            <button type="button" class="btn btn-light" (click)="modal.close()">Annuler</button>
+          </div>
+        </ng-template>
+
       </div>
       <hr>
 
       <div>
+        <h4 class="font-weight-bold" >Ajouter un compte :</h4>
         <form [formGroup]="accountForm" (ngSubmit)="onSubmit(accountForm.value)">
-
-          <div>
-            <label for="name">Identifiant</label>
-            <input type="text" formControlName="name" id="name">
+          <div class=" row position-relative mx-auto" >
+            <div class="col 3" >
+              <label for="name">Identifiant :</label>
+              <input type="text" formControlName="name" id="name">
+            </div>
+            <div class="col 3" >
+              <label for="password">Mot de passe :</label>
+              <input type="text" formControlName="password" id="password">
+            </div>
+            <div class="col 3" >
+              <label for="email">Adresse mail :</label>
+              <input type="text" formControlName="email" id="email">
+            </div>
+            <div class="col 3" >
+              <label for="role">Droit d'administrateur :</label>
+              <input type="checkbox" formControlName="role" id="role">
+            </div>
           </div>
-          <div>
-            <label for="password">Mot de passe</label>
-            <input type="text" formControlName="password" id="password">
+          <div class="col-xs-6 text-center">
+            <button type="submit" class="btn btn-success btn-text font-weight-bold">
+              Nouveau compte
+            </button>
           </div>
-          <div>
-            <label for="email">Mail</label>
-            <input type="text" formControlName="email" id="email">
-          </div>
-          <div>
-            <label for="role">Administrateur</label>
-            <input type="checkbox" formControlName="role" id="role">
-          </div>
-
-          <button type="submit">Nouveau compte</button>
         </form>
       </div>
     </div>

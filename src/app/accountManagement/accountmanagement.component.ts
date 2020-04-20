@@ -9,6 +9,7 @@ import {AuthService} from '../services/auth.service';
 import {SessionStorageService} from '../services/session-storage.service';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {catchError} from 'rxjs/operators';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -21,6 +22,7 @@ export class AccountManagementComponent implements OnInit {
   public accounts: Account[] = [];
   selectedAccount: Account;
   accountForm: FormGroup;
+  changeAccountForm: FormGroup;
   private newAccount: Account = new Account();
 
   handleError: HandleError;
@@ -30,6 +32,12 @@ export class AccountManagementComponent implements OnInit {
               private session: SessionStorageService,
               private httpErrorHandler: HttpErrorHandler) {
     this.accountForm = this.formBuilder.group({
+      name: new FormControl(''),
+      password: new FormControl(''),
+      email: new FormControl(''),
+      role: new FormControl('')
+    });
+    this.changeAccountForm = this.formBuilder.group({
       name: new FormControl(''),
       password: new FormControl(''),
       email: new FormControl(''),
@@ -82,9 +90,25 @@ export class AccountManagementComponent implements OnInit {
     this.selectedAccount = account;
   }
 
-  onCreate() {
-
+  onUpdate(values: any) {
+    let {name, password, email, role} = values;
+    if (email === null) {
+      email = this.selectedAccount.email;
+    }
+    if (name === null) {
+      name = this.selectedAccount.name;
+    }
+    if (password === null) {
+      password = this.selectedAccount.password;
+    }
+    if (role === null) {
+      role = this.selectedAccount.role;
+    }
+    this.selectedAccount.email = email;
+    this.selectedAccount.name = name;
+    this.selectedAccount.password = password;
+    this.selectedAccount.role = role;
+    this.selectedAccount = null;
+    this.accountForm.reset();
   }
-
-
 }
