@@ -29,6 +29,9 @@ spec:
           volumeMounts:
             - mountPath: "/snippets/"
               name: file-server
+          resources:
+              requests:
+                cpu: 200m
       volumes:
         - name: file-server
           persistentVolumeClaim:
@@ -65,6 +68,9 @@ spec:
           volumeMounts:
             - mountPath: "/snippets/"
               name: file-server-dev
+          resources:
+              requests:
+                cpu: 200m
       volumes:
         - name: file-server-dev
           persistentVolumeClaim:
