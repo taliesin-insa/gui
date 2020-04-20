@@ -14,6 +14,8 @@ export class HomePageComponent implements OnInit {
 
   private statusData: any;
 
+  private isInfoDisplayed: boolean;
+
   // tslint:disable-next-line:max-line-length
   constructor(private router: Router,
               private route: ActivatedRoute,
