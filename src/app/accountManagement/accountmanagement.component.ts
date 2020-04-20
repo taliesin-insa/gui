@@ -1,15 +1,11 @@
 import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {Router} from '@angular/router';
-import {ACCOUNTS} from './mock-accounts';
-import {Account} from './account';
-import {Component, OnInit} from '@angular/core';
 import {Account} from './account';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {AuthService} from '../services/auth.service';
 import {SessionStorageService} from '../services/session-storage.service';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {catchError} from 'rxjs/operators';
-import {ACCOUNTS} from './mock-accounts';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -20,13 +16,11 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class AccountManagementComponent implements OnInit {
 
-  public
-  accounts: Account[] = [];
+  public accounts: Account[] = [];
   selectedAccount: Account;
   accountForm: FormGroup;
   changeAccountForm: FormGroup;
-  private
-  newAccount: Account = new Account();
+  private newAccount: Account = new Account();
 
   handleError: HandleError;
 
