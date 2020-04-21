@@ -88,7 +88,7 @@ export class AccountManagementComponent implements OnInit {
     this.selectedAccount = account;
   }
 
-  onUpdate(values: any) {/*
+  onUpdate(values: any) {
     let {name, email, role} = values;
     if (email === null) {
       email = this.selectedAccount.email;
@@ -101,7 +101,7 @@ export class AccountManagementComponent implements OnInit {
     }
     this.selectedAccount.email = email;
     this.selectedAccount.name = name;
-    this.selectedAccount.role = role;*/
+    this.selectedAccount.role = role;
     this.selectedAccount = null;
     this.accountForm.reset();
   }
