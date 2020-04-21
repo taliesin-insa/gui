@@ -8,11 +8,11 @@
         <img src="assets/img/taliesin-logo-bicolor-alpha-blackcursor.png" alt="Logo taliesin" style="max-height: 42px;">
       </a>
 
-      <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed" >
+      <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed" *ngIf="session.getToken()">
         &#9776;
       </button>
 
-      <div #navbarItems class="collapse navbar-collapse" [ngbCollapse]="!isMenuCollapsed" >
+      <div #navbarItems class="collapse navbar-collapse" [ngbCollapse]="!isMenuCollapsed" *ngIf="session.getToken()">
         <ul class="nav navbar-nav">
           <li class="nav-item">
             <a id="home-nav" class="nav-item nav-link active" (click)="updateNavIndicator('home-nav')" href="#" routerLink="/home">Menu principal</a>
