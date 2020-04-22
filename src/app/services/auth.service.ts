@@ -48,6 +48,14 @@ export class AuthService {
     }, { observe: 'response', headers: new HttpHeaders({'Content-Type': 'application/json'}) });
   }
 
+  modifyAccount(username, role, token): Observable<any> {
+    return this.http.post('/auth/account/modify', {
+      AdminToken: token,
+      Username: username,
+      Role: role
+    }, { observe: 'response', headers: new HttpHeaders({'Content-Type': 'application/json'}) });
+  }
+
   deleteAccount(username, token): Observable<any> {
     return this.http.post('/auth/account/delete', {
       AdminToken: token,
