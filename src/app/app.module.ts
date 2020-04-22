@@ -18,6 +18,7 @@ import { ErrorDisplayComponent } from './error-display/error-display.component';
 import {ErrorMessageService} from './services/error-messages.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import { ScrollToTopComponent } from './scroll-to-top/scroll-to-top.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ScrollToTopComponent } from './scroll-to-top/scroll-to-top.component';
     LoginComponent,
     DbAddExamplesComponent,
     ScrollToTopComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
