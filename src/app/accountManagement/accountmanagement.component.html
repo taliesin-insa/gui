@@ -28,7 +28,7 @@
       <div *ngIf="selectedAccount">
         <hr>
         <h4 class="font-weight-bold" >Détails du compte : </h4>
-        <form [formGroup]="changeAccountForm" (ngSubmit)="onUpdate(changeAccountForm.value)">
+        <form [formGroup]="changeAccountForm">
           <div class=" row position-relative mx-auto" >
             <div class="col 3" >
               <label for="name">Identifiant :</label>
@@ -44,10 +44,10 @@
             </div>
           </div>
           <div class="col-xs-6 text-center">
-            <button type="submit" class="btn btn-info btn-text font-weight-bold">
+            <button type="submit" class="btn btn-info btn-text font-weight-bold" (click)="onUpdate(changeAccountForm.value)">
               Enregistrer
             </button>
-            <button class="btn btn-danger btn-text font-weight-bold" (click)="modalService.open(popUpDelete) ">
+            <button class="btn btn-danger btn-text font-weight-bold" (click)="modalService.open(popUpDelete)">
               Supprimer
             </button>
           </div>
