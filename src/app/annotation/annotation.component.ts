@@ -131,8 +131,8 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
    *
    * @param currentInput id of the actual input
    */
-  focusNextInput(currentInput: number) {
-    if (!this.annotationForm.invalid) {   // form valid, all the fields are completed
+  focusNextInput(currentInput: number, canSubmit: boolean) {
+    if (canSubmit && !this.annotationForm.invalid) {   // form valid, all the fields are completed
       // We validate the form
       this.focusedInput = -1;
       this.nextLinesButton.nativeElement.disabled = false;
@@ -208,7 +208,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       input.clearValidators();
       input.updateValueAndValidity();
       annotationsInputsArray[id].nativeElement.classList.add('bg-unreadable');
-      this.focusNextInput(id);
+      this.focusNextInput(id, true);
     } else {
       input.enable();
       input.setValidators(Validators.required);
@@ -232,7 +232,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       snippet.annotated = true;
       this.annotationInputs.toArray()[id].nativeElement.classList.add('bg-validated');
       this.updateSnippetDB(snippet);
-      this.focusNextInput(id);
+      this.focusNextInput(id, true);
     }
   }
 
