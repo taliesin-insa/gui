@@ -32,14 +32,14 @@
           <div class=" row position-relative mx-auto" >
             <div class="col 3" >
               <label for="name">Identifiant :</label>
-              <input [ngModel]="selectedAccount.name" placeholder="name" type="text" formControlName="name" id="changeName">
+              <input [ngModel]="selectedAccount.name" disabled placeholder="name" type="text" formControlName="name" id="changeName">
             </div>
             <div class="col 3" >
               <label for="email">Adresse mail :</label>
               <input [ngModel]="selectedAccount.email" placeholder="email" type="text" formControlName="email" id="changeEmail">
             </div>
             <div class="col 3" >
-              <label for="role">Droit d'administrateur :</label>
+              <label for="role">Droits d'administration :</label>
               <input [ngModel]="selectedAccount.role" type="checkbox" placeholder="admin" formControlName="role" id="changeRole">
             </div>
           </div>
@@ -83,7 +83,7 @@
               <input type="text" formControlName="email" id="email">
             </div>
             <div class="col 3" >
-              <label for="role">Droit d'administrateur :</label>
+              <label for="role">Droits d'administration :</label>
               <input type="checkbox" formControlName="role" id="role">
             </div>
           </div>

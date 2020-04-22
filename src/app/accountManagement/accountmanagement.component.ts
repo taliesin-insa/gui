@@ -99,10 +99,19 @@ export class AccountManagementComponent implements OnInit {
     if (role === null) {
       role = this.selectedAccount.role;
     }
+
+    const roleText = (role) ? 0 : 1;
+    this.auth.modifyAccount(name, roleText, this.session.getToken())
+      .pipe(catchError(this.handleError('modifying account', null)))
+      .subscribe(data => {
+        this.reloadList();
+      });
+
     this.selectedAccount.email = email;
     this.selectedAccount.name = name;
     this.selectedAccount.role = role;
     this.selectedAccount = null;
+
     this.accountForm.reset();
   }
 }
