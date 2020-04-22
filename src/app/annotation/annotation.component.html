@@ -36,7 +36,7 @@
       <br>
       <b>Flèche haut :</b> passer à l'image précédente
       <br>
-      <b>F9 :</b> marquer l'image courante comme illisible
+      <b>Ctrl + Suppr :</b> marquer l'image courante comme illisible
     </ng-template>
 
     <div class="mx-auto col-sm" style="width: auto" >
@@ -75,7 +75,7 @@
             <div class="card-body">
               <input #annotationInput class="w-75" type="text" [formControlName]="i"
                      [ngClass]="(i === focusedInput) ? 'border-active' : null"
-                     (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)"
+                     (keydown.enter)="validateAnnotation(i)" (keydown.control.delete)="setUnreadable(i)"
                      (focusin)="focusedInput = i" (focusout)="focusedInput = -1"
                      (keydown.arrowDown)="focusNextInput(i, false)" (keydown.arrowUp)="focusPreviousInput(i)"
                      (ngModelChange)="snippets[i].changed = true;">
