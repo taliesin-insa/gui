@@ -53,7 +53,7 @@ export class AccountManagementComponent implements OnInit {
     .pipe(catchError(this.handleError('listing accounts', null)))
     .subscribe(data => {
       for (const item of data.body) {
-        this.accounts.push(new Account(item.Username, undefined, item.Role === '0'));
+        this.accounts.push(new Account(item.Username, undefined, item.Role === 0));
       }
     });
   }
@@ -75,7 +75,7 @@ export class AccountManagementComponent implements OnInit {
   onSubmit(values: any) {
     const{name, password, email, role} = values;
 
-    const roleText = (role) ? '0' : '1';
+    const roleText = (role) ? 0 : 1;
     this.auth.newAccount(name, password, roleText, this.session.getToken())
       .pipe(catchError(this.handleError('creating account', null)))
       .subscribe(data => {
