@@ -38,8 +38,6 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
   private hoveredCard = -1 ; // Indicator to know which card is currently hovered
   private focusedInput = 0;  // Indicator to know which input is currently focused
 
-  private nbSnippetsDone = 0; // Number of snippets that are either tagged Annotated or Unreadable
-
   // Attributes used when enabling/disabling the automatic suggestions
   private isRecognizerActivated: boolean;
   private recognizerButtonClass: string;
@@ -122,7 +120,6 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       this.updateManySnippetsDB(snippetsToValidate);
     }
 
-    this.nbSnippetsDone = 0;
     // Get new snippets to annotate
     this.retrieveSnippetsDB(NB_OF_SNIPPETS_TO_GET);
   }
@@ -137,8 +134,9 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param avoidAnnotated: if true won't focus the annotated inputs
    */
   focusNextInput(currentInput: number, canSubmit: boolean, avoidAnnotated: boolean) {
-    if (canSubmit && this.nbSnippetsDone === this.snippets.length) {   // form valid, all the fields are validated or unreadable
-      // We validate the form
+    if (canSubmit && this.annotationForm.valid &&
+      this.snippets.filter(snippet => snippet.unreadable || snippet.annotated).length === this.snippets.length) {
+      // Form valid, all the fields are validated or unreadable
       this.nextLinesButton.nativeElement.disabled = false;
       this.nextLinesButton.nativeElement.focus();
       this.nextLinesButton.nativeElement.click();
@@ -212,13 +210,11 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       input.clearValidators();
       input.updateValueAndValidity();
       annotationsInputsArray[id].nativeElement.classList.add('bg-unreadable');
-      this.nbSnippetsDone++;
       this.focusNextInput(id, true, true);
     } else {                    // Readable
       input.enable();
       input.setValidators(Validators.required);
       annotationsInputsArray[id].nativeElement.classList.remove('bg-unreadable');
-      this.nbSnippetsDone--;    // We said the snippet is readable after all, so we need to deal with it
     }
     input.updateValueAndValidity();
   }
@@ -240,7 +236,6 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       this.updateSnippetDB(snippet);
 
       this.annotationInputs.toArray()[id].nativeElement.classList.add('bg-validated');
-      this.nbSnippetsDone++;
       this.focusNextInput(id, true, true);
     }
   }
