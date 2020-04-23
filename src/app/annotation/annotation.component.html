@@ -21,7 +21,7 @@
               ngbPopover="Afin de faciliter le travail d'annotation, un reconnaisseur automatique d'écriture est
               mis en place dans l'application. Ce reconnaisseur peut ainsi vous proposer des suggestions de
               transcription pour les images.">
-        <i class="fas fa-question"></i>
+        <i class="fas fa-info"></i>
       </button>
     </div>
 
@@ -77,12 +77,16 @@
                      [ngClass]="(i === focusedInput) ? 'border-active' : null"
                      (keydown.enter)="validateAnnotation(i)" (keydown.control.delete)="setUnreadable(i)"
                      (focusin)="focusedInput = i" (focusout)="focusedInput = -1"
-                     (keydown.arrowDown)="focusNextInput(i, false)" (keydown.arrowUp)="focusPreviousInput(i)"
+                     (keydown.arrowDown)="focusNextInput(i, false, false)" (keydown.arrowUp)="focusPreviousInput(i)"
                      (ngModelChange)="snippets[i].changed = true;">
 
               <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)" [disabled]="snippets[i].annotated"
                       title="{{snippets[i].unreadable ? 'Déclarer l\'image lisible' : 'Déclarer l\'image illisible'}}">
                 X</button>
+
+              <br>
+              <span class="badge badge-success" *ngIf="snippets[i].annotated">Annotation validée</span>
+              <span class="badge badge-danger" *ngIf="snippets[i].unreadable">Image déclarée illisible</span>
             </div>
           </div>
 
@@ -91,12 +95,12 @@
       </div>
       <hr>
       <!-- Button to get new lines -->
-      <div class="position-relative mx-auto text-center" style="width: 20%">
+      <div class="position-relative mx-auto text-center">
         <button #nextLines class="btn btn-success btn-text font-weight-bold" [disabled]="annotationForm.invalid"
                 ngbPopover="{{annotationForm.invalid ? 'Des images ne sont pas traitées' : ''}}" triggers="mouseenter:mouseleave"
                 (click)="modalService.open(popUpNextLines);" type="button">
           <i class="fas fa-check"></i>
-          Lignes suivantes
+          Valider et lignes suivantes
         </button>
 
         <!--TEMPLATE FOR THE CONFIRMATION MODAL ATTACHED WITH THE NEW LINES BUTTON -->
@@ -105,7 +109,7 @@
             <h4 class="modal-title" id="modal-basic-title">Attention</h4>
           </div>
           <div class="modal-body">
-            En demandant de nouvelles lignes à annoter, vous allez valider définitivement les annotations en cours. Vous ne pourrez plus les corriger. <br>
+            En demandant de nouvelles lignes à annoter, vous allez valider définitivement les annotations en cours. Vous ne pourrez plus les corriger.<br>
             Êtes-vous sûr(e) de vouloir continuer ?
           </div>
           <div class="modal-footer">
