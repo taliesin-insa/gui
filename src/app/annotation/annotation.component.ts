@@ -131,9 +131,11 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Focuses the next input in the array of snippet text inputs that is enabled
    *
-   * @param currentInput id of the actual input
+   * @param currentInput: id of the actual input
+   * @param canSubmit: tells if the form can be submitted if it is completed
+   * @param avoidAnnotated: if true won't focus the annotated inputs
    */
-  focusNextInput(currentInput: number, canSubmit: boolean) {
+  focusNextInput(currentInput: number, canSubmit: boolean, avoidAnnotated: boolean) {
     if (canSubmit && this.nbSnippetsDone === this.snippets.length) {   // form valid, all the fields are validated or unreadable
       // We validate the form
       this.focusedInput = -1;
@@ -145,7 +147,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       let nextInput = (currentInput  + 1) % len;
 
       // Try to find the next input that isn't validated or unreadable, cycle back to top if necessary
-      while (this.snippets[nextInput].annotated || this.snippets[nextInput].unreadable) {
+      while (this.snippets[nextInput].unreadable || (avoidAnnotated && this.snippets[nextInput].annotated)) {
         nextInput = (nextInput + 1) % len;
       }
 
@@ -167,8 +169,8 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
     const len = annotationsInputsArray.length;
     let previousInput = (currentInput + len - 1) % len;
 
-    // Try to find the previous input that isn't validated or unreadable, cycle back to bottom if necessary
-    while (this.snippets[previousInput].annotated || this.snippets[previousInput].unreadable) {
+    // Try to find the previous input that isn't unreadable, cycle back to bottom if necessary
+    while (this.snippets[previousInput].unreadable) {
       previousInput = (previousInput + len - 1) % len;
     }
 
@@ -210,7 +212,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       input.updateValueAndValidity();
       annotationsInputsArray[id].nativeElement.classList.add('bg-unreadable');
       this.nbSnippetsDone++;
-      this.focusNextInput(id, true);
+      this.focusNextInput(id, true, true);
     } else {                    // Readable
       input.enable();
       input.setValidators(Validators.required);
@@ -238,7 +240,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.annotationInputs.toArray()[id].nativeElement.classList.add('bg-validated');
       this.nbSnippetsDone++;
-      this.focusNextInput(id, true);
+      this.focusNextInput(id, true, true);
     }
   }
 

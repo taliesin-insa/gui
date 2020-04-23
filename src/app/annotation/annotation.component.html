@@ -77,7 +77,7 @@
                      [ngClass]="(i === focusedInput) ? 'border-active' : null"
                      (keydown.enter)="validateAnnotation(i)" (keydown.control.delete)="setUnreadable(i)"
                      (focusin)="focusedInput = i" (focusout)="focusedInput = -1"
-                     (keydown.arrowDown)="focusNextInput(i, false)" (keydown.arrowUp)="focusPreviousInput(i)"
+                     (keydown.arrowDown)="focusNextInput(i, false, false)" (keydown.arrowUp)="focusPreviousInput(i)"
                      (ngModelChange)="snippets[i].changed = true;">
 
               <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)" [disabled]="snippets[i].annotated"
