@@ -138,8 +138,8 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
   focusNextInput(currentInput: number, canSubmit: boolean, avoidAnnotated: boolean) {
     if (canSubmit && this.nbSnippetsDone === this.snippets.length) {   // form valid, all the fields are validated or unreadable
       // We validate the form
-      this.focusedInput = -1;
       this.nextLinesButton.nativeElement.disabled = false;
+      this.nextLinesButton.nativeElement.focus();
       this.nextLinesButton.nativeElement.click();
     } else {                              // form invalid, some snippets still need to be completed
       const annotationsInputsArray = this.annotationInputs.toArray();
