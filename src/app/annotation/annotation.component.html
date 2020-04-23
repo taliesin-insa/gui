@@ -21,7 +21,7 @@
               ngbPopover="Afin de faciliter le travail d'annotation, un reconnaisseur automatique d'écriture est
               mis en place dans l'application. Ce reconnaisseur peut ainsi vous proposer des suggestions de
               transcription pour les images.">
-        <i class="fas fa-question"></i>
+        <i class="fas fa-info"></i>
       </button>
     </div>
 
@@ -96,7 +96,7 @@
                 ngbPopover="{{annotationForm.invalid ? 'Des images ne sont pas traitées' : ''}}" triggers="mouseenter:mouseleave"
                 (click)="modalService.open(popUpNextLines);" type="button">
           <i class="fas fa-check"></i>
-          Lignes suivantes
+          Valider et lignes suivantes
         </button>
 
         <!--TEMPLATE FOR THE CONFIRMATION MODAL ATTACHED WITH THE NEW LINES BUTTON -->
@@ -105,7 +105,7 @@
             <h4 class="modal-title" id="modal-basic-title">Attention</h4>
           </div>
           <div class="modal-body">
-            En demandant de nouvelles lignes à annoter, vous allez valider définitivement les annotations en cours. Vous ne pourrez plus les corriger. <br>
+            En demandant de nouvelles lignes à annoter, vous allez valider définitivement les annotations en cours. Vous ne pourrez plus les corriger.<br>
             Êtes-vous sûr(e) de vouloir continuer ?
           </div>
           <div class="modal-footer">
