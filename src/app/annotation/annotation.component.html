@@ -9,7 +9,7 @@
     </div>
 
     <!-- Enable/disable suggestions -->
-    <div class="mx-auto col-sm text-center" style="width: auto" *ngIf="hasReceivedSnippets">
+    <div class="mx-auto col-sm text-center" style="width: auto" *ngIf="snippets.length > 0">
       <button [ngClass]="[recognizerButtonClass]" (click)="updateRecognizerActivation()">
         <i class="fas fa-bolt"></i>
         {{recognizerButtonText}}
@@ -52,13 +52,7 @@
   <hr>
   <!-- /Row with title and buttons -->
 
-  <div class="text-center" *ngIf="imagesLoading">
-    <div class="spinner-border text-primary" role="status">
-      <span class="sr-only">Loading...</span>
-    </div>
-  </div>
-
-  <div *ngIf="!imagesLoading && !hasReceivedSnippets">
+  <div *ngIf="snippets.length === 0">
     <p>
       Il n'y a actuellement aucune image à annoter. Si vous venez d'ajouter des images dans la base de données,
       il se peut qu'elles soient encore en cours d'importation.
@@ -66,7 +60,7 @@
   </div>
 
   <!-- Annotation body -->
-  <div class="col-lg-10 offset-lg-1" *ngIf="hasReceivedSnippets">
+  <div class="col-lg-10 offset-lg-1" *ngIf="snippets.length > 0">
     <!-- Form used to display all the snippets (image + text field) -->
     <form [formGroup]="annotationForm" (ngSubmit)="onSubmit(annotationForm.value)" (keydown.enter)="$event.preventDefault()">
       <div formArrayName="snippetInputs">
