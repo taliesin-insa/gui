@@ -38,6 +38,8 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
   private hoveredCard = -1 ;
   private focusedInput = 0;
 
+  private nbSnippetsDone = 0;
+
   // Attributes used when enabling/disabling the automatic suggestions
   private isRecognizerActivated: boolean;
   private recognizerButtonClass: string;
@@ -132,7 +134,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param currentInput id of the actual input
    */
   focusNextInput(currentInput: number, canSubmit: boolean) {
-    if (canSubmit && !this.annotationForm.invalid) {   // form valid, all the fields are completed
+    if (canSubmit && this.nbSnippetsDone === this.snippets.length) {   // form valid, all the fields are validated or unreadable
       // We validate the form
       this.focusedInput = -1;
       this.nextLinesButton.nativeElement.disabled = false;
@@ -202,16 +204,18 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
     const annotationsInputsArray = this.annotationInputs.toArray();
     const input = this.formArrayInputs.at(id);
 
-    if (snippet.unreadable) {
+    if (snippet.unreadable) {   // Unreadable
       input.disable();
       input.clearValidators();
       input.updateValueAndValidity();
       annotationsInputsArray[id].nativeElement.classList.add('bg-unreadable');
+      this.nbSnippetsDone++;
       this.focusNextInput(id, true);
-    } else {
+    } else {                    // Readable
       input.enable();
       input.setValidators(Validators.required);
       annotationsInputsArray[id].nativeElement.classList.remove('bg-unreadable');
+      this.nbSnippetsDone--;    // We said the snippet is readable after all, so we need to deal with it
     }
     input.updateValueAndValidity();
   }
@@ -223,15 +227,17 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   validateAnnotation(id: number) {
     const snippet = this.snippets[id];
-    snippet.changed = true;
-
     const input = this.formArrayInputs.at(id);
 
     if (!input.invalid) {
+      snippet.changed = true;
       snippet.value = input.value;
       snippet.annotated = true;
-      this.annotationInputs.toArray()[id].nativeElement.classList.add('bg-validated');
+
       this.updateSnippetDB(snippet);
+
+      this.annotationInputs.toArray()[id].nativeElement.classList.add('bg-validated');
+      this.nbSnippetsDone++;
       this.focusNextInput(id, true);
     }
   }
