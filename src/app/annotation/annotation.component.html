@@ -95,7 +95,7 @@
       </div>
       <hr>
       <!-- Button to get new lines -->
-      <div class="position-relative mx-auto text-center" style="width: 20%">
+      <div class="position-relative mx-auto text-center">
         <button #nextLines class="btn btn-success btn-text font-weight-bold" [disabled]="annotationForm.invalid"
                 ngbPopover="{{annotationForm.invalid ? 'Des images ne sont pas traitées' : ''}}" triggers="mouseenter:mouseleave"
                 (click)="modalService.open(popUpNextLines);" type="button">
