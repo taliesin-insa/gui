@@ -292,6 +292,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(catchError(this.handleError('retrieveSnippetsDB', [])))
       // Function handling the result of the HTTP request. Returned value might either be the wanted one or the default one specified above
       .subscribe(returnedData => {
+        console.log(returnedData);
         returnedData.forEach(dbEntry => this.snippets.push(new Snippet(dbEntry)));
         this.fillAnnotationForm();
         this.hasReceivedSnippets = (this.snippets.length > 0);
