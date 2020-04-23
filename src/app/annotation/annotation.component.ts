@@ -142,8 +142,8 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       const len = annotationsInputsArray.length;
       let nextInput = (currentInput  + 1) % len;
 
-      // Try to find the next input that isn't disabled (unreadable or validated), cycle back to top if necessary
-      while (annotationsInputsArray[nextInput].nativeElement.disabled) {
+      // Try to find the next input that isn't validated or unreadable, cycle back to top if necessary
+      while (this.snippets[nextInput].annotated || this.snippets[nextInput].unreadable) {
         nextInput = (nextInput + 1) % len;
       }
 
@@ -165,8 +165,8 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
     const len = annotationsInputsArray.length;
     let previousInput = (currentInput + len - 1) % len;
 
-    // Try to find the next input that isn't disabled (unreadable or validated), cycle back to top if necessary
-    while (annotationsInputsArray[previousInput].nativeElement.disabled) {
+    // Try to find the previous input that isn't validated or unreadable, cycle back to bottom if necessary
+    while (this.snippets[previousInput].annotated || this.snippets[previousInput].unreadable) {
       previousInput = (previousInput + len - 1) % len;
     }
 
@@ -193,17 +193,16 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param id of the actual snippet
    */
   setUnreadable(id: number) {
+    const snippet = this.snippets[id];
+    snippet.unreadable = !snippet.unreadable;
+    snippet.changed = true;
+
+    this.updateFlagUnreadableDB(snippet);
+
     const annotationsInputsArray = this.annotationInputs.toArray();
-    this.snippets[id].unreadable = !this.snippets[id].unreadable;
-    this.snippets[id].changed = true;
-
-    this.http.put('db/update/flags', [getUnreadableFlag(this.snippets[id])], {})
-      .pipe(catchError(this.handleError('setUnreadable', undefined)))
-      .subscribe();
-
     const input = this.formArrayInputs.at(id);
 
-    if (this.snippets[id].unreadable) {
+    if (snippet.unreadable) {
       input.disable();
       input.clearValidators();
       input.updateValueAndValidity();
@@ -225,9 +224,10 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
   validateAnnotation(id: number) {
     const snippet = this.snippets[id];
     snippet.changed = true;
+
     const input = this.formArrayInputs.at(id);
+
     if (!input.invalid) {
-      input.disable();
       snippet.value = input.value;
       snippet.annotated = true;
       this.annotationInputs.toArray()[id].nativeElement.classList.add('bg-validated');
@@ -314,4 +314,9 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe();
   }
 
+  updateFlagUnreadableDB(snippet: Snippet) {
+    this.http.put('db/update/flags', [getUnreadableFlag(snippet)], {})
+      .pipe(catchError(this.handleError('setUnreadable', undefined)))
+      .subscribe();
+  }
 }
