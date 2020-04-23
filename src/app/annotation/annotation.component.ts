@@ -122,6 +122,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       this.updateManySnippetsDB(snippetsToValidate);
     }
 
+    this.nbSnippetsDone = 0;
     // Get new snippets to annotate
     this.retrieveSnippetsDB(NB_OF_SNIPPETS_TO_GET);
   }
