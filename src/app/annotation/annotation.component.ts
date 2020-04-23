@@ -31,14 +31,14 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('nextLines', { static : false}) nextLinesButton: ElementRef;
   @ViewChildren('inputCard') inputsCards: QueryList<ElementRef>;
 
-  snippets: Snippet[] = []; // Batch of snippets
-  annotationForm: FormGroup; // Form that contains text inputs for snippets' transcriptions
+  snippets: Snippet[] = [];   // Batch of snippets
+  annotationForm: FormGroup;  // Form that contains text inputs for snippets' transcriptions
   private handleError: HandleError;
 
-  private hoveredCard = -1 ;
-  private focusedInput = 0;
+  private hoveredCard = -1 ; // Indicator to know which card is currently hovered
+  private focusedInput = 0;  // Indicator to know which input is currently focused
 
-  private nbSnippetsDone = 0;
+  private nbSnippetsDone = 0; // Number of snippets that are either tagged Annotated or Unreadable
 
   // Attributes used when enabling/disabling the automatic suggestions
   private isRecognizerActivated: boolean;
