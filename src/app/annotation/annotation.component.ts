@@ -32,6 +32,9 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren('inputCard') inputsCards: QueryList<ElementRef>;
 
   snippets: Snippet[] = [];   // Batch of snippets
+  private hasReceivedSnippets = false;
+  private imagesLoading = true;
+
   annotationForm: FormGroup;  // Form that contains text inputs for snippets' transcriptions
   private handleError: HandleError;
 
@@ -291,6 +294,8 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(returnedData => {
         returnedData.forEach(dbEntry => this.snippets.push(new Snippet(dbEntry)));
         this.fillAnnotationForm();
+        this.hasReceivedSnippets = (this.snippets.length > 0);
+        this.imagesLoading = false;
       });
   }
 
