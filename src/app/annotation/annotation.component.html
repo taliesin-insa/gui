@@ -83,6 +83,10 @@
               <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)" [disabled]="snippets[i].annotated"
                       title="{{snippets[i].unreadable ? 'Déclarer l\'image lisible' : 'Déclarer l\'image illisible'}}">
                 X</button>
+
+              <br>
+              <span class="badge badge-success" *ngIf="snippets[i].annotated">Annotation validée</span>
+              <span class="badge badge-danger" *ngIf="snippets[i].unreadable">Déclarée illisible</span>
             </div>
           </div>
 
