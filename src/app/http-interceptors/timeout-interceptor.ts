@@ -16,7 +16,6 @@ export class TimeoutInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.headers.get('skipTimeoutInterceptor')) {
-      console.log('no timeout');
       return next.handle(req);
     } else {
       return next.handle(req).pipe(
