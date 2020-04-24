@@ -26,7 +26,7 @@
 
   <div class="position-relative mx-auto text-center" style="width: 20%">
     <button class="btn btn-primary btn-text font-weight-bold"
-            (click)="this.appComponent.updateNavIndicator('annotation-nav')" routerLink="/annotation">
+            (click)="appComponent.updateNavIndicator('annotation-nav')" routerLink="/annotation">
       Annotation
     </button>
   </div>
@@ -35,7 +35,7 @@
 
     <div class="col-xs-6 text-center" *ngIf="session.getUser()['Role'] === 0">
       <button class="btn btn-secondary btn-text font-weight-bold"
-              (click)="this.appComponent.updateNavIndicator('dbManagement-nav')" routerLink="/dbManagement">
+              (click)="appComponent.updateNavIndicator('dbManagement-nav')" routerLink="/dbManagement">
         <i class="fas fa-cog"></i>
         Gestion de la base de données
       </button>
