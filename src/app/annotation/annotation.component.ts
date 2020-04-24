@@ -114,14 +114,18 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
     for (let i = 0; i < modifiedSnippetInputs.length; i++) {
       this.snippets[i].value = modifiedSnippetInputs[i];
     }
-    // Clear inputs since we will get new snippets
-    this.formArrayInputs.clear();
 
     // Update data in backend: snippets for which the annotation hasn't been validated
     const snippetsToValidate = this.snippets.filter(snippet => (!snippet.annotated && !snippet.unreadable));
     if (snippetsToValidate.length > 0) {
       this.updateManySnippetsDB(snippetsToValidate);
     }
+
+    // Clear inputs since we will get new snippets
+    this.formArrayInputs.clear();
+
+    this.hasReceivedSnippets = false;
+    this.imagesLoading = true;
 
     // Get new snippets to annotate
     this.retrieveSnippetsDB(NB_OF_SNIPPETS_TO_GET);
