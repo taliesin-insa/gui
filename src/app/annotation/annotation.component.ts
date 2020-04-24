@@ -31,7 +31,10 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('nextLines', { static : false}) nextLinesButton: ElementRef;
   @ViewChildren('inputCard') inputsCards: QueryList<ElementRef>;
 
-  snippets: Snippet[] = [];   // Batch of snippets
+  snippets: Snippet[] = [];             // Batch of snippets
+  private hasReceivedSnippets = false;  // True if there are snippets to annotate
+  private imagesLoading = true;         // Used to display a loading spinner while retrieving snippets
+
   annotationForm: FormGroup;  // Form that contains text inputs for snippets' transcriptions
   private handleError: HandleError;
 
@@ -289,8 +292,14 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(catchError(this.handleError('retrieveSnippetsDB', [])))
       // Function handling the result of the HTTP request. Returned value might either be the wanted one or the default one specified above
       .subscribe(returnedData => {
-        returnedData.forEach(dbEntry => this.snippets.push(new Snippet(dbEntry)));
-        this.fillAnnotationForm();
+        if (returnedData !== null) {
+          returnedData.forEach(dbEntry => this.snippets.push(new Snippet(dbEntry)));
+          this.fillAnnotationForm();
+          this.hasReceivedSnippets = true;
+        } else {
+          this.hasReceivedSnippets = false;
+        }
+        this.imagesLoading = false;
       });
   }
 
