@@ -20,8 +20,8 @@ export class HomePageComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private errorMessageService: ErrorMessageService,
-              private session: SessionStorageService) {
-  }
+              private session: SessionStorageService,
+              public appComponent: AppComponent) {}
 
   ngOnInit() {
     this.statusData = this.route.snapshot.data.statusData;

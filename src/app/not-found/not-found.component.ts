@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import {AppComponent} from '../app.component';
 
 @Component({
   selector: 'app-not-found',
@@ -8,9 +8,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class NotFoundComponent implements OnInit {
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(public appComponent: AppComponent) { }
 
   ngOnInit() {
+    this.appComponent.updateNavIndicator(null);
   }
 
 }
