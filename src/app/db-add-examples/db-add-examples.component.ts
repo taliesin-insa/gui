@@ -106,7 +106,6 @@ export class DbAddExamplesComponent implements OnInit, OnDestroy {
       // The OK-button should have the text "Finish" now
       this.primaryButtonText = 'Retour au menu';
       this.primaryBtn.nativeElement.classList.replace('btn-outline-primary', 'btn-success');
-      this.primaryBtn.nativeElement.classList.add('mx-auto');
       this.sendImgsToRecognizer();
     });
   }
