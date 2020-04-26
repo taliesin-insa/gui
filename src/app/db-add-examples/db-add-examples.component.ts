@@ -6,6 +6,7 @@ import {UploadService} from '../services/upload/upload.service';
 import {FormBuilder} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {catchError} from 'rxjs/operators';
+import {AppComponent} from '../app.component';
 
 @Component({
   selector: 'app-db-add-examples',
@@ -16,8 +17,12 @@ export class DbAddExamplesComponent implements OnInit, OnDestroy {
 
   private acceptedFileTypes = ['image/png', 'image/jpeg'];
   public files: Set<File> = new Set();
+
   progresses: { [key: string]: { progress: Observable<number>, subject: Subject<number> } };
+
+  @ViewChild('primaryBtn', {static: false}) primaryBtn;
   primaryButtonText = 'Importer';
+
   public uploadInProgress = false;
   private uploadStarted = false;
 
@@ -30,7 +35,8 @@ export class DbAddExamplesComponent implements OnInit, OnDestroy {
               private uploadService: UploadService,
               private fb: FormBuilder,
               private http: HttpClient,
-              private httpErrorHandler: HttpErrorHandler) {
+              private httpErrorHandler: HttpErrorHandler,
+              public appComponent: AppComponent) {
     this.handleError = httpErrorHandler.createHandleError('DBAddExamples');
   }
 
@@ -64,6 +70,7 @@ export class DbAddExamplesComponent implements OnInit, OnDestroy {
       this.upload();
     } else {
       this.router.navigate(['/home']);
+      this.appComponent.updateNavIndicator('home-nav');
     }
   }
 
@@ -100,7 +107,8 @@ export class DbAddExamplesComponent implements OnInit, OnDestroy {
       this.uploadInProgress = false;
 
       // The OK-button should have the text "Finish" now
-      this.primaryButtonText = 'Terminer';
+      this.primaryButtonText = 'Retour au menu';
+      this.primaryBtn.nativeElement.classList.replace('btn-outline-primary', 'btn-success');
       this.sendImgsToRecognizer();
     });
   }
