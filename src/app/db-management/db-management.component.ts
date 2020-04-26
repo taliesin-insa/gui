@@ -54,7 +54,7 @@ export class DbManagementComponent implements OnInit, OnDestroy {
     this.isExportInProgress = true;
     this.isExportInPopUp = inPopUp;
 
-    this.http.get('/export/piff', {responseType: 'blob'})
+    this.http.get('/export/piff', {responseType: 'blob', headers: { skipTimeoutInterceptor: 'true'} })
       .pipe(
         map(response => (response) as Blob),
         catchError(this.handleError('exportPiFF', null)))

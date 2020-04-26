@@ -15,22 +15,26 @@ import {catchError, timeout} from 'rxjs/operators';
 export class TimeoutInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req).pipe(
-      timeout(15000),
-      catchError(e => {
-          if (e.name === 'TimeoutError') {
-            e = new HttpErrorResponse({
-              error: e,
-              headers: req.headers,
-              status: 504,
-              statusText: 'TimeoutError',
-              url: req.url
-            });
+    if (req.headers.get('skipTimeoutInterceptor')) {
+      return next.handle(req);
+    } else {
+      return next.handle(req).pipe(
+        timeout(15000),
+        catchError(e => {
+            if (e.name === 'TimeoutError') {
+              e = new HttpErrorResponse({
+                error: e,
+                headers: req.headers,
+                status: 504,
+                statusText: 'TimeoutError',
+                url: req.url
+              });
+            }
+            return throwError(e);
           }
-          return throwError(e);
-        }
-      )
-    );
+        )
+      );
+    }
   }
 }
 

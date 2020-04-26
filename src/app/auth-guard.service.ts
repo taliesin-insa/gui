@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import {catchError, map} from 'rxjs/operators';
@@ -6,6 +6,11 @@ import {Observable} from 'rxjs';
 import { of } from 'rxjs';
 
 import { SessionStorageService } from './services/session-storage.service';
+import { DbManagementComponent } from './db-management/db-management.component';
+import { DbCreationComponent } from './db-creation/db-creation.component';
+import { DbAddExamplesComponent } from './db-add-examples/db-add-examples.component';
+
+const PRIVILEGED_COMPONENTS = [DbManagementComponent, DbCreationComponent, DbAddExamplesComponent];
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
@@ -22,7 +27,11 @@ export class AuthGuard implements CanActivate {
         if (this.session.getToken()) {
             return this.auth.verify(this.session.getToken()).pipe(map(e => {
                 if (e) {
-                    return true;
+                    // check permissions
+                    // if admin or not privileged component
+                    return e.body.Role === 0 || PRIVILEGED_COMPONENTS.find(elt => elt === route.component) == null;
+                } else {
+                    return false;
                 }
             }), catchError(error => {
                 console.error(error);

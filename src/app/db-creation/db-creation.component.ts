@@ -1,12 +1,13 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {UploadService} from '../services/upload/upload.service';
-import {forkJoin, from} from 'rxjs';
+import {forkJoin} from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {HttpClient, HttpEventType, HttpEvent, HttpRequest, HttpResponse, HttpUserEvent} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
-import {catchError, map, concatMap} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 import {Observable, Subject} from 'rxjs';
+import {AppComponent} from '../app.component';
 
 
 @Component({
@@ -22,8 +23,12 @@ export class DbCreationComponent implements OnInit, OnDestroy {
 
   private acceptedFileTypes = ['image/png', 'image/jpeg'];
   public files: Set<File> = new Set();
+
   progresses: { [key: string]: { progress: Observable<number>, subject: Subject<number> } };
+
+  @ViewChild('primaryBtn', {static: false}) primaryBtn;
   primaryButtonText = 'Importer';
+
   public uploadInProgress = false;
   private uploadStarted = false;
 
@@ -37,7 +42,8 @@ export class DbCreationComponent implements OnInit, OnDestroy {
               private uploadService: UploadService,
               private fb: FormBuilder,
               private http: HttpClient,
-              private httpErrorHandler: HttpErrorHandler) {
+              private httpErrorHandler: HttpErrorHandler,
+              public appComponent: AppComponent) {
     this.handleError = httpErrorHandler.createHandleError('DBCreation');
   }
 
@@ -84,6 +90,7 @@ export class DbCreationComponent implements OnInit, OnDestroy {
       this.upload();
     } else {
       this.router.navigate(['/home']);
+      this.appComponent.updateNavIndicator('home-nav');
     }
   }
 
@@ -120,7 +127,8 @@ export class DbCreationComponent implements OnInit, OnDestroy {
       this.uploadInProgress = false;
 
       // The OK-button should have the text "Finish" now
-      this.primaryButtonText = 'Terminer';
+      this.primaryButtonText = 'Retour au menu';
+      this.primaryBtn.nativeElement.classList.replace('btn-outline-primary', 'btn-success');
       this.sendImgsToRecognizer();
     });
   }

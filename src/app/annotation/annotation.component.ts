@@ -31,12 +31,15 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('nextLines', { static : false}) nextLinesButton: ElementRef;
   @ViewChildren('inputCard') inputsCards: QueryList<ElementRef>;
 
-  snippets: Snippet[] = []; // Batch of snippets
-  annotationForm: FormGroup; // Form that contains text inputs for snippets' transcriptions
+  snippets: Snippet[] = [];             // Batch of snippets
+  private hasReceivedSnippets = false;  // True if there are snippets to annotate
+  private imagesLoading = true;         // Used to display a loading spinner while retrieving snippets
+
+  annotationForm: FormGroup;  // Form that contains text inputs for snippets' transcriptions
   private handleError: HandleError;
 
-  private hoveredCard = -1 ;
-  private focusedInput = 0;
+  private hoveredCard = -1 ; // Indicator to know which card is currently hovered
+  private focusedInput = 0;  // Indicator to know which input is currently focused
 
   // Attributes used when enabling/disabling the automatic suggestions
   private isRecognizerActivated: boolean;
@@ -111,14 +114,18 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
     for (let i = 0; i < modifiedSnippetInputs.length; i++) {
       this.snippets[i].value = modifiedSnippetInputs[i];
     }
-    // Clear inputs since we will get new snippets
-    this.formArrayInputs.clear();
 
     // Update data in backend: snippets for which the annotation hasn't been validated
     const snippetsToValidate = this.snippets.filter(snippet => (!snippet.annotated && !snippet.unreadable));
     if (snippetsToValidate.length > 0) {
       this.updateManySnippetsDB(snippetsToValidate);
     }
+
+    // Clear inputs since we will get new snippets
+    this.formArrayInputs.clear();
+
+    this.hasReceivedSnippets = false;
+    this.imagesLoading = true;
 
     // Get new snippets to annotate
     this.retrieveSnippetsDB(NB_OF_SNIPPETS_TO_GET);
@@ -129,21 +136,24 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Focuses the next input in the array of snippet text inputs that is enabled
    *
-   * @param currentInput id of the actual input
+   * @param currentInput: id of the actual input
+   * @param canSubmit: tells if the form can be submitted if it is completed
+   * @param avoidAnnotated: if true won't focus the annotated inputs
    */
-  focusNextInput(currentInput: number) {
-    if (!this.annotationForm.invalid) {   // form valid, all the fields are completed
-      // We validate the form
-      this.focusedInput = -1;
+  focusNextInput(currentInput: number, canSubmit: boolean, avoidAnnotated: boolean) {
+    if (canSubmit && this.annotationForm.valid &&
+      this.snippets.filter(snippet => snippet.unreadable || snippet.annotated).length === this.snippets.length) {
+      // Form valid, all the fields are validated or unreadable
       this.nextLinesButton.nativeElement.disabled = false;
+      this.nextLinesButton.nativeElement.focus();
       this.nextLinesButton.nativeElement.click();
     } else {                              // form invalid, some snippets still need to be completed
       const annotationsInputsArray = this.annotationInputs.toArray();
       const len = annotationsInputsArray.length;
       let nextInput = (currentInput  + 1) % len;
 
-      // Try to find the next input that isn't disabled (unreadable or validated), cycle back to top if necessary
-      while (annotationsInputsArray[nextInput].nativeElement.disabled) {
+      // Try to find the next input that isn't validated or unreadable, cycle back to top if necessary
+      while (this.snippets[nextInput].unreadable || (avoidAnnotated && this.snippets[nextInput].annotated)) {
         nextInput = (nextInput + 1) % len;
       }
 
@@ -165,8 +175,8 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
     const len = annotationsInputsArray.length;
     let previousInput = (currentInput + len - 1) % len;
 
-    // Try to find the next input that isn't disabled (unreadable or validated), cycle back to top if necessary
-    while (annotationsInputsArray[previousInput].nativeElement.disabled) {
+    // Try to find the previous input that isn't unreadable, cycle back to bottom if necessary
+    while (this.snippets[previousInput].unreadable) {
       previousInput = (previousInput + len - 1) % len;
     }
 
@@ -193,23 +203,22 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param id of the actual snippet
    */
   setUnreadable(id: number) {
+    const snippet = this.snippets[id];
+    snippet.unreadable = !snippet.unreadable;
+    snippet.changed = true;
+
+    this.updateFlagUnreadableDB(snippet);
+
     const annotationsInputsArray = this.annotationInputs.toArray();
-    this.snippets[id].unreadable = !this.snippets[id].unreadable;
-    this.snippets[id].changed = true;
-
-    this.http.put('db/update/flags', [getUnreadableFlag(this.snippets[id])], {})
-      .pipe(catchError(this.handleError('setUnreadable', undefined)))
-      .subscribe();
-
     const input = this.formArrayInputs.at(id);
 
-    if (this.snippets[id].unreadable) {
+    if (snippet.unreadable) {   // Unreadable
       input.disable();
       input.clearValidators();
       input.updateValueAndValidity();
       annotationsInputsArray[id].nativeElement.classList.add('bg-unreadable');
-      this.focusNextInput(id);
-    } else {
+      this.focusNextInput(id, true, true);
+    } else {                    // Readable
       input.enable();
       input.setValidators(Validators.required);
       annotationsInputsArray[id].nativeElement.classList.remove('bg-unreadable');
@@ -224,15 +233,17 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   validateAnnotation(id: number) {
     const snippet = this.snippets[id];
-    snippet.changed = true;
     const input = this.formArrayInputs.at(id);
+
     if (!input.invalid) {
-      input.disable();
+      snippet.changed = true;
       snippet.value = input.value;
       snippet.annotated = true;
-      this.annotationInputs.toArray()[id].nativeElement.classList.add('bg-validated');
+
       this.updateSnippetDB(snippet);
-      this.focusNextInput(id);
+
+      this.annotationInputs.toArray()[id].nativeElement.classList.add('bg-validated');
+      this.focusNextInput(id, true, true);
     }
   }
 
@@ -285,8 +296,14 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(catchError(this.handleError('retrieveSnippetsDB', [])))
       // Function handling the result of the HTTP request. Returned value might either be the wanted one or the default one specified above
       .subscribe(returnedData => {
-        returnedData.forEach(dbEntry => this.snippets.push(new Snippet(dbEntry)));
-        this.fillAnnotationForm();
+        if (returnedData !== null) {
+          returnedData.forEach(dbEntry => this.snippets.push(new Snippet(dbEntry)));
+          this.fillAnnotationForm();
+          this.hasReceivedSnippets = true;
+        } else {
+          this.hasReceivedSnippets = false;
+        }
+        this.imagesLoading = false;
       });
   }
 
@@ -314,4 +331,9 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe();
   }
 
+  updateFlagUnreadableDB(snippet: Snippet) {
+    this.http.put('db/update/flags', [getUnreadableFlag(snippet)], {})
+      .pipe(catchError(this.handleError('setUnreadable', undefined)))
+      .subscribe();
+  }
 }
