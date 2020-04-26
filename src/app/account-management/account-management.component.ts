@@ -1,6 +1,5 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {Router} from '@angular/router';
-import {Account} from './account';
+import {Component, OnInit} from '@angular/core';
+import {Account} from '../model/Account';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {AuthService} from '../services/auth.service';
 import {SessionStorageService} from '../services/session-storage.service';
@@ -10,9 +9,9 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'accountmanagement',
-  templateUrl: './accountmanagement.component.html',
-  styleUrls: ['./accountmanagement.component.scss']
+  selector: 'account-management',
+  templateUrl: './account-management.component.html',
+  styleUrls: ['./account-management.component.scss']
 })
 export class AccountManagementComponent implements OnInit {
 
