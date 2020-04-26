@@ -8,11 +8,10 @@ import {StatusResolverService} from './services/data-resolver.service';
 import {LoginComponent} from './login/login.component';
 import {AuthGuard} from './auth-guard.service';
 import {DbAddExamplesComponent} from './db-add-examples/db-add-examples.component';
-import {AccountManagementComponent} from './accountManagement/accountmanagement.component';
+import {AccountManagementComponent} from './account-management/account-management.component';
 
 
 const routes: Routes = [
-  { path: 'accountManagement', component: AccountManagementComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'home',
     component: HomePageComponent,
@@ -31,6 +30,7 @@ const routes: Routes = [
   },
   { path: 'dbCreation', component: DbCreationComponent, canActivate: [AuthGuard] },
   { path: 'dbAddExamples', component: DbAddExamplesComponent, canActivate: [AuthGuard] },
+  { path: 'accountManagement', component: AccountManagementComponent, canActivate: [AuthGuard] },
   { path: '',    redirectTo: '/home', pathMatch: 'full'}
 ];
 
