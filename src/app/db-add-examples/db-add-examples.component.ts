@@ -6,6 +6,7 @@ import {UploadService} from '../services/upload/upload.service';
 import {FormBuilder} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {catchError} from 'rxjs/operators';
+import {AppComponent} from '../app.component';
 
 @Component({
   selector: 'app-db-add-examples',
@@ -34,7 +35,8 @@ export class DbAddExamplesComponent implements OnInit, OnDestroy {
               private uploadService: UploadService,
               private fb: FormBuilder,
               private http: HttpClient,
-              private httpErrorHandler: HttpErrorHandler) {
+              private httpErrorHandler: HttpErrorHandler,
+              public appComponent: AppComponent) {
     this.handleError = httpErrorHandler.createHandleError('DBAddExamples');
   }
 
@@ -68,6 +70,7 @@ export class DbAddExamplesComponent implements OnInit, OnDestroy {
       this.upload();
     } else {
       this.router.navigate(['/home']);
+      this.appComponent.updateNavIndicator('home-nav');
     }
   }
 

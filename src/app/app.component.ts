@@ -48,12 +48,15 @@ export class AppComponent implements AfterViewInit {
 
   updateNavIndicator(navLinkId: string) {
     const currentNavIndicator = this.session.getNavIndicator();
-    if ( currentNavIndicator !== null) { // An item is already highlighted
-      document.getElementById(currentNavIndicator).classList.remove('navbar-highlight');
+    if ( currentNavIndicator !== null && currentNavIndicator !== 'null' ) { // An item is already highlighted
+      const oldElem = document.getElementById(currentNavIndicator);
+      if (oldElem !== null) {
+        oldElem.classList.remove('navbar-highlight');
+      }
     }
-    const elem = document.getElementById(navLinkId);
-    if (elem !== null) {
-      elem.classList.add('navbar-highlight');
+    const newElem = document.getElementById(navLinkId);
+    if (newElem !== null) {
+      newElem.classList.add('navbar-highlight');
     }
     this.session.setNavIndicator(navLinkId);
   }
