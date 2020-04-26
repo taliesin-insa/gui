@@ -2,6 +2,7 @@
   <h2 class="font-weight-bold ml-1" style="font-size: 2.5em">Gestion des comptes</h2>
   <hr>
 
+  <!-- Accounts list -->
   <table class="table table-striped table-bordered table-hover">
     <thead>
     <tr>
@@ -12,9 +13,9 @@
     </thead>
     <tbody>
 
-    <!-- Generate all the accounts -->
+    <!-- Generate a table row for all the accounts -->
     <ng-container *ngFor="let account of accounts">
-      <tr (click)="onSelect(account)">
+      <tr (click)="selectedAccount = account;">
         <td>{{account.name}}</td>
         <td>{{account.email}}</td>
         <td class="text-center">{{(account.role) ? 'Oui' : 'Non'}}</td>
@@ -23,40 +24,43 @@
 
     </tbody>
   </table>
+  <!-- /Accounts list -->
 
+  <!-- Selected account modification -->
   <div *ngIf="selectedAccount">
     <hr>
     <h4 class="font-weight-bold">Détails du compte : </h4>
+
     <form [formGroup]="changeAccountForm">
-      <div class=" row position-relative mx-auto">
-        <div class="col 3">
-          <label for="name">Identifiant :</label>
-          <input [ngModel]="selectedAccount.name" disabled placeholder="name" type="text" formControlName="name"
-                 id="changeName">
+
+      <div class="row">
+        <div class="col text-center">
+          <label for="updateName">Identifiant : </label>
+          <input [ngModel]="selectedAccount.name" type="text" formControlName="name" id="updateName">
         </div>
-        <div class="col 3">
-          <label for="email">Adresse mail :</label>
-          <input [ngModel]="selectedAccount.email" placeholder="email" type="text" formControlName="email"
-                 id="changeEmail">
+        <div class="col text-center">
+          <label for="updateEmail">Adresse mail : </label>
+          <input [ngModel]="selectedAccount.email" type="text" formControlName="email" id="updateEmail">
         </div>
-        <div class="col 3">
-          <label for="role">Droits d'administration :</label>
-          <input [ngModel]="selectedAccount.role" type="checkbox" placeholder="admin" formControlName="role"
-                 id="changeRole">
+        <div class="col text-center">
+          <label for="updateRole">Droits d'administration : </label>
+          <input [ngModel]="selectedAccount.role" type="checkbox" formControlName="role" id="updateRole">
         </div>
       </div>
+
       <div class="col-xs-6 text-center">
         <button type="submit" class="btn btn-info btn-text font-weight-bold"
-                (click)="onUpdate(changeAccountForm.value)">
+                (click)="updateSelectedAccount(changeAccountForm.value)">
           Enregistrer
         </button>
         <button class="btn btn-danger btn-text font-weight-bold" (click)="modalService.open(popUpDelete)">
           Supprimer
         </button>
       </div>
+
     </form>
 
-    <!--TEMPLATE FOR THE CONFIRMATION MODAL ATTACHED WITH THE SUPPRESSION BUTTON -->
+    <!-- Template for the confirmation modal attached with the account suppression button -->
     <ng-template #popUpDelete let-modal>
       <div class="modal-header alert-danger">
         <h4 class="modal-title" id="modal-basic-title">Attention</h4>
@@ -65,38 +69,47 @@
         Vous allez supprimer le compte sélectionné, êtes-vous certain de votre décision ?
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" (click)="modal.close() ; onSubmit(Delete(selectedAccount));">
+        <button type="submit" class="btn btn-primary" (click)="modal.close() ; deleteAccount(selectedAccount);">
           Continuer
         </button>
         <button type="button" class="btn btn-light" (click)="modal.close()">Annuler</button>
       </div>
     </ng-template>
+    <!-- /Template suppression modal -->
 
   </div>
+  <!-- /Selected account modification -->
   <hr>
 
+  <!-- New account form -->
   <div>
-    <h4 class="font-weight-bold">Ajouter un compte :</h4>
-    <form [formGroup]="accountForm" (ngSubmit)="onSubmit(accountForm.value)">
+    <h4 class="font-weight-bold">Ajouter un compte : </h4>
+
+    <form [formGroup]="newAccountForm" (ngSubmit)="createNewAccount(newAccountForm.value)">
+
       <div class=" row position-relative mx-auto">
-        <div class="col 3">
-          <label for="name">Identifiant :</label>
-          <input type="text" formControlName="name" id="name">
+        <div class="col-3">
+          <label for="newName">Identifiant : </label>
+          <input type="text" formControlName="name" id="newName">
         </div>
-        <div class="col 3">
-          <label for="email">Adresse mail :</label>
-          <input type="text" formControlName="email" id="email">
+        <div class="col-3">
+          <label for="newEmail">Adresse mail : </label>
+          <input type="text" formControlName="email" id="newEmail">
         </div>
-        <div class="col 3">
-          <label for="role">Droits d'administration :</label>
-          <input type="checkbox" formControlName="role" id="role">
+        <div class="col-3">
+          <label for="newRole">Droits d'administration : </label>
+          <input type="checkbox" formControlName="role" id="newRole">
         </div>
       </div>
+
       <div class="col-xs-6 text-center">
         <button type="submit" class="btn btn-success btn-text font-weight-bold">
           Nouveau compte
         </button>
       </div>
+
     </form>
   </div>
+  <!-- /New account form -->
+
 </div>

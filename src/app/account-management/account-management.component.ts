@@ -16,10 +16,11 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 export class AccountManagementComponent implements OnInit {
 
   public accounts: Account[] = [];
+
   selectedAccount: Account;
-  accountForm: FormGroup;
+
+  newAccountForm: FormGroup;
   changeAccountForm: FormGroup;
-  private newAccount: Account = new Account();
 
   handleError: HandleError;
 
@@ -28,12 +29,14 @@ export class AccountManagementComponent implements OnInit {
               private session: SessionStorageService,
               private httpErrorHandler: HttpErrorHandler,
               private modalService: NgbModal) {
-    this.accountForm = this.formBuilder.group({
+
+    this.newAccountForm = this.formBuilder.group({
       name: new FormControl(''),
       password: new FormControl(''),
       email: new FormControl(''),
       role: new FormControl('')
     });
+
     this.changeAccountForm = this.formBuilder.group({
       name: new FormControl(''),
       password: new FormControl(''),
@@ -44,9 +47,13 @@ export class AccountManagementComponent implements OnInit {
     this.handleError = httpErrorHandler.createHandleError('Account Management');
   }
 
-  reloadList() {
+  ngOnInit() {
+    this.reloadAccountList();
+  }
+
+  reloadAccountList() {
     this.accounts = [];
-    this.accountForm.reset();
+    this.newAccountForm.reset();
 
     this.auth.accountList(this.session.getToken())
     .pipe(catchError(this.handleError('listing accounts', null)))
@@ -57,37 +64,26 @@ export class AccountManagementComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.reloadList();
-  }
-
-  Delete(account: Account) {
-
+  deleteAccount(account: Account) {
     this.auth.deleteAccount(account.name, this.session.getToken())
     .pipe(catchError(this.handleError('deleting account', null)))
     .subscribe(data => {
-      this.reloadList();
+      this.reloadAccountList();
     });
-
   }
 
-  onSubmit(values: any) {
-    const{name, password, email, role} = values;
+  createNewAccount(values: any) {
+    const {name, password, email, role} = values;
 
     const roleText = (role) ? 0 : 1;
     this.auth.newAccount(name, password, roleText, this.session.getToken())
       .pipe(catchError(this.handleError('creating account', null)))
       .subscribe(data => {
-        this.reloadList();
+        this.reloadAccountList();
       });
-
   }
 
-  onSelect(account: Account): void {
-    this.selectedAccount = account;
-  }
-
-  onUpdate(values: any) {
+  updateSelectedAccount(values: any) {
     let {name, email, role} = values;
     if (email === null) {
       email = this.selectedAccount.email;
@@ -103,7 +99,7 @@ export class AccountManagementComponent implements OnInit {
     this.auth.modifyAccount(name, roleText, this.session.getToken())
       .pipe(catchError(this.handleError('modifying account', null)))
       .subscribe(data => {
-        this.reloadList();
+        this.reloadAccountList();
       });
 
     this.selectedAccount.email = email;
@@ -111,6 +107,6 @@ export class AccountManagementComponent implements OnInit {
     this.selectedAccount.role = role;
     this.selectedAccount = null;
 
-    this.accountForm.reset();
+    this.newAccountForm.reset();
   }
 }
