@@ -9,7 +9,7 @@
     </div>
 
     <!-- Enable/disable suggestions -->
-    <div class="mx-auto col-sm text-center" style="width: auto" *ngIf="snippets.length > 0">
+    <div class="mx-auto col-sm text-center" style="width: auto" *ngIf="hasReceivedSnippets">
       <button [ngClass]="[recognizerButtonClass]" (click)="updateRecognizerActivation()">
         <i class="fas fa-bolt"></i>
         {{recognizerButtonText}}
@@ -21,7 +21,7 @@
               ngbPopover="Afin de faciliter le travail d'annotation, un reconnaisseur automatique d'écriture est
               mis en place dans l'application. Ce reconnaisseur peut ainsi vous proposer des suggestions de
               transcription pour les images.">
-        <i class="fas fa-question"></i>
+        <i class="fas fa-info"></i>
       </button>
     </div>
 
@@ -36,7 +36,7 @@
       <br>
       <b>Flèche haut :</b> passer à l'image précédente
       <br>
-      <b>F9 :</b> marquer l'image courante comme illisible
+      <b>Ctrl + Suppr :</b> marquer l'image courante comme illisible
     </ng-template>
 
     <div class="mx-auto col-sm" style="width: auto" >
@@ -52,7 +52,13 @@
   <hr>
   <!-- /Row with title and buttons -->
 
-  <div *ngIf="snippets.length === 0">
+  <div class="text-center" *ngIf="imagesLoading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="!imagesLoading && !hasReceivedSnippets">
     <p>
       Il n'y a actuellement aucune image à annoter. Si vous venez d'ajouter des images dans la base de données,
       il se peut qu'elles soient encore en cours d'importation.
@@ -60,7 +66,7 @@
   </div>
 
   <!-- Annotation body -->
-  <div class="col-lg-10 offset-lg-1" *ngIf="snippets.length > 0">
+  <div class="col-lg-10 offset-lg-1" *ngIf="hasReceivedSnippets">
     <!-- Form used to display all the snippets (image + text field) -->
     <form [formGroup]="annotationForm" (ngSubmit)="onSubmit(annotationForm.value)" (keydown.enter)="$event.preventDefault()">
       <div formArrayName="snippetInputs">
@@ -75,14 +81,18 @@
             <div class="card-body">
               <input #annotationInput class="w-75" type="text" [formControlName]="i"
                      [ngClass]="(i === focusedInput) ? 'border-active' : null"
-                     (keydown.enter)="validateAnnotation(i)" (keydown.f9)="setUnreadable(i)"
+                     (keydown.enter)="validateAnnotation(i)" (keydown.control.delete)="setUnreadable(i)"
                      (focusin)="focusedInput = i" (focusout)="focusedInput = -1"
-                     (keydown.arrowDown)="focusNextInput(i)" (keydown.arrowUp)="focusPreviousInput(i)"
+                     (keydown.arrowDown)="focusNextInput(i, false, false)" (keydown.arrowUp)="focusPreviousInput(i)"
                      (ngModelChange)="snippets[i].changed = true;">
 
               <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)" [disabled]="snippets[i].annotated"
                       title="{{snippets[i].unreadable ? 'Déclarer l\'image lisible' : 'Déclarer l\'image illisible'}}">
                 X</button>
+
+              <br>
+              <span class="badge badge-success" *ngIf="snippets[i].annotated">Annotation validée</span>
+              <span class="badge badge-danger" *ngIf="snippets[i].unreadable">Image déclarée illisible</span>
             </div>
           </div>
 
@@ -91,12 +101,12 @@
       </div>
       <hr>
       <!-- Button to get new lines -->
-      <div class="position-relative mx-auto text-center" style="width: 20%">
+      <div class="position-relative mx-auto text-center">
         <button #nextLines class="btn btn-success btn-text font-weight-bold" [disabled]="annotationForm.invalid"
                 ngbPopover="{{annotationForm.invalid ? 'Des images ne sont pas traitées' : ''}}" triggers="mouseenter:mouseleave"
                 (click)="modalService.open(popUpNextLines);" type="button">
           <i class="fas fa-check"></i>
-          Lignes suivantes
+          Valider et lignes suivantes
         </button>
 
         <!--TEMPLATE FOR THE CONFIRMATION MODAL ATTACHED WITH THE NEW LINES BUTTON -->
@@ -105,7 +115,7 @@
             <h4 class="modal-title" id="modal-basic-title">Attention</h4>
           </div>
           <div class="modal-body">
-            En demandant de nouvelles lignes à annoter, vous allez valider définitivement les annotations en cours. Vous ne pourrez plus les corriger. <br>
+            En demandant de nouvelles lignes à annoter, vous allez valider définitivement les annotations en cours. Vous ne pourrez plus les corriger.<br>
             Êtes-vous sûr(e) de vouloir continuer ?
           </div>
           <div class="modal-footer">

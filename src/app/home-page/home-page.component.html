@@ -1,19 +1,40 @@
 <div class="col-lg-8 offset-lg-2 card">
-  <h2 class="font-weight-bold" style="font-size: 2.5em">Menu principal</h2>
+
+  <div class="row text-center">
+    <h2 class="font-weight-bold ml-3" style="font-size: 2.5em">Menu principal</h2>
+    <button class="btn btn-info ml-3 h-75 my-auto"(click)="isInfoDisplayed = !isInfoDisplayed">
+      En savoir plus
+      <i class="fas ml-1 {{isInfoDisplayed ? ' fa-caret-up' : 'fa-caret-down'}}"></i>
+    </button>
+  </div>
   <hr>
+
+  <div *ngIf="isInfoDisplayed">
+    <p>
+      <span class="h4 text-primary font-weight-bold">Tal</span><span class="h4 font-weight-bold">i</span><span class="h4 text-secondary font-weight-bold">esin</span> est une application web de génération de bases d'apprentissage pour les reconnaisseurs d'écriture manuscrite.
+      <br><br>
+
+      Grâce à Taliesin, vous gagnerez un temps considérable sur votre travail d'annotateur.
+      L'interface a été prévue pour être la plus ergonomique possible afin de ne plus perdre une seule seconde.
+      De plus, l'application intègre un reconnaisseur d'écriture manuscrite pour vous proposer des transcriptions de texte que vous n'aurez plus qu'à valider ou corriger.
+      <br><br>
+      Si vous souhaitez en savoir plus sur ce projet, vous pouvez lire la présentation sur ce <a href="https://taliesin-insa.github.io/">site</a>.
+    </p>
+    <hr>
+  </div>
 
   <div class="position-relative mx-auto text-center" style="width: 20%">
     <button class="btn btn-primary btn-text font-weight-bold"
-            (click)="this.appComponent.updateNavIndicator('annotation-nav')" routerLink="/annotation">
+            (click)="appComponent.updateNavIndicator('annotation-nav')" routerLink="/annotation">
       Annotation
     </button>
   </div>
 
   <div class=" row position-relative mx-auto">
 
-    <div class="col-xs-6 text-center">
+    <div class="col-xs-6 text-center" *ngIf="session.getUser()['Role'] === 0">
       <button class="btn btn-secondary btn-text font-weight-bold"
-              (click)="this.appComponent.updateNavIndicator('dbManagement-nav')" routerLink="/dbManagement">
+              (click)="appComponent.updateNavIndicator('dbManagement-nav')" routerLink="/dbManagement">
         <i class="fas fa-cog"></i>
         Gestion de la base de données
       </button>

@@ -18,20 +18,22 @@ import {httpInterceptorProviders} from './http-interceptors';
 import { ErrorDisplayComponent } from './error-display/error-display.component';
 import {ErrorMessageService} from './services/error-messages.service';
 import { ScrollToTopComponent } from './scroll-to-top/scroll-to-top.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
     HomePageComponent,
     AnnotationComponent,
     DbManagementComponent,
     DbCreationComponent,
-    ErrorDisplayComponent,
-    LoginComponent,
     DbAddExamplesComponent,
+    AccountManagementComponent,
     ScrollToTopComponent,
-    AccountManagementComponent
+    ErrorDisplayComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
