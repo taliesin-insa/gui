@@ -2,10 +2,38 @@
 @import 'scss/theme';
 @import '../node_modules/bootstrap/scss/bootstrap';
 
+html * {
+  outline: 0;
+}
+
+html {
+  /* To make use of full height of page*/
+  min-height: 100vh;
+  margin: 0;
+}
+
+.body {
+  background-color: rgba(193, 215, 241, 0.47);
+  min-height: 100vh;
+  margin: 0;
+  padding: 15px;
+  width: available;
+}
+
+header {
+  background-color: white;
+}
+
+.card{
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  padding: 15px;
+}
+
 button {
   margin: 5px;
 }
 
-html * {
-  outline: 0;
+.btn-text {
+  border : none;
+  font-size: 0.8em;
 }
