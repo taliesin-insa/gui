@@ -88,28 +88,28 @@
     <form [formGroup]="newAccountForm" (ngSubmit)="createNewAccount(newAccountForm.value)">
       <!-- Name -->
       <div class="form-group row">
-        <label class="col-3 col-form-label" for="newName">Identifiant :</label>
+        <label class="col-2 col-form-label" for="newName">Identifiant :</label>
         <div class="col-3">
-          <input type="text" formControlName="name" id="newName">
+          <input type="text" class="form-control" formControlName="name" id="newName">
         </div>
       </div>
       <!-- Mail -->
       <div class="form-group row">
-        <label class="col-3 col-form-label" for="newEmail">Adresse mail :</label>
+        <label class="col-2 col-form-label" for="newEmail">Adresse mail :</label>
         <div class="col-3">
-          <input type="text" formControlName="email" id="newEmail">
+          <input type="text" class="form-control" formControlName="email" id="newEmail">
         </div>
       </div>
       <!-- Password -->
       <div class="form-group row">
-        <label class="col-3 col-form-label" for="newPassword">Mot de passe :</label>
+        <label class="col-2 col-form-label" for="newPassword">Mot de passe :</label>
         <div class="col-3">
-          <input type="password" formControlName="email" id="newPassword">
+          <input type="password" class="form-control" formControlName="email" id="newPassword">
         </div>
       </div>
       <!-- Role -->
       <div class="form-group row">
-        <div class="col-3">Droits d'administration :</div>
+        <div class="col-2">Droits d'administration :</div>
         <div class="col-3">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" formControlName="role">
