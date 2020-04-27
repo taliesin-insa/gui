@@ -19,8 +19,8 @@
         <td>{{account.name}}</td>
         <td>{{account.email}}</td>
         <td class="text-center">
-          <i class="fas fa-check-circle text-success" *ngIf="account.role"></i>
-          <i class="fas fa-times-circle text-danger" *ngIf="!account.role"></i>
+          <i class="fas fa-check-circle text-success" *ngIf="!account.role"></i>
+          <i class="fas fa-times-circle text-danger" *ngIf="account.role"></i>
         </td>
       </tr>
     </ng-container>
