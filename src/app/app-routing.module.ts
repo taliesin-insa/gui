@@ -6,7 +6,7 @@ import {DbManagementComponent} from './db-management/db-management.component';
 import {DbCreationComponent} from './db-creation/db-creation.component';
 import {StatusResolverService} from './services/data-resolver.service';
 import {LoginComponent} from './login/login.component';
-import {AuthGuard} from './auth-guard.service';
+import {AuthGuard} from './services/auth-guard.service';
 import {DbAddExamplesComponent} from './db-add-examples/db-add-examples.component';
 import {AccountManagementComponent} from './account-management/account-management.component';
 import { NotFoundComponent } from './not-found/not-found.component';
