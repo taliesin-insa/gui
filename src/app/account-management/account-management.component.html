@@ -18,7 +18,10 @@
       <tr (click)="selectedAccount = account;">
         <td>{{account.name}}</td>
         <td>{{account.email}}</td>
-        <td class="text-center">{{(account.role) ? 'Oui' : 'Non'}}</td>
+        <td class="text-center">
+          <i class="fas fa-check-circle text-success" *ngIf="account.role"></i>
+          <i class="fas fa-times-circle text-danger" *ngIf="!account.role"></i>
+        </td>
       </tr>
     </ng-container>
 
@@ -45,7 +48,7 @@
           <input [ngModel]="selectedAccount.email" type="text" class="form-control" formControlName="email" id="updateEmail">
         </div>
         <!-- Role -->
-        <div class="col form-check form-check-inline text-center">
+        <div class="col form-check form-check-inline justify-content-center">
           <label for="updateRole" class="col-form-label mr-2">Droits d'administration :</label>
           <input [ngModel]="selectedAccount.role" type="checkbox" class="form-check-input" formControlName="role" id="updateRole">
         </div>
