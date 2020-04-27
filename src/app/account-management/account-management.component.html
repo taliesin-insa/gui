@@ -48,7 +48,7 @@
         </div>
       </div>
 
-      <div class="col-xs-6 text-center">
+      <div class="text-center">
         <button type="submit" class="btn btn-info btn-text font-weight-bold"
                 (click)="updateSelectedAccount(changeAccountForm.value)">
           Enregistrer
@@ -83,26 +83,41 @@
 
   <!-- New account form -->
   <div>
-    <h4 class="font-weight-bold">Ajouter un compte : </h4>
+    <h4 class="font-weight-bold">Ajouter un compte :</h4>
 
     <form [formGroup]="newAccountForm" (ngSubmit)="createNewAccount(newAccountForm.value)">
-
-      <div class=" row position-relative mx-auto">
+      <!-- Name -->
+      <div class="form-group row">
+        <label class="col-3 col-form-label" for="newName">Identifiant :</label>
         <div class="col-3">
-          <label for="newName">Identifiant : </label>
           <input type="text" formControlName="name" id="newName">
         </div>
+      </div>
+      <!-- Mail -->
+      <div class="form-group row">
+        <label class="col-3 col-form-label" for="newEmail">Adresse mail :</label>
         <div class="col-3">
-          <label for="newEmail">Adresse mail : </label>
           <input type="text" formControlName="email" id="newEmail">
         </div>
+      </div>
+      <!-- Password -->
+      <div class="form-group row">
+        <label class="col-3 col-form-label" for="newPassword">Mot de passe :</label>
         <div class="col-3">
-          <label for="newRole">Droits d'administration : </label>
-          <input type="checkbox" formControlName="role" id="newRole">
+          <input type="password" formControlName="email" id="newPassword">
+        </div>
+      </div>
+      <!-- Role -->
+      <div class="form-group row">
+        <div class="col-3">Droits d'administration :</div>
+        <div class="col-3">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" formControlName="role">
+          </div>
         </div>
       </div>
 
-      <div class="col-xs-6 text-center">
+      <div class="text-center">
         <button type="submit" class="btn btn-success btn-text font-weight-bold">
           Nouveau compte
         </button>
