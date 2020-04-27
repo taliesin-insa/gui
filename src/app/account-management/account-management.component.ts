@@ -69,7 +69,8 @@ export class AccountManagementComponent implements OnInit {
   deleteAccount(account: Account) {
     this.auth.deleteAccount(account.name, this.session.getToken())
     .pipe(catchError(this.handleError('deleting account', null)))
-    .subscribe(data => {
+    .subscribe(() => {
+      this.selectedAccount = null;
       this.reloadAccountList();
     });
   }
