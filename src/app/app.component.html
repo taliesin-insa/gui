@@ -24,7 +24,7 @@
             <a id="dbManagement-nav" class="nav-item nav-link active" (click)="updateNavIndicator('dbManagement-nav')" href="#" routerLink="/dbManagement" *ngIf="session.getUser()['Role'] === 0">Base de données</a>
           </li>
           <li class="nav-item">
-            <a id="accManagement-nav" class="nav-item nav-link active" (click)="updateNavIndicator('accManagement-nav')" href="#" routerLink="/accountManagement">Gestion des comptes</a>
+            <a id="accManagement-nav" class="nav-item nav-link active" (click)="updateNavIndicator('accManagement-nav')" href="#" routerLink="/accountManagement" *ngIf="session.getUser()['Role'] === 0">Gestion des comptes</a>
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right" [ngClass]="isMenuCollapsed ? 'nav-fill' : 'ml-auto'">
