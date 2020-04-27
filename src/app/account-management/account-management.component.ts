@@ -58,8 +58,10 @@ export class AccountManagementComponent implements OnInit {
     this.auth.accountList(this.session.getToken())
     .pipe(catchError(this.handleError('listing accounts', null)))
     .subscribe(data => {
-      for (const item of data.body) {
-        this.accounts.push(new Account(item.Username, undefined, item.Role === 0));
+      if (data !== null) {
+        for (const item of data.body) {
+          this.accounts.push(new Account(item.Username, undefined, item.Role === 0));
+        }
       }
     });
   }
@@ -73,12 +75,12 @@ export class AccountManagementComponent implements OnInit {
   }
 
   createNewAccount(values: any) {
-    const {name, password, email, role} = values;
+    const {name, email, password, role} = values;
+    const roleAsNumber = (role) ? 0 : 1;
 
-    const roleText = (role) ? 0 : 1;
-    this.auth.newAccount(name, password, roleText, this.session.getToken())
+    this.auth.newAccount(name, password, roleAsNumber, this.session.getToken())
       .pipe(catchError(this.handleError('creating account', null)))
-      .subscribe(data => {
+      .subscribe(() => {
         this.reloadAccountList();
       });
   }
@@ -94,19 +96,13 @@ export class AccountManagementComponent implements OnInit {
     if (role === null) {
       role = this.selectedAccount.role;
     }
+    const roleAsNumber = (role) ? 0 : 1;
 
-    const roleText = (role) ? 0 : 1;
-    this.auth.modifyAccount(name, roleText, this.session.getToken())
+    this.auth.modifyAccount(name, roleAsNumber, this.session.getToken())
       .pipe(catchError(this.handleError('modifying account', null)))
-      .subscribe(data => {
+      .subscribe(() => {
+        this.selectedAccount = null;
         this.reloadAccountList();
       });
-
-    this.selectedAccount.email = email;
-    this.selectedAccount.name = name;
-    this.selectedAccount.role = role;
-    this.selectedAccount = null;
-
-    this.newAccountForm.reset();
   }
 }
