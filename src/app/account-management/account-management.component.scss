@@ -1,3 +1,6 @@
+/* The color is hardcoded here because importing the theme ("@import 'src/scss/theme';") causes the whole
+ * component to lose our custom theme's color (colors in the page go back to bootstrap's basic ones).
+ */
 .table-hover tbody tr:hover td {
   background: #94c2db;
 }
