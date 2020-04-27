@@ -34,19 +34,25 @@
     <form [formGroup]="changeAccountForm">
 
       <div class="form-group row">
-        <div class="col text-center">
+        <!-- Name -->
+        <div class="col">
           <label for="updateName" class="mr-2">Identifiant :</label>
           <input [ngModel]="selectedAccount.name" type="text" class="form-control" formControlName="name" id="updateName">
         </div>
-        <div class="col text-center">
+        <!-- Mail -->
+        <div class="col">
           <label for="updateEmail" class="mr-2">Adresse mail :</label>
           <input [ngModel]="selectedAccount.email" type="text" class="form-control" formControlName="email" id="updateEmail">
         </div>
-        <div class="col text-center">
+        <!-- Role -->
+        <div class="col">
           <label for="updateRole" class="mr-2">Droits d'administration :</label>
-          <input [ngModel]="selectedAccount.role" type="checkbox" class="form-check-input" formControlName="role" id="updateRole">
+          <div class="col-3">
+            <div class="form-check">
+              <input [ngModel]="selectedAccount.role" type="checkbox" class="form-check-input" formControlName="role" id="updateRole">
+            </div>
+          </div>
         </div>
-      </div>
 
       <div class="text-center">
         <button type="submit" class="btn btn-info btn-text font-weight-bold mx-2"
@@ -109,10 +115,11 @@
       </div>
       <!-- Role -->
       <div class="form-group row">
-        <div class="col-2">Droits d'administration :</div>
+        <label for="newRole" class="col-2">Droits d'administration :</label>
+<!--        <div class="col-2">Droits d'administration :</div>-->
         <div class="col-3">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" formControlName="role">
+            <input class="form-check-input" type="checkbox" formControlName="role" id="newRole">
           </div>
         </div>
       </div>
