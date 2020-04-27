@@ -1,14 +1,14 @@
 import { Injectable, Type } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { AuthService } from './services/auth.service';
+import { AuthService } from './auth.service';
 import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import { of } from 'rxjs';
 
-import { SessionStorageService } from './services/session-storage.service';
-import { DbManagementComponent } from './db-management/db-management.component';
-import { DbCreationComponent } from './db-creation/db-creation.component';
-import { DbAddExamplesComponent } from './db-add-examples/db-add-examples.component';
+import { SessionStorageService } from './session-storage.service';
+import { DbManagementComponent } from '../db-management/db-management.component';
+import { DbCreationComponent } from '../db-creation/db-creation.component';
+import { DbAddExamplesComponent } from '../db-add-examples/db-add-examples.component';
 
 const PRIVILEGED_COMPONENTS = [DbManagementComponent, DbCreationComponent, DbAddExamplesComponent];
 
