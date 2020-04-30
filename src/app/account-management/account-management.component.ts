@@ -94,7 +94,7 @@ export class AccountManagementComponent implements OnInit {
   }
 
   createNewAccount(values: any) {
-    const {name, email, password, role} = values;
+    const {name, email, password, confirmPassword, role} = values;
     const roleAsNumber = (role) ? 0 : 1;
 
     this.auth.newAccount(name, email, password, roleAsNumber, this.session.getToken())
