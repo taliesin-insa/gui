@@ -40,17 +40,20 @@
         <!-- Name -->
         <div class="col">
           <label for="updateName" class="col-form-label mr-2">Identifiant :</label>
-          <input [ngModel]="selectedAccount.name" type="text" class="form-control" formControlName="name" id="updateName">
+          <input [ngModel]="selectedAccount.name" type="text" class="form-control" formControlName="name"
+                 id="updateName">
         </div>
         <!-- Mail -->
         <div class="col">
           <label for="updateEmail" class="col-form-label mr-2">Adresse mail :</label>
-          <input [ngModel]="selectedAccount.email" type="text" class="form-control" formControlName="email" id="updateEmail">
+          <input [ngModel]="selectedAccount.email" type="text" class="form-control" formControlName="email"
+                 id="updateEmail">
         </div>
         <!-- Role -->
         <div class="col form-check form-check-inline justify-content-center">
           <label for="updateRole" class="col-form-label mr-2">Droits d'administration :</label>
-          <input [ngModel]="selectedAccount.role" type="checkbox" class="form-check-input" formControlName="role" id="updateRole">
+          <input [ngModel]="selectedAccount.role" type="checkbox" class="form-check-input" formControlName="role"
+                 id="updateRole">
         </div>
 
       </div>
@@ -105,15 +108,26 @@
       <div class="form-group row">
         <label class="col-2 col-form-label" for="newEmail">Adresse mail :</label>
         <div class="col-3">
-          <input type="text" class="form-control" formControlName="email" id="newEmail">
+          <input type="email" class="form-control" formControlName="email" id="newEmail">
         </div>
       </div>
-      <!-- Password -->
-      <div class="form-group row">
-        <label class="col-2 col-form-label" for="newPassword">Mot de passe :</label>
-        <div class="col-3">
-          <input type="password" class="form-control" formControlName="email" id="newPassword">
+      <!-- Passwords -->
+      <div class="form-group">
+        <!-- Password -->
+        <div class="row">
+          <label class="col-2 col-form-label" for="newPassword">Mot de passe :</label>
+          <div class="col-3">
+            <input type="password" class="form-control" formControlName="password" id="newPassword">
+          </div>
         </div>
+        <!-- Confirm Password-->
+        <div class="row">
+          <label class="col-2 col-form-label" for="confirmPassword">Mot de passe :</label>
+          <div class="col-3">
+            <input type="password" class="form-control" formControlName="confirmPassword" id="confirmPassword">
+          </div>
+        </div>
+
       </div>
       <!-- Role -->
       <div class="form-group row">

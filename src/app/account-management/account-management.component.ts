@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Account} from '../model/Account';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {AuthService} from '../services/auth.service';
 import {SessionStorageService} from '../services/session-storage.service';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
@@ -24,24 +24,44 @@ export class AccountManagementComponent implements OnInit {
 
   handleError: HandleError;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private fb: FormBuilder,
               private auth: AuthService,
               private session: SessionStorageService,
               private httpErrorHandler: HttpErrorHandler,
               private modalService: NgbModal) {
 
-    this.newAccountForm = this.formBuilder.group({
-      name: new FormControl(''),
-      password: new FormControl(''),
-      email: new FormControl(''),
-      role: new FormControl('')
+    this.newAccountForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', Validators.required],
+      passwords: this.fb.group( {
+        password: ['', Validators.compose([
+          // 1. Password Field is Required
+          Validators.required,
+          // 2. check whether the entered password has a number
+          PasswordValidators.patternValidator(/\d/, { hasNumber: true }),
+          // 3. check whether the entered password has upper case letter
+          PasswordValidators.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
+          // 4. check whether the entered password has a lower-case letter
+          PasswordValidators.patternValidator(/[a-z]/, { hasSmallCase: true }),
+          // 5. check whether the entered password has a special character
+          PasswordValidators.patternValidator(/[!@#$%^&*()_+\-=\[\]{};':"|,.<>/?]/, { hasSpecialCharacters: true }),
+          // 6. Has a minimum length of 8 characters
+          Validators.minLength(8)])],
+        confirmPassword: ['', Validators.required]
+        },
+        {
+          // check whether password and confirm password match
+          validator: PasswordValidators.passwordMatchValidator
+        }
+      ),
+      role: ['', Validators.required]
     });
 
-    this.changeAccountForm = this.formBuilder.group({
-      name: new FormControl(''),
-      password: new FormControl(''),
-      email: new FormControl(''),
-      role: new FormControl('')
+    this.changeAccountForm = this.fb.group({
+      name: ['', Validators.required],
+      password: ['', Validators.required],
+      email: ['', Validators.required],
+      role: ['', Validators.required]
     });
 
     this.handleError = httpErrorHandler.createHandleError('Account Management');
@@ -105,5 +125,33 @@ export class AccountManagementComponent implements OnInit {
         this.selectedAccount = null;
         this.reloadAccountList();
       });
+  }
+}
+
+export class PasswordValidators {
+
+  static patternValidator(regex: RegExp, error: ValidationErrors): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+      if (!control.value) {
+        // if control is empty return no error
+        return null;
+      }
+
+      // test the value of the control against the regexp supplied
+      const valid = regex.test(control.value);
+
+      // if true, return no error (no error), else return error passed in the second parameter
+      return valid ? null : error;
+    };
+  }
+
+  static passwordMatchValidator(control: AbstractControl) {
+    const password: string = control.get('password').value; // get password from our password form control
+    const confirmPassword: string = control.get('confirmPassword').value; // get password from our confirmPassword form control
+    // compare is the password math
+    if (password !== confirmPassword) {
+      // if they don't match, set an error in our confirmPassword form control
+      control.get('confirmPassword').setErrors({ NoPasswordMatch: true });
+    }
   }
 }
