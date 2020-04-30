@@ -52,9 +52,9 @@ export class AccountManagementComponent implements OnInit {
     },
     {
       // check whether password and confirm password match
-      validators: [CustomValidators.passwordMatchValidator,
-        CustomValidators.freeUsernameValidator(this.accounts),
-        CustomValidators.freeEmailValidator(this.accounts)]
+      validators: [CustomValidators.passwordMatchValidator]
+        // CustomValidators.freeUsernameValidator(this.accounts),
+        // CustomValidators.freeEmailValidator(this.accounts)]
     });
 
     this.changeAccForm = this.fb.group({
@@ -155,18 +155,18 @@ export class CustomValidators {
     }
   }
 
-  static freeUsernameValidator(accounts: Account[]): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const username = control.get('username').value;
-      return { usernameNotFree: (accounts.find(acc => (acc.username === username)) !== undefined) };
-    };
-  }
-
-  static freeEmailValidator(accounts: Account[]): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const email = control.get('email').value;
-      return { emailNotFree: (accounts.find(acc => (acc.email === email)) !== undefined) };
-    };
-  }
+  // static freeUsernameValidator(accounts: Account[]): ValidatorFn {
+  //   return (control: AbstractControl): ValidationErrors | null => {
+  //     const username = control.get('username').value;
+  //     return { usernameNotFree: (accounts.find(acc => (acc.username === username)) !== undefined) };
+  //   };
+  // }
+  //
+  // static freeEmailValidator(accounts: Account[]): ValidatorFn {
+  //   return (control: AbstractControl): ValidationErrors | null => {
+  //     const email = control.get('email').value;
+  //     return { emailNotFree: (accounts.find(acc => (acc.email === email)) !== undefined) };
+  //   };
+  // }
 
 }
