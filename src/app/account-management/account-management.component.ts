@@ -64,7 +64,7 @@ export class AccountManagementComponent implements OnInit {
       role: ['', Validators.required]
     });
 
-    this.handleError = httpErrorHandler.createHandleError('Account Management');
+    this.handleError = httpErrorHandler.createHandleError('AccountManagement');
   }
 
   ngOnInit() {
