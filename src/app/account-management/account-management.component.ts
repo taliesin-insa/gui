@@ -19,8 +19,8 @@ export class AccountManagementComponent implements OnInit {
 
   selectedAccount: Account;
 
-  newAccountForm: FormGroup;
-  changeAccountForm: FormGroup;
+  newAccForm: FormGroup;
+  changeAccForm: FormGroup;
 
   handleError: HandleError;
 
@@ -30,35 +30,32 @@ export class AccountManagementComponent implements OnInit {
               private httpErrorHandler: HttpErrorHandler,
               private modalService: NgbModal) {
 
-    this.newAccountForm = this.fb.group({
+    this.newAccForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', Validators.compose([Validators.email, Validators.required])],
-      passwords: this.fb.group( {
-        password: ['', Validators.compose([
-          // 1. Password Field is Required
-          Validators.required,
-          // 2. check whether the entered password has a number
-          PasswordValidators.patternValidator(/\d/, { hasNumber: true }),
-          // 3. check whether the entered password has upper case letter
-          PasswordValidators.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
-          // 4. check whether the entered password has a lower-case letter
-          PasswordValidators.patternValidator(/[a-z]/, { hasSmallCase: true }),
-          // 5. check whether the entered password has a special character
-          PasswordValidators.patternValidator(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, { hasSpecialCharacters: true }),
-          // 6. Has a minimum length of 8 characters
-          Validators.minLength(8)])
-        ],
-        confirmPassword: ['', Validators.required]
-        },
-        {
-          // check whether password and confirm password match
-          validator: PasswordValidators.passwordMatchValidator
-        }
-      ),
-      role: ['', Validators.required]
+      password: ['', Validators.compose([
+        // 1. Password Field is Required
+        Validators.required,
+        // 2. check whether the entered password has a number
+        CustomValidators.patternValidator(/\d/, { hasNumber: true }),
+        // 3. check whether the entered password has upper case letter
+        CustomValidators.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
+        // 4. check whether the entered password has a lower-case letter
+        CustomValidators.patternValidator(/[a-z]/, { hasSmallCase: true }),
+        // 5. check whether the entered password has a special character
+        CustomValidators.patternValidator(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, { hasSpecialCharacters: true }),
+        // 6. Has a minimum length of 8 characters
+        Validators.minLength(8)])
+      ],
+      confirmPassword: ['', Validators.required],
+      role: ['']
+    },
+    {
+      // check whether password and confirm password match
+      validator: CustomValidators.passwordMatchValidator
     });
 
-    this.changeAccountForm = this.fb.group({
+    this.changeAccForm = this.fb.group({
       name: ['', Validators.required],
       password: ['', Validators.required],
       email: ['', Validators.required],
@@ -74,7 +71,7 @@ export class AccountManagementComponent implements OnInit {
 
   reloadAccountList() {
     this.accounts = [];
-    this.newAccountForm.reset();
+    this.newAccForm.reset();
 
     this.auth.accountList(this.session.getToken())
     .pipe(catchError(this.handleError('listing accounts', null)))
@@ -129,7 +126,7 @@ export class AccountManagementComponent implements OnInit {
   }
 }
 
-export class PasswordValidators {
+export class CustomValidators {
 
   static patternValidator(regex: RegExp, error: ValidationErrors): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
