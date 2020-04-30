@@ -39,19 +39,21 @@ export class AuthService {
     }, { observe: 'response', headers: new HttpHeaders({'Content-Type': 'application/json'}) });
   }
 
-  newAccount(username, password, role, token): Observable<any> {
+  newAccount(username, email, password, role, token): Observable<any> {
     return this.http.post('/auth/account/create', {
       AdminToken: token,
       Username: username,
+      Email: email,
       Password: password,
       Role: role
     }, { observe: 'response', headers: new HttpHeaders({'Content-Type': 'application/json'}) });
   }
 
-  modifyAccount(username, role, token): Observable<any> {
+  modifyAccount(username, email, role, token): Observable<any> {
     return this.http.post('/auth/account/modify', {
       AdminToken: token,
       Username: username,
+      Email: email,
       Role: role
     }, { observe: 'response', headers: new HttpHeaders({'Content-Type': 'application/json'}) });
   }

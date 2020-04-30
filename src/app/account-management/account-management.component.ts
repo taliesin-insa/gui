@@ -78,7 +78,7 @@ export class AccountManagementComponent implements OnInit {
     .subscribe(data => {
       if (data !== null) {
         for (const item of data.body) {
-          this.accounts.push(new Account(item.Username, undefined, item.Role === 0));
+          this.accounts.push(new Account(item.Username, item.Email, item.Role === 0));
         }
       }
     });
@@ -97,7 +97,7 @@ export class AccountManagementComponent implements OnInit {
     const {name, email, password, role} = values;
     const roleAsNumber = (role) ? 0 : 1;
 
-    this.auth.newAccount(name, password, roleAsNumber, this.session.getToken())
+    this.auth.newAccount(name, email, password, roleAsNumber, this.session.getToken())
       .pipe(catchError(this.handleError('creating account', null)))
       .subscribe(() => {
         this.reloadAccountList();
@@ -117,7 +117,7 @@ export class AccountManagementComponent implements OnInit {
     }
     const roleAsNumber = (role) ? 0 : 1;
 
-    this.auth.modifyAccount(name, roleAsNumber, this.session.getToken())
+    this.auth.modifyAccount(name, email, roleAsNumber, this.session.getToken())
       .pipe(catchError(this.handleError('modifying account', null)))
       .subscribe(() => {
         this.selectedAccount = null;
