@@ -39,18 +39,22 @@
         <!-- Username -->
         <div class="col">
           <label for="updateUsername" class="col-form-label mr-2">Identifiant :</label>
-          <input [ngModel]="selectedAccount.username" type="text" class="form-control" formControlName="username"
-                 id="updateUsername">
+          <input [ngModel]="selectedAccount.username" type="text" class="form-control" formControlName="username" id="updateUsername"
+                 [ngClass]="(changeAccForm.controls['username'].dirty && changeAccForm.controls['username'].invalid) ? 'is-invalid' : ''">
         </div>
         <!-- /Username -->
 
-        <!-- Mail -->
+        <!-- Email -->
         <div class="col">
           <label for="updateEmail" class="col-form-label mr-2">Adresse mail :</label>
-          <input [ngModel]="selectedAccount.email" type="text" class="form-control" formControlName="email"
-                 id="updateEmail">
+          <input [ngModel]="selectedAccount.email" type="text" class="form-control" formControlName="email" id="updateEmail"
+                 [ngClass]="(changeAccForm.controls['email'].dirty && changeAccForm.controls['email'].invalid) ? 'is-invalid' : ''">
+          <!-- Error displayed -->
+          <label class="text-danger mx-auto col-form-label-sm" *ngIf="changeAccForm.controls['email'].hasError('email')">
+            Adresse email non valide
+          </label>
         </div>
-        <!-- /Mail -->
+        <!-- /Email -->
 
         <!-- Role -->
         <div class="col form-check form-check-inline justify-content-center">
@@ -106,7 +110,7 @@
         <label class="col-3 col-form-label" for="newUsername">Identifiant :</label>
         <div class="col-4">
           <input type="text" class="form-control" formControlName="username" id="newUsername"
-                 [ngClass]="(newAccForm.controls['username'].dirty && newAccForm.controls['username'].invalid) ? 'is-invalid' : ''">
+                 [ngClass]="(newAccForm.controls['username'].touched && newAccForm.controls['username'].invalid) ? 'is-invalid' : ''">
         </div>
       </div>
 
@@ -124,7 +128,7 @@
         <label class="col-3 col-form-label" for="newEmail">Adresse mail :</label>
         <div class="col-4">
           <input type="email" class="form-control" formControlName="email" id="newEmail"
-                 [ngClass]="(newAccForm.controls['email'].dirty && newAccForm.controls['email'].invalid) ? 'is-invalid' : ''">
+                 [ngClass]="(newAccForm.controls['email'].touched && newAccForm.controls['email'].invalid) ? 'is-invalid' : ''">
         </div>
 
         <!-- Errors displayed -->
@@ -148,7 +152,7 @@
           <label class="col-3 col-form-label" for="newPassword">Mot de passe :</label>
           <div class="col-4">
             <input type="password" class="form-control mb-1" formControlName="password" id="newPassword"
-                   [ngClass]="(newAccForm.controls['password'].dirty && newAccForm.controls['password'].invalid) ? 'is-invalid' : ''">
+                   [ngClass]="(newAccForm.controls['password'].touched && newAccForm.controls['password'].invalid) ? 'is-invalid' : ''">
 
             <!-- Password requirements -->
             <div *ngIf="newAccForm.controls['password'].invalid">
