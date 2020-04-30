@@ -99,30 +99,49 @@
     <form [formGroup]="newAccountForm" (ngSubmit)="createNewAccount(newAccountForm.value)">
       <!-- Name -->
       <div class="form-group row">
-        <label class="col-2 col-form-label" for="newName">Identifiant :</label>
+        <label class="col-3 col-form-label" for="newName">Identifiant :</label>
         <div class="col-3">
           <input type="text" class="form-control" formControlName="name" id="newName">
         </div>
       </div>
       <!-- Mail -->
       <div class="form-group row">
-        <label class="col-2 col-form-label" for="newEmail">Adresse mail :</label>
+        <!-- Label + Input -->
+        <label class="col-3 col-form-label" for="newEmail"
+               [ngClass]="(newAccountForm.controls['email'].dirty && newAccountForm.controls['email'].invalid)? 'text-danger' : ''">
+          Adresse mail :
+        </label>
         <div class="col-3">
           <input type="email" class="form-control" formControlName="email" id="newEmail">
         </div>
+        <!-- /Label + Input -->
+
+        <!-- Errors displayed -->
+        <div class="my-auto col-form-label-sm">
+          <label class="text-danger my-auto"
+                 *ngIf="newAccountForm.controls['email'].touched && newAccountForm.controls['email'].hasError('required')">
+            Adresse email nécessaire.
+          </label>
+          <label class="text-danger my-auto" *ngIf="newAccountForm.controls['email'].hasError('email')">
+            Adresse email non valide.
+          </label>
+        </div>
+        <!-- /Errors displayed -->
       </div>
+      <!-- /Mail -->
+
       <!-- Passwords -->
       <div class="form-group">
         <!-- Password -->
-        <div class="row">
-          <label class="col-2 col-form-label" for="newPassword">Mot de passe :</label>
+        <div class="row mb-1">
+          <label class="col-3 col-form-label" for="newPassword">Mot de passe :</label>
           <div class="col-3">
             <input type="password" class="form-control" formControlName="password" id="newPassword">
           </div>
         </div>
         <!-- Confirm Password-->
         <div class="row">
-          <label class="col-2 col-form-label" for="confirmPassword">Mot de passe :</label>
+          <label class="col-3 col-form-label" for="confirmPassword">Confirmation du mot de passe :</label>
           <div class="col-3">
             <input type="password" class="form-control" formControlName="confirmPassword" id="confirmPassword">
           </div>
@@ -131,7 +150,7 @@
       </div>
       <!-- Role -->
       <div class="form-group row">
-        <label for="newRole" class="col-2">Droits d'administration :</label>
+        <label for="newRole" class="col-3">Droits d'administration :</label>
         <div class="col-3">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" formControlName="role" id="newRole">
@@ -140,7 +159,7 @@
       </div>
 
       <div class="text-center">
-        <button type="submit" class="btn btn-success btn-text font-weight-bold">
+        <button type="submit" class="btn btn-success btn-text font-weight-bold" [disabled]="newAccountForm.invalid">
           Nouveau compte
         </button>
       </div>

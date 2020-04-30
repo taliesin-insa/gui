@@ -32,7 +32,7 @@ export class AccountManagementComponent implements OnInit {
 
     this.newAccountForm = this.fb.group({
       name: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', Validators.compose([Validators.email, Validators.required])],
       passwords: this.fb.group( {
         password: ['', Validators.compose([
           // 1. Password Field is Required
@@ -44,9 +44,10 @@ export class AccountManagementComponent implements OnInit {
           // 4. check whether the entered password has a lower-case letter
           PasswordValidators.patternValidator(/[a-z]/, { hasSmallCase: true }),
           // 5. check whether the entered password has a special character
-          PasswordValidators.patternValidator(/[!@#$%^&*()_+\-=\[\]{};':"|,.<>/?]/, { hasSpecialCharacters: true }),
+          PasswordValidators.patternValidator(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, { hasSpecialCharacters: true }),
           // 6. Has a minimum length of 8 characters
-          Validators.minLength(8)])],
+          Validators.minLength(8)])
+        ],
         confirmPassword: ['', Validators.required]
         },
         {
