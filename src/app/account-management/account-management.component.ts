@@ -52,7 +52,9 @@ export class AccountManagementComponent implements OnInit {
     },
     {
       // check whether password and confirm password match
-      validator: CustomValidators.passwordMatchValidator
+      validators: [CustomValidators.passwordMatchValidator,
+        CustomValidators.freeUsernameValidator(this.accounts),
+        CustomValidators.freeEmailValidator(this.accounts)]
     });
 
     this.changeAccForm = this.fb.group({
@@ -149,16 +151,22 @@ export class CustomValidators {
     // compare is the password math
     if (password !== confirmPassword) {
       // if they don't match, set an error in our confirmPassword form control
-      control.get('confirmPassword').setErrors({ NoPasswordMatch: true });
+      control.get('confirmPassword').setErrors({ noPasswordMatch: true });
     }
   }
 
-  static freeUsernameValidator(control: AbstractControl) {
-    const username = control.get('username').value;
+  static freeUsernameValidator(accounts: Account[]): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const username = control.get('username').value;
+      return { usernameNotFree: (accounts.find(acc => (acc.username === username)) !== undefined) };
+    };
   }
 
-  static freeEmailValidator(control: AbstractControl) {
-
+  static freeEmailValidator(accounts: Account[]): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const email = control.get('email').value;
+      return { emailNotFree: (accounts.find(acc => (acc.email === email)) !== undefined) };
+    };
   }
 
 }

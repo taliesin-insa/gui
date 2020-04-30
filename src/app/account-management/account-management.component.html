@@ -105,30 +105,39 @@
       <div class="form-group row">
         <label class="col-3 col-form-label" for="newUsername">Identifiant :</label>
         <div class="col-4">
-          <input type="text" class="form-control" formControlName="username" id="newUsername">
+          <input type="text" class="form-control" formControlName="username" id="newUsername"
+                 [ngClass]="(newAccForm.controls['username'].dirty && newAccForm.controls['username'].invalid) ? 'is-invalid' : ''">
         </div>
+      </div>
+
+      <!-- Error displayed -->
+      <div class="my-auto col-form-label-sm">
+        <label class="text-danger my-auto"
+               *ngIf="newAccForm.controls['username'].dirty && newAccForm.controls['username'].hasError('usernameNotFree')">
+          Identifiant déjà associé à un compte
+        </label>
       </div>
       <!-- /Username -->
 
-      <!-- Mail -->
+      <!-- Email -->
       <div class="form-group row">
-        <!-- Label + Input -->
         <label class="col-3 col-form-label" for="newEmail">Adresse mail :</label>
         <div class="col-4">
           <input type="email" class="form-control" formControlName="email" id="newEmail"
                  [ngClass]="(newAccForm.controls['email'].dirty && newAccForm.controls['email'].invalid) ? 'is-invalid' : ''">
         </div>
-        <!-- /Label + Input -->
 
         <!-- Errors displayed -->
         <div class="my-auto col-form-label-sm">
           <label class="text-danger my-auto" *ngIf="newAccForm.controls['email'].hasError('email')">
             Adresse email non valide
           </label>
+          <label class="text-danger my-auto" *ngIf="newAccForm.controls['email'].hasError('emailNotFree')">
+            Adresse email déjà associée à un compte
+          </label>
         </div>
-        <!-- /Errors displayed -->
       </div>
-      <!-- /Mail -->
+      <!-- /Email -->
 
       <!-- Passwords -->
       <div class="form-group">
@@ -183,14 +192,13 @@
                    [ngClass]="(newAccForm.controls['confirmPassword'].dirty && newAccForm.controls['confirmPassword'].invalid) ? 'is-invalid' : ''">
           </div>
 
-          <!-- Errors displayed -->
+          <!-- Error displayed -->
           <div class="my-auto col-form-label-sm">
             <label class="text-danger my-auto"
-                   *ngIf="newAccForm.controls['confirmPassword'].dirty && newAccForm.controls['confirmPassword'].hasError('NoPasswordMatch')">
+                   *ngIf="newAccForm.controls['confirmPassword'].dirty && newAccForm.controls['confirmPassword'].hasError('noPasswordMatch')">
               Les mots de passe ne correspondent pas
             </label>
           </div>
-          <!-- /Errors displayed -->
         </div>
         <!-- /Confirm Password-->
 
