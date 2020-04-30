@@ -16,7 +16,7 @@
     <!-- Generate a table row for all the accounts -->
     <ng-container *ngFor="let account of accounts">
       <tr (click)="selectedAccount = account;">
-        <td>{{account.name}}</td>
+        <td>{{account.username}}</td>
         <td>{{account.email}}</td>
         <td class="text-center">
           <i class="fas" [ngClass]="account.role ? 'fa-check text-success' : 'fa-times text-danger'"></i>
@@ -36,24 +36,29 @@
     <form [formGroup]="changeAccForm">
 
       <div class="form-group row">
-        <!-- Name -->
+        <!-- Username -->
         <div class="col">
-          <label for="updateName" class="col-form-label mr-2">Identifiant :</label>
-          <input [ngModel]="selectedAccount.name" type="text" class="form-control" formControlName="name"
-                 id="updateName">
+          <label for="updateUsername" class="col-form-label mr-2">Identifiant :</label>
+          <input [ngModel]="selectedAccount.username" type="text" class="form-control" formControlName="username"
+                 id="updateUsername">
         </div>
+        <!-- /Username -->
+
         <!-- Mail -->
         <div class="col">
           <label for="updateEmail" class="col-form-label mr-2">Adresse mail :</label>
           <input [ngModel]="selectedAccount.email" type="text" class="form-control" formControlName="email"
                  id="updateEmail">
         </div>
+        <!-- /Mail -->
+
         <!-- Role -->
         <div class="col form-check form-check-inline justify-content-center">
           <label for="updateRole" class="col-form-label mr-2">Droits d'administration :</label>
           <input [ngModel]="selectedAccount.role" type="checkbox" class="form-check-input" formControlName="role"
                  id="updateRole">
         </div>
+        <!-- /Role -->
 
       </div>
 
@@ -63,7 +68,7 @@
           Enregistrer
         </button>
         <button class="btn btn-danger btn-text font-weight-bold mx-2" (click)="modalService.open(popUpDelete)"
-                *ngIf="selectedAccount.name !== session.getUser()['Username']">
+                *ngIf="selectedAccount.username !== session.getUser()['Username']">
           Supprimer
         </button>
       </div>
@@ -96,14 +101,14 @@
     <h4 class="font-weight-bold">Ajouter un compte :</h4>
 
     <form [formGroup]="newAccForm" (ngSubmit)="createNewAccount(newAccForm.value)">
-      <!-- Name -->
+      <!-- Username -->
       <div class="form-group row">
-        <label class="col-3 col-form-label" for="newName">Identifiant :</label>
+        <label class="col-3 col-form-label" for="newUsername">Identifiant :</label>
         <div class="col-4">
-          <input type="text" class="form-control" formControlName="name" id="newName">
+          <input type="text" class="form-control" formControlName="username" id="newUsername">
         </div>
       </div>
-      <!-- /Name -->
+      <!-- /Username -->
 
       <!-- Mail -->
       <div class="form-group row">

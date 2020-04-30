@@ -31,7 +31,7 @@ export class AccountManagementComponent implements OnInit {
               private modalService: NgbModal) {
 
     this.newAccForm = this.fb.group({
-      name: ['', Validators.required],
+      username: ['', Validators.required],
       email: ['', Validators.compose([Validators.email, Validators.required])],
       password: ['', Validators.compose([
         // 1. Password Field is Required
@@ -56,7 +56,7 @@ export class AccountManagementComponent implements OnInit {
     });
 
     this.changeAccForm = this.fb.group({
-      name: ['', Validators.required],
+      username: ['', Validators.required],
       password: ['', Validators.required],
       email: ['', Validators.required],
       role: ['', Validators.required]
@@ -85,7 +85,7 @@ export class AccountManagementComponent implements OnInit {
   }
 
   deleteAccount(account: Account) {
-    this.auth.deleteAccount(account.name, this.session.getToken())
+    this.auth.deleteAccount(account.username, this.session.getToken())
     .pipe(catchError(this.handleError('deleting account', null)))
     .subscribe(() => {
       this.selectedAccount = null;
@@ -94,10 +94,10 @@ export class AccountManagementComponent implements OnInit {
   }
 
   createNewAccount(values: any) {
-    const {name, email, password, confirmPassword, role} = values;
+    const {username, email, password, confirmPassword, role} = values;
     const roleAsNumber = (role) ? 0 : 1;
 
-    this.auth.newAccount(name, email, password, roleAsNumber, this.session.getToken())
+    this.auth.newAccount(username, email, password, roleAsNumber, this.session.getToken())
       .pipe(catchError(this.handleError('creating account', null)))
       .subscribe(() => {
         this.reloadAccountList();
@@ -105,19 +105,19 @@ export class AccountManagementComponent implements OnInit {
   }
 
   updateSelectedAccount(values: any) {
-    let {name, email, role} = values;
+    let {username, email, role} = values;
     if (email === null) {
       email = this.selectedAccount.email;
     }
-    if (name === null) {
-      name = this.selectedAccount.name;
+    if (username === null) {
+      username = this.selectedAccount.username;
     }
     if (role === null) {
       role = this.selectedAccount.role;
     }
     const roleAsNumber = (role) ? 0 : 1;
 
-    this.auth.modifyAccount(name, email, roleAsNumber, this.session.getToken())
+    this.auth.modifyAccount(username, email, roleAsNumber, this.session.getToken())
       .pipe(catchError(this.handleError('modifying account', null)))
       .subscribe(() => {
         this.selectedAccount = null;
@@ -152,4 +152,13 @@ export class CustomValidators {
       control.get('confirmPassword').setErrors({ NoPasswordMatch: true });
     }
   }
+
+  static freeUsernameValidator(control: AbstractControl) {
+    const username = control.get('username').value;
+  }
+
+  static freeEmailValidator(control: AbstractControl) {
+
+  }
+
 }

@@ -1,4 +1,4 @@
 export class Account {
-  constructor(public name= '', public email= '', public role= false) {
+  constructor(public username= '', public email= '', public role= false) {
   }
 }
