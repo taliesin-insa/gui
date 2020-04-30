@@ -1,37 +1,7 @@
+$enable-validation-icons: false; //hide the "!" icon when a form is invalid
+
 // Bootstrap and its default variables
 @import "node_modules/bootstrap/scss/bootstrap";
-
-html {
-  /* To make use of full height of page*/
-  min-height: 100vh;
-  margin: 0;
-}
-.body{
-  background-color: rgba(193, 215, 241, 0.47);
-  min-height: 100vh;
-  margin: 0;
-  padding: 15px;
-  width: available;
-}
-header{
-  background-color: white;
-}
-.card{
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  padding: 15px;
-}
-.interest-box{
-  border: rgba(193, 215, 241, 0.47) solid 1px;
-  background-color: white;
-  margin: auto;
-  width: 95%;
-  height: 95%;
-  padding: 15px;
-}
-.btn-text{
-  border : none;
-  font-size: 0.8em;
-}
 
 // RED
 $taliesin-red: #e91430;

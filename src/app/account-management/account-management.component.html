@@ -1,0 +1,229 @@
+<div class="col-lg-8 offset-lg-2 card">
+  <h2 class="font-weight-bold ml-1" style="font-size: 2.5em">Gestion des comptes</h2>
+  <hr>
+
+  <!-- Accounts list -->
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+    <tr>
+      <th scope="col" class="text-center">Identifiant</th>
+      <th scope="col" class="text-center">Adresse mail</th>
+      <th scope="col" class="text-center">Administrateur</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <!-- Generate a table row for all the accounts -->
+    <ng-container *ngFor="let account of accounts">
+      <tr (click)="selectedAccount = account;">
+        <td>{{account.username}}</td>
+        <td>{{account.email}}</td>
+        <td class="text-center">
+          <i class="fas" [ngClass]="account.role ? 'fa-check text-success' : 'fa-times text-danger'"></i>
+        </td>
+      </tr>
+    </ng-container>
+
+    </tbody>
+  </table>
+  <!-- /Accounts list -->
+
+  <!-- Selected account modification -->
+  <div *ngIf="selectedAccount">
+    <hr>
+    <h4 class="font-weight-bold">Détails du compte : </h4>
+
+    <form [formGroup]="changeAccForm">
+
+      <div class="form-group row">
+        <!-- Username -->
+        <div class="col">
+          <label for="updateUsername" class="col-form-label mr-2">Identifiant :</label>
+          <input [ngModel]="selectedAccount.username" type="text" class="form-control" formControlName="username"
+                 id="updateUsername">
+        </div>
+        <!-- /Username -->
+
+        <!-- Mail -->
+        <div class="col">
+          <label for="updateEmail" class="col-form-label mr-2">Adresse mail :</label>
+          <input [ngModel]="selectedAccount.email" type="text" class="form-control" formControlName="email"
+                 id="updateEmail">
+        </div>
+        <!-- /Mail -->
+
+        <!-- Role -->
+        <div class="col form-check form-check-inline justify-content-center">
+          <label for="updateRole" class="col-form-label mr-2">Droits d'administration :</label>
+          <input [ngModel]="selectedAccount.role" type="checkbox" class="form-check-input" formControlName="role"
+                 id="updateRole">
+        </div>
+        <!-- /Role -->
+
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-secondary btn-text font-weight-bold mx-2"
+                (click)="updateSelectedAccount(changeAccForm.value)">
+          Enregistrer
+        </button>
+        <button class="btn btn-danger btn-text font-weight-bold mx-2" (click)="modalService.open(popUpDelete)"
+                *ngIf="selectedAccount.username !== session.getUser()['Username']">
+          Supprimer
+        </button>
+      </div>
+
+    </form>
+
+    <!-- Template for the confirmation modal attached with the account suppression button -->
+    <ng-template #popUpDelete let-modal>
+      <div class="modal-header alert-danger">
+        <h4 class="modal-title" id="modal-basic-title">Attention</h4>
+      </div>
+      <div class="modal-body">
+        Vous allez supprimer le compte sélectionné, êtes-vous certain de votre décision ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modal.close() ; deleteAccount(selectedAccount);">
+          Continuer
+        </button>
+        <button type="button" class="btn btn-light" (click)="modal.close()">Annuler</button>
+      </div>
+    </ng-template>
+    <!-- /Template suppression modal -->
+
+  </div>
+  <!-- /Selected account modification -->
+  <hr>
+
+  <!-- New account form -->
+  <div>
+    <h4 class="font-weight-bold">Ajouter un compte :</h4>
+
+    <form [formGroup]="newAccForm" (ngSubmit)="createNewAccount(newAccForm.value)">
+      <!-- Username -->
+      <div class="form-group row">
+        <label class="col-3 col-form-label" for="newUsername">Identifiant :</label>
+        <div class="col-4">
+          <input type="text" class="form-control" formControlName="username" id="newUsername"
+                 [ngClass]="(newAccForm.controls['username'].dirty && newAccForm.controls['username'].invalid) ? 'is-invalid' : ''">
+        </div>
+      </div>
+
+      <!-- Error displayed -->
+      <div class="my-auto col-form-label-sm">
+        <label class="text-danger my-auto"
+               *ngIf="newAccForm.controls['username'].dirty && newAccForm.hasError('usernameNotFree')">
+          Identifiant déjà associé à un compte
+        </label>
+      </div>
+      <!-- /Username -->
+
+      <!-- Email -->
+      <div class="form-group row">
+        <label class="col-3 col-form-label" for="newEmail">Adresse mail :</label>
+        <div class="col-4">
+          <input type="email" class="form-control" formControlName="email" id="newEmail"
+                 [ngClass]="(newAccForm.controls['email'].dirty && newAccForm.controls['email'].invalid) ? 'is-invalid' : ''">
+        </div>
+
+        <!-- Errors displayed -->
+        <div class="my-auto col-form-label-sm">
+          <label class="text-danger my-auto" *ngIf="newAccForm.controls['email'].hasError('email')">
+            Adresse email non valide
+          </label>
+          <label class="text-danger my-auto" *ngIf="newAccForm.hasError('emailNotFree')">
+            Adresse email déjà associée à un compte
+          </label>
+        </div>
+      </div>
+      <!-- /Email -->
+
+      <!-- Passwords -->
+      <div class="form-group">
+
+        <!-- Password -->
+        <div class="row mb-1">
+
+          <label class="col-3 col-form-label" for="newPassword">Mot de passe :</label>
+          <div class="col-4">
+            <input type="password" class="form-control mb-1" formControlName="password" id="newPassword"
+                   [ngClass]="(newAccForm.controls['password'].dirty && newAccForm.controls['password'].invalid) ? 'is-invalid' : ''">
+
+            <!-- Password requirements -->
+            <div *ngIf="newAccForm.controls['password'].invalid">
+              <label [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('minlength') ? 'text-danger' : 'text-success'">
+                <i class="fas" [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('minlength') ?
+                                          'fa-times-circle text-danger' : 'fa-check-circle text-success'"></i>
+                Contient au moins 8 caractères
+              </label>
+              <label [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('hasNumber') ? 'text-danger' : 'text-success'">
+                <i class="fas" [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('hasNumber') ?
+                                          'fa-times-circle text-danger' : 'fa-check-circle text-success'"></i>
+                Contient au moins un chiffre
+              </label>
+              <label [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('hasCapitalCase') ? 'text-danger' : 'text-success'">
+                <i class="fas" [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('hasCapitalCase') ?
+                                          'fa-times-circle text-danger' : 'fa-check-circle text-success'"></i>
+                Contient au moins une majuscule
+              </label>
+              <label [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('hasSmallCase') ? 'text-danger' : 'text-success'">
+                <i class="fas" [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('hasSmallCase') ?
+                                          'fa-times-circle text-danger' : 'fa-check-circle text-success'"></i>
+                Contient au moins une minuscule
+              </label>
+              <label [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('hasSpecialCharacters') ? 'text-danger' : 'text-success'">
+                <i class="fas" [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('hasSpecialCharacters') ?
+                                          'fa-times-circle text-danger' : 'fa-check-circle text-success'"></i>
+                Contient au moins un caractère spécial
+              </label>
+            </div>
+            <!-- /Password requirements -->
+          </div>
+
+        </div>
+        <!-- /Password -->
+
+        <!-- Confirm Password-->
+        <div class="row">
+          <label class="col-3 col-form-label" for="confirmPassword">Confirmation du mot de passe :</label>
+          <div class="col-4">
+            <input type="password" class="form-control" formControlName="confirmPassword" id="confirmPassword"
+                   [ngClass]="(newAccForm.controls['confirmPassword'].dirty && newAccForm.controls['confirmPassword'].invalid) ? 'is-invalid' : ''">
+          </div>
+
+          <!-- Error displayed -->
+          <div class="my-auto col-form-label-sm">
+            <label class="text-danger my-auto"
+                   *ngIf="newAccForm.controls['confirmPassword'].dirty && newAccForm.controls['confirmPassword'].hasError('noPasswordMatch')">
+              Les mots de passe ne correspondent pas
+            </label>
+          </div>
+        </div>
+        <!-- /Confirm Password-->
+
+      </div>
+      <!-- /Passwords -->
+
+      <!-- Role -->
+      <div class="form-group row">
+        <label for="newRole" class="col-3">Droits d'administration :</label>
+        <div class="col-4">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" formControlName="role" id="newRole">
+          </div>
+        </div>
+      </div>
+      <!-- /Role -->
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-secondary btn-text font-weight-bold" [disabled]="newAccForm.invalid">
+          Nouveau compte
+        </button>
+      </div>
+
+    </form>
+  </div>
+  <!-- /New account form -->
+
+</div>

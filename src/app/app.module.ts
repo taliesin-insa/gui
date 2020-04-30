@@ -10,27 +10,29 @@ import {DbManagementComponent} from './db-management/db-management.component';
 import {DbCreationComponent} from './db-creation/db-creation.component';
 import {LoginComponent} from './login/login.component';
 import { DbAddExamplesComponent } from './db-add-examples/db-add-examples.component';
+import {AccountManagementComponent} from './account-management/account-management.component';
 
 import {HttpClientModule} from '@angular/common/http';
 import {HttpErrorHandler} from './services/http-error-handler.service';
 import {httpInterceptorProviders} from './http-interceptors';
 import { ErrorDisplayComponent } from './error-display/error-display.component';
 import {ErrorMessageService} from './services/error-messages.service';
-import {ReactiveFormsModule} from '@angular/forms';
 import { ScrollToTopComponent } from './scroll-to-top/scroll-to-top.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
     HomePageComponent,
     AnnotationComponent,
     DbManagementComponent,
     DbCreationComponent,
-    ErrorDisplayComponent,
-    LoginComponent,
     DbAddExamplesComponent,
+    AccountManagementComponent,
     ScrollToTopComponent,
+    ErrorDisplayComponent,
     NotFoundComponent,
   ],
   imports: [
@@ -38,7 +40,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     AppRoutingModule,
     NgbModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     ErrorMessageService,

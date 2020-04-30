@@ -57,6 +57,10 @@ export class HttpErrorHandler {
             this.errorMessageService.add(`L'identifiant ou le mot de passe est incorrect.`);
             this.errorMessageService.close(this.errorMessageService.nbErrors - 1, 5000);
           }
+          if (serviceName === 'AccountManagement') {
+            this.errorMessageService.add(`L'identifiant ou l'adresse email est déjà associé à un autre compte.`);
+            this.errorMessageService.close(this.errorMessageService.nbErrors - 1, 10000);
+          }
           break;
         case 404:
           message = `Server or URL not found (` + error.message + ' // ' + backendError + ')';
@@ -78,7 +82,7 @@ export class HttpErrorHandler {
           }
       }
 
-      if (!(error.status === 401 && serviceName === 'Login')) {
+      if (!(error.status === 401 && (serviceName === 'Login' || serviceName === 'AccountManagement'))) {
         message += ` (${error.status})`;
         this.errorMessageService.add(`${serviceName}: ${operation} failed: ${message}`);
       }
