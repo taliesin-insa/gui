@@ -60,7 +60,8 @@
                 (click)="updateSelectedAccount(changeAccountForm.value)">
           Enregistrer
         </button>
-        <button class="btn btn-danger btn-text font-weight-bold mx-2" (click)="modalService.open(popUpDelete)">
+        <button class="btn btn-danger btn-text font-weight-bold mx-2" (click)="modalService.open(popUpDelete)"
+                *ngIf="selectedAccount.name !== session.getUser()['Username']">
           Supprimer
         </button>
       </div>
