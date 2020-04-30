@@ -82,7 +82,7 @@ export class HttpErrorHandler {
           }
       }
 
-      if (!(error.status === 401 && serviceName === 'Login')) {
+      if (!(error.status === 401 && (serviceName === 'Login' || serviceName === 'AccountManagement'))) {
         message += ` (${error.status})`;
         this.errorMessageService.add(`${serviceName}: ${operation} failed: ${message}`);
       }
