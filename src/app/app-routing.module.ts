@@ -10,6 +10,7 @@ import {AuthGuard} from './services/auth-guard.service';
 import {DbAddExamplesComponent} from './db-add-examples/db-add-examples.component';
 import {AccountManagementComponent} from './account-management/account-management.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import {ProfileComponent} from './profile/profile.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'dbCreation', component: DbCreationComponent, canActivate: [AuthGuard] },
   { path: 'dbAddExamples', component: DbAddExamplesComponent, canActivate: [AuthGuard] },
   { path: 'accountManagement', component: AccountManagementComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
   { path: '404', component: NotFoundComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full'},
   { path: '**', redirectTo: '/404' }

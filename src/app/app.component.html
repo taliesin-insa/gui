@@ -29,7 +29,10 @@
         </ul>
         <ul class="nav navbar-nav navbar-right" [ngClass]="isMenuCollapsed ? 'nav-fill' : 'ml-auto'">
           <li class="nav-item">
-            <span class="mr-3"><i class="fas fa-user-circle fa-2x mr-2" style="vertical-align: middle;"></i>{{session.getUsername()}}</span>
+            <span class="mr-3" routerLink="/profile" (click)="updateNavIndicator(null);">
+              <i class="fas fa-user-circle fa-2x mr-2" style="vertical-align: middle;"></i>
+              {{session.getUsername()}}
+            </span>
             <button class="btn btn-danger" href="#" (click)="logoutUser()">
               <i class="fas fa-sign-out-alt fa-lg" style="color: white"></i>
             </button>
