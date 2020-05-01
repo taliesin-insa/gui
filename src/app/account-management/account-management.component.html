@@ -112,11 +112,15 @@
         </div>
       </div>
 
-      <!-- Error displayed -->
+      <!-- Errors displayed -->
       <div class="my-auto col-form-label-sm">
         <label class="text-danger my-auto"
                *ngIf="newAccForm.controls['username'].dirty && newAccForm.hasError('usernameNotFree')">
           Identifiant déjà associé à un compte
+        </label>
+        <label class="text-danger my-auto"
+               *ngIf="newAccForm.controls['username'].dirty && newAccForm.hasError('noSpecialCharacter')">
+          L'identifiant ne peut pas contenir de caractère spécial
         </label>
       </div>
       <!-- /Username -->
