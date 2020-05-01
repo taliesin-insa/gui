@@ -108,7 +108,7 @@
         <label class="col-3 col-form-label" for="newUsername">Identifiant :</label>
         <div class="col-4">
           <input type="text" class="form-control" formControlName="username" id="newUsername"
-                 [ngClass]="(newAccForm.controls['username'].touched && newAccForm.controls['username'].invalid) ? 'is-invalid' : ''">
+                 [ngClass]="(newAccForm.controls['username'].dirty && newAccForm.controls['username'].invalid) ? 'is-invalid' : ''">
         </div>
       </div>
 
@@ -120,7 +120,7 @@
         </label>
         <label class="text-danger my-auto"
                *ngIf="newAccForm.controls['username'].dirty && newAccForm.controls['username'].hasError('noSpecialCharacter')">
-          L'identifiant ne peut pas contenir de caractère spécial
+          Caractères spéciaux interdits
         </label>
       </div>
       <!-- /Username -->
