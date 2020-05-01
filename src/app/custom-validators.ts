@@ -31,6 +31,7 @@ export class CustomValidators {
   static freeUsernameValidator(accounts: Account[]) {
     return (control: AbstractControl) => {
       const username = control.get('username').value;
+      console.log(username);
       console.log(accounts.find(acc => (acc.username === username)));
       control.get('username').setErrors( {usernameNotFree: (accounts.find(acc => (acc.username === username)) !== undefined) });
     };
