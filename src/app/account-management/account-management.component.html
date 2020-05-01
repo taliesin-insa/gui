@@ -37,10 +37,9 @@
 
       <div class="form-group row">
         <!-- Username -->
-        <div class="col">
-          <label for="updateUsername" class="col-form-label mr-2">Identifiant :</label>
-          <input [ngModel]="selectedAccount.username" type="text" class="form-control" formControlName="username" id="updateUsername"
-                 [ngClass]="(changeAccForm.controls['username'].dirty && changeAccForm.controls['username'].invalid) ? 'is-invalid' : ''">
+        <div class="col justify-content-center">
+          <label class="col-form-label mr-2">Identifiant :</label>
+          <label>{{selectedAccount.username}}</label>
         </div>
         <!-- /Username -->
 
