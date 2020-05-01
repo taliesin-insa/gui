@@ -114,12 +114,12 @@
         <!-- Errors displayed -->
         <div class="my-auto col-form-label-sm">
           <label class="text-danger my-auto"
-                 *ngIf="newAccForm.controls['username'].dirty && newAccForm.hasError('usernameNotFree')">
-            Identifiant déjà associé à un compte
-          </label>
-          <label class="text-danger my-auto"
                  *ngIf="newAccForm.controls['username'].dirty && newAccForm.controls['username'].hasError('hasSpecialChars')">
             Caractères spéciaux interdits dans l'identifiant
+          </label>
+          <label class="text-danger my-auto"
+                 *ngIf="newAccForm.controls['username'].dirty && newAccForm..controls['username'].hasError('usernameNotFree')">
+            Identifiant déjà associé à un compte
           </label>
         </div>
       </div>
@@ -138,7 +138,7 @@
           <label class="text-danger my-auto" *ngIf="newAccForm.controls['email'].hasError('email')">
             Adresse email non valide
           </label>
-          <label class="text-danger my-auto" *ngIf="newAccForm.hasError('emailNotFree')">
+          <label class="text-danger my-auto" *ngIf="newAccForm.controls['email'].hasError('emailNotFree')">
             Adresse email déjà associée à un compte
           </label>
         </div>
