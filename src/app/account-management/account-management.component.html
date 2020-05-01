@@ -110,18 +110,18 @@
           <input type="text" class="form-control" formControlName="username" id="newUsername"
                  [ngClass]="(newAccForm.controls['username'].dirty && newAccForm.controls['username'].invalid) ? 'is-invalid' : ''">
         </div>
-      </div>
 
-      <!-- Errors displayed -->
-      <div class="my-auto col-form-label-sm">
-        <label class="text-danger my-auto"
-               *ngIf="newAccForm.controls['username'].dirty && newAccForm.hasError('usernameNotFree')">
-          Identifiant déjà associé à un compte
-        </label>
-        <label class="text-danger my-auto"
-               *ngIf="newAccForm.controls['username'].dirty && newAccForm.controls['username'].hasError('noSpecialCharacter')">
-          Caractères spéciaux interdits
-        </label>
+        <!-- Errors displayed -->
+        <div class="my-auto col-form-label-sm">
+          <label class="text-danger my-auto"
+                 *ngIf="newAccForm.controls['username'].dirty && newAccForm.hasError('usernameNotFree')">
+            Identifiant déjà associé à un compte
+          </label>
+          <label class="text-danger my-auto"
+                 *ngIf="newAccForm.controls['username'].dirty && newAccForm.controls['username'].hasError('noSpecialCharacter')">
+            Caractères spéciaux interdits dans l'identifiant
+          </label>
+        </div>
       </div>
       <!-- /Username -->
 
