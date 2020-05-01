@@ -29,7 +29,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right" [ngClass]="isMenuCollapsed ? 'nav-fill' : 'ml-auto'">
           <li class="nav-item">
-            <span class="mr-3" routerLink="/profile" (click)="updateNavIndicator(null);">
+            <span class="mr-3" routerLink="/profile" (click)="updateNavIndicator(null);" style="cursor: pointer;">
               <i class="fas fa-user-circle fa-2x mr-2" style="vertical-align: middle;"></i>
               {{session.getUsername()}}
             </span>
