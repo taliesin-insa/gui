@@ -62,7 +62,6 @@ export class AccountManagementComponent implements OnInit {
       });
 
     this.changeAccForm = this.fb.group({
-      username: ['', Validators.required],
       email: ['', Validators.compose([Validators.email, Validators.required])],
       role: ['']
     });
@@ -110,10 +109,7 @@ export class AccountManagementComponent implements OnInit {
   }
 
   updateSelectedAccount(values: any) {
-    let {username, email, role} = values;
-    if (username === null) {
-      username = this.selectedAccount.username;
-    }
+    let {email, role} = values;
     if (email === null) {
       email = this.selectedAccount.email;
     }
@@ -122,7 +118,7 @@ export class AccountManagementComponent implements OnInit {
     }
     const roleAsNumber = (role) ? 0 : 1;
 
-    this.auth.modifyAccount(username, email, roleAsNumber, this.session.getToken())
+    this.auth.modifyAccount(this.selectedAccount.username, email, roleAsNumber, this.session.getToken())
       .pipe(catchError(this.handleError('modifying account', null)))
       .subscribe(() => {
         this.selectedAccount = null;
