@@ -72,7 +72,7 @@
           Enregistrer
         </button>
         <button class="btn btn-danger btn-text font-weight-bold mx-2" (click)="modalService.open(popUpDelete)"
-                *ngIf="selectedAccount.username !== session.getUser()['Username']">
+                *ngIf="selectedAccount.username !== session.getUsername()">
           Supprimer
         </button>
       </div>
