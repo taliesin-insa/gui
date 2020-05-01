@@ -1,0 +1,125 @@
+<div class="col-lg-8 offset-lg-2 card">
+  <h2 class="font-weight-bold ml-1" style="font-size: 2.5em">Votre compte</h2>
+  <hr>
+
+  <!-- Profile information -->
+  <div class="row">
+
+    <div class="col-3 text-center text-secondary">
+      <i class="far fa-user fa-10x"></i>
+    </div>
+
+    <div class="col-2">
+      <p class="mb-2 font-weight-bold">Identifiant :</p>
+      <p class="mb-2 font-weight-bold">Adresse email :</p>
+      <p class="mb-2 font-weight-bold">Rôle :</p>
+      <button type="button" class="btn btn-outline-secondary btn-text font-weight-bold mt-2"
+              (click)="showPwdModif = true" *ngIf="!showPwdModif">
+        Modifier le mot de passe
+      </button>
+    </div>
+
+    <div class="col-3">
+      <p class="mb-2">{{session.getUsername()}}</p>
+      <p class="mb-2">{{session.getUser()['Email']}}</p>
+      <p class="mb-2">{{(session.getUser()['Role'] === 0) ? 'Administrateur' : 'Annotateur'}}</p>
+    </div>
+
+  </div>
+  <!-- Profile information -->
+
+  <!-- Password modification -->
+  <div *ngIf="showPwdModif">
+    <hr>
+    <form [formGroup]="modifyPasswordForm" (ngSubmit)="modifyPassword(modifyPasswordForm.value)">
+
+      <!-- Old password -->
+      <div class="form-group row my-4">
+        <label class="col-3 col-form-label" for="oldPassword">Ancien mot de passe :</label>
+        <div class="col-4">
+          <input type="password" class="form-control" formControlName="oldPassword" id="oldPassword"
+                 [ngClass]="(modifyPasswordForm.controls['oldPassword'].touched && modifyPasswordForm.controls['oldPassword'].invalid) ? 'is-invalid' : ''">
+        </div>
+      </div>
+      <!-- /Old password -->
+
+
+      <!-- New passwords -->
+      <div class="form-group">
+
+        <!-- Password -->
+        <div class="row mb-1">
+
+          <label class="col-3 col-form-label" for="newPassword">Nouveau mot de passe :</label>
+          <div class="col-4">
+            <input type="password" class="form-control mb-1" formControlName="password" id="newPassword"
+                   [ngClass]="(modifyPasswordForm.controls['password'].touched && modifyPasswordForm.controls['password'].invalid) ? 'is-invalid' : ''">
+
+            <!-- Password requirements -->
+            <div *ngIf="modifyPasswordForm.controls['password'].invalid">
+              <label [ngClass]="modifyPasswordForm.controls['password'].hasError('required') || modifyPasswordForm.controls['password'].hasError('minlength') ? 'text-danger' : 'text-success'">
+                <i class="fas" [ngClass]="modifyPasswordForm.controls['password'].hasError('required') || modifyPasswordForm.controls['password'].hasError('minlength') ?
+                                          'fa-times-circle text-danger' : 'fa-check-circle text-success'"></i>
+                Contient au moins 8 caractères
+              </label>
+              <label [ngClass]="modifyPasswordForm.controls['password'].hasError('required') || modifyPasswordForm.controls['password'].hasError('hasNumber') ? 'text-danger' : 'text-success'">
+                <i class="fas" [ngClass]="modifyPasswordForm.controls['password'].hasError('required') || modifyPasswordForm.controls['password'].hasError('hasNumber') ?
+                                          'fa-times-circle text-danger' : 'fa-check-circle text-success'"></i>
+                Contient au moins un chiffre
+              </label>
+              <label [ngClass]="modifyPasswordForm.controls['password'].hasError('required') || modifyPasswordForm.controls['password'].hasError('hasCapitalCase') ? 'text-danger' : 'text-success'">
+                <i class="fas" [ngClass]="modifyPasswordForm.controls['password'].hasError('required') || modifyPasswordForm.controls['password'].hasError('hasCapitalCase') ?
+                                          'fa-times-circle text-danger' : 'fa-check-circle text-success'"></i>
+                Contient au moins une majuscule
+              </label>
+              <label [ngClass]="modifyPasswordForm.controls['password'].hasError('required') || modifyPasswordForm.controls['password'].hasError('hasSmallCase') ? 'text-danger' : 'text-success'">
+                <i class="fas" [ngClass]="modifyPasswordForm.controls['password'].hasError('required') || modifyPasswordForm.controls['password'].hasError('hasSmallCase') ?
+                                          'fa-times-circle text-danger' : 'fa-check-circle text-success'"></i>
+                Contient au moins une minuscule
+              </label>
+              <label [ngClass]="modifyPasswordForm.controls['password'].hasError('required') || modifyPasswordForm.controls['password'].hasError('hasSpecialCharacters') ? 'text-danger' : 'text-success'">
+                <i class="fas" [ngClass]="modifyPasswordForm.controls['password'].hasError('required') || modifyPasswordForm.controls['password'].hasError('hasSpecialCharacters') ?
+                                          'fa-times-circle text-danger' : 'fa-check-circle text-success'"></i>
+                Contient au moins un caractère spécial
+              </label>
+            </div>
+            <!-- /Password requirements -->
+          </div>
+
+        </div>
+        <!-- /Password -->
+
+        <!-- Confirm Password-->
+        <div class="row">
+          <label class="col-3 col-form-label" for="confirmPassword">Confirmation du mot de passe :</label>
+          <div class="col-4">
+            <input type="password" class="form-control" formControlName="confirmPassword" id="confirmPassword"
+                   [ngClass]="(modifyPasswordForm.controls['confirmPassword'].dirty && modifyPasswordForm.controls['confirmPassword'].invalid) ? 'is-invalid' : ''">
+          </div>
+
+          <!-- Error displayed -->
+          <div class="my-auto col-form-label-sm">
+            <label class="text-danger my-auto"
+                   *ngIf="modifyPasswordForm.controls['confirmPassword'].dirty && modifyPasswordForm.controls['confirmPassword'].hasError('noPasswordMatch')">
+              Les mots de passe ne correspondent pas
+            </label>
+          </div>
+        </div>
+        <!-- /Confirm Password-->
+
+      </div>
+      <!-- /New passwords -->
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-secondary btn-text font-weight-bold mx-2">
+          Enregistrer
+        </button>
+        <button type="button" class="btn btn-danger btn-text font-weight-bold mx-2" (click)="showPwdModif = false">
+          Annuler
+        </button>
+      </div>
+
+    </form>
+  </div>
+  <!-- /Password modification -->
+</div>
