@@ -118,7 +118,7 @@
             Identifiant déjà associé à un compte
           </label>
           <label class="text-danger my-auto"
-                 *ngIf="newAccForm.controls['username'].dirty && newAccForm.controls['username'].hasError('noSpecialCharacter')">
+                 *ngIf="newAccForm.controls['username'].dirty && newAccForm.controls['username'].hasError('hasSpecialChars')">
             Caractères spéciaux interdits dans l'identifiant
           </label>
         </div>
@@ -163,23 +163,23 @@
                                           'fa-times-circle text-danger' : 'fa-check-circle text-success'"></i>
                 Contient au moins 8 caractères
               </label>
-              <label [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('hasNumber') ? 'text-danger' : 'text-success'">
-                <i class="fas" [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('hasNumber') ?
+              <label [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('noNumber') ? 'text-danger' : 'text-success'">
+                <i class="fas" [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('noNumber') ?
                                           'fa-times-circle text-danger' : 'fa-check-circle text-success'"></i>
                 Contient au moins un chiffre
               </label>
-              <label [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('hasCapitalCase') ? 'text-danger' : 'text-success'">
-                <i class="fas" [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('hasCapitalCase') ?
+              <label [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('noCapitalCase') ? 'text-danger' : 'text-success'">
+                <i class="fas" [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('noCapitalCase') ?
                                           'fa-times-circle text-danger' : 'fa-check-circle text-success'"></i>
                 Contient au moins une majuscule
               </label>
-              <label [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('hasSmallCase') ? 'text-danger' : 'text-success'">
-                <i class="fas" [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('hasSmallCase') ?
+              <label [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('noSmallCase') ? 'text-danger' : 'text-success'">
+                <i class="fas" [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('noSmallCase') ?
                                           'fa-times-circle text-danger' : 'fa-check-circle text-success'"></i>
                 Contient au moins une minuscule
               </label>
-              <label [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('hasSpecialCharacters') ? 'text-danger' : 'text-success'">
-                <i class="fas" [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('hasSpecialCharacters') ?
+              <label [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('noSpecialChars') ? 'text-danger' : 'text-success'">
+                <i class="fas" [ngClass]="newAccForm.controls['password'].hasError('required') || newAccForm.controls['password'].hasError('noSpecialChars') ?
                                           'fa-times-circle text-danger' : 'fa-check-circle text-success'"></i>
                 Contient au moins un caractère spécial
               </label>
