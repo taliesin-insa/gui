@@ -1,4 +1,5 @@
 import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
+import {Account} from './model/Account';
 
 export class CustomValidators {
 
@@ -27,18 +28,18 @@ export class CustomValidators {
     }
   }
 
-  // static freeUsernameValidator(accounts: Account[]): ValidatorFn {
-  //   return (control: AbstractControl): ValidationErrors | null => {
-  //     const username = control.get('username').value;
-  //     return { usernameNotFree: (accounts.find(acc => (acc.username === username)) !== undefined) };
-  //   };
-  // }
-  //
-  // static freeEmailValidator(accounts: Account[]): ValidatorFn {
-  //   return (control: AbstractControl): ValidationErrors | null => {
-  //     const email = control.get('email').value;
-  //     return { emailNotFree: (accounts.find(acc => (acc.email === email)) !== undefined) };
-  //   };
-  // }
+  static freeUsernameValidator(accounts: Account[]) {
+    return (control: AbstractControl) => {
+      const username = control.get('username').value;
+      control.get('username').setErrors( {usernameNotFree: (accounts.find(acc => (acc.username === username)) !== undefined) });
+    };
+  }
+
+  static freeEmailValidator(accounts: Account[]){
+    return (control: AbstractControl) => {
+      const email = control.get('email').value;
+      control.get('email').setErrors({ emailNotFree: (accounts.find(acc => (acc.email === email)) !== undefined) });
+    };
+  }
 
 }

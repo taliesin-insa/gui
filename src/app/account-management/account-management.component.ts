@@ -56,9 +56,9 @@ export class AccountManagementComponent implements OnInit {
       },
       {
         // check whether password and confirm password match
-        validators: [CustomValidators.passwordMatchValidator]
-        // CustomValidators.freeUsernameValidator(this.accounts),
-        // CustomValidators.freeEmailValidator(this.accounts)]
+        validators: [CustomValidators.passwordMatchValidator,
+        CustomValidators.freeUsernameValidator(this.accounts),
+        CustomValidators.freeEmailValidator(this.accounts)]
       });
 
     this.changeAccForm = this.fb.group({
