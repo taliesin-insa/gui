@@ -58,6 +58,14 @@ export class AuthService {
     }, { observe: 'response', headers: new HttpHeaders({'Content-Type': 'application/json'}) });
   }
 
+  modifyPassword(username, oldpassword, newpassword): Observable<any> {
+    return this.http.post('/auth/account/modifyPassword', {
+      Username: username,
+      OldPassword: oldpassword,
+      NewPassword: newpassword
+    }, { observe: 'response', headers: new HttpHeaders({'Content-Type': 'application/json'}) });
+  }
+
   deleteAccount(username, token): Observable<any> {
     return this.http.post('/auth/account/delete', {
       AdminToken: token,
