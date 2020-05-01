@@ -37,23 +37,25 @@
 
       <div class="form-group row">
         <!-- Username -->
-        <div class="col">
-          <label for="updateUsername" class="col-form-label mr-2">Identifiant :</label>
-          <input [ngModel]="selectedAccount.username" type="text" class="form-control" formControlName="username"
-                 id="updateUsername">
+        <div class="col-3 text-center my-auto">
+          <span class="mr-2">Identifiant :</span><span>{{selectedAccount.username}}</span>
         </div>
         <!-- /Username -->
 
-        <!-- Mail -->
-        <div class="col">
+        <!-- Email -->
+        <div class="col form-inline justify-content-center">
           <label for="updateEmail" class="col-form-label mr-2">Adresse mail :</label>
-          <input [ngModel]="selectedAccount.email" type="text" class="form-control" formControlName="email"
-                 id="updateEmail">
+          <input [ngModel]="selectedAccount.email" type="text" class="form-control w-75" formControlName="email" id="updateEmail"
+                 [ngClass]="(changeAccForm.controls['email'].dirty && changeAccForm.controls['email'].invalid) ? 'is-invalid' : ''">
+          <!-- Error displayed -->
+          <label class="text-danger mx-auto col-form-label-sm" *ngIf="changeAccForm.controls['email'].hasError('email')">
+            Adresse email non valide
+          </label>
         </div>
-        <!-- /Mail -->
+        <!-- /Email -->
 
         <!-- Role -->
-        <div class="col form-check form-check-inline justify-content-center">
+        <div class="col-3 form-check form-check-inline justify-content-center" *ngIf="selectedAccount.username !== session.getUsername()">
           <label for="updateRole" class="col-form-label mr-2">Droits d'administration :</label>
           <input [ngModel]="selectedAccount.role" type="checkbox" class="form-check-input" formControlName="role"
                  id="updateRole">
@@ -68,7 +70,7 @@
           Enregistrer
         </button>
         <button class="btn btn-danger btn-text font-weight-bold mx-2" (click)="modalService.open(popUpDelete)"
-                *ngIf="selectedAccount.username !== session.getUser()['Username']">
+                *ngIf="selectedAccount.username !== session.getUsername()">
           Supprimer
         </button>
       </div>
@@ -106,7 +108,7 @@
         <label class="col-3 col-form-label" for="newUsername">Identifiant :</label>
         <div class="col-4">
           <input type="text" class="form-control" formControlName="username" id="newUsername"
-                 [ngClass]="(newAccForm.controls['username'].dirty && newAccForm.controls['username'].invalid) ? 'is-invalid' : ''">
+                 [ngClass]="(newAccForm.controls['username'].touched && newAccForm.controls['username'].invalid) ? 'is-invalid' : ''">
         </div>
       </div>
 
@@ -124,7 +126,7 @@
         <label class="col-3 col-form-label" for="newEmail">Adresse mail :</label>
         <div class="col-4">
           <input type="email" class="form-control" formControlName="email" id="newEmail"
-                 [ngClass]="(newAccForm.controls['email'].dirty && newAccForm.controls['email'].invalid) ? 'is-invalid' : ''">
+                 [ngClass]="(newAccForm.controls['email'].touched && newAccForm.controls['email'].invalid) ? 'is-invalid' : ''">
         </div>
 
         <!-- Errors displayed -->
@@ -148,7 +150,7 @@
           <label class="col-3 col-form-label" for="newPassword">Mot de passe :</label>
           <div class="col-4">
             <input type="password" class="form-control mb-1" formControlName="password" id="newPassword"
-                   [ngClass]="(newAccForm.controls['password'].dirty && newAccForm.controls['password'].invalid) ? 'is-invalid' : ''">
+                   [ngClass]="(newAccForm.controls['password'].touched && newAccForm.controls['password'].invalid) ? 'is-invalid' : ''">
 
             <!-- Password requirements -->
             <div *ngIf="newAccForm.controls['password'].invalid">
