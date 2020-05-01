@@ -1,7 +1,11 @@
 import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
 import {Account} from './model/Account';
+import {AccountManagementComponent} from './account-management/account-management.component';
 
 export class CustomValidators {
+
+  constructor(private accManagement: AccountManagementComponent) {
+  }
 
   static patternValidator(regex: RegExp, error: ValidationErrors): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
@@ -28,21 +32,14 @@ export class CustomValidators {
     }
   }
 
-  static freeUsernameValidator(accounts: Account[]) {
-    return (control: AbstractControl) => {
-      const username = control.get('username').value;
-      console.log(username);
-      console.log(accounts);
-      console.log(accounts.find(acc => (acc.username === username.toString())));
-      control.get('username').setErrors( {usernameNotFree: (accounts.find(acc => (acc.username === username)) !== undefined) });
-    };
-  }
-
-  static freeEmailValidator(accounts: Account[]){
-    return (control: AbstractControl) => {
-      const email = control.get('email').value;
-      control.get('email').setErrors({ emailNotFree: (accounts.find(acc => (acc.email === email)) !== undefined) });
-    };
+  static newPwdOldPwdDiffValidator(control: AbstractControl) {
+    const oldPassword: string = control.get('oldPassword').value; // get password from our password form control
+    const newPassword: string = control.get('password').value; // get password from our confirmPassword form control
+    // compare is the password math
+    if (oldPassword !== newPassword) {
+      // if they don't match, set an error in our confirmPassword form control
+      control.get('password').setErrors({ samePasswordAsBefore: true });
+    }
   }
 
 }
