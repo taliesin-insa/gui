@@ -32,7 +32,8 @@ export class CustomValidators {
     return (control: AbstractControl) => {
       const username = control.get('username').value;
       console.log(username);
-      console.log(accounts.find(acc => (acc.username === username)));
+      console.log(accounts);
+      console.log(accounts.find(acc => (acc.username === username.toString())));
       control.get('username').setErrors( {usernameNotFree: (accounts.find(acc => (acc.username === username)) !== undefined) });
     };
   }
