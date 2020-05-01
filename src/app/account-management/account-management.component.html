@@ -119,7 +119,7 @@
           Identifiant déjà associé à un compte
         </label>
         <label class="text-danger my-auto"
-               *ngIf="newAccForm.controls['username'].dirty && newAccForm.hasError('noSpecialCharacter')">
+               *ngIf="newAccForm.controls['username'].dirty && newAccForm.controls['username'].hasError('noSpecialCharacter')">
           L'identifiant ne peut pas contenir de caractère spécial
         </label>
       </div>
