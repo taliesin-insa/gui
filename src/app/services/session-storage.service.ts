@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
+const USERNAME_KEY = 'Username';
 const NAV_INDICATOR_KEY = 'navbar-highlight';
 
 @Injectable({
@@ -31,6 +32,10 @@ export class SessionStorageService {
 
   public getUser() {
     return JSON.parse(sessionStorage.getItem(USER_KEY));
+  }
+
+  public getUsername() {
+    return this.getUser()[USERNAME_KEY];
   }
 
   public getNavIndicator() {
