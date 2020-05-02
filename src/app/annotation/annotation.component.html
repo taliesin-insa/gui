@@ -79,6 +79,7 @@
               <img class="card-img-top" src="{{snippets[i].url}}">
             </div>
             <div class="card-body">
+
               <div class="row justify-content-center">
                 <input #annotationInput class="w-75 form-control my-auto" type="text" [formControlName]="i"
                        (keydown.enter)="validateAnnotation(i)" (keydown.control.delete)="setUnreadable(i)"
@@ -89,12 +90,12 @@
                 <button type="button"  class="btn btn-danger font-weight-bold" (click)="setUnreadable(i)" [disabled]="snippets[i].annotated"
                         title="{{snippets[i].unreadable ? 'Déclarer l\'image lisible' : 'Déclarer l\'image illisible'}}">
                   X</button>
+                <br>
+                <span class="badge badge-success" *ngIf="snippets[i].annotated">Annotation validée</span>
+                <span class="badge badge-danger" *ngIf="snippets[i].unreadable">Image déclarée illisible</span>
               </div>
-
-              <br>
-              <span class="badge badge-success" *ngIf="snippets[i].annotated">Annotation validée</span>
-              <span class="badge badge-danger" *ngIf="snippets[i].unreadable">Image déclarée illisible</span>
             </div>
+
           </div>
 
         </ng-container>
