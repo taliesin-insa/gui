@@ -32,12 +32,12 @@ export class AccountManagementComponent implements OnInit {
               private modalService: NgbModal) {
 
     this.newAccForm = this.fb.group({
-        username: ['', Validators.compose([
+        username: [null, Validators.compose([
           Validators.required,
           CustomValidators.patternValidator(/^[^!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/, {hasSpecialChars: true})])
         ],
-        email: ['', Validators.compose([Validators.email, Validators.required])],
-        password: ['', Validators.compose([
+        email: [null, Validators.compose([Validators.email, Validators.required])],
+        password: [null, Validators.compose([
           // 1. Password Field is Required
           Validators.required,
           // 2. check whether the entered password has a number
@@ -51,8 +51,8 @@ export class AccountManagementComponent implements OnInit {
           // 6. Has a minimum length of 8 characters
           Validators.minLength(8)])
         ],
-        confirmPassword: ['', Validators.required],
-        role: ['']
+        confirmPassword: [null, Validators.required],
+        role: [null]
       },
       {
         // check whether password and confirm password match
@@ -60,8 +60,8 @@ export class AccountManagementComponent implements OnInit {
       });
 
     this.changeAccForm = this.fb.group({
-      email: ['', Validators.compose([Validators.email, Validators.required])],
-      role: ['']
+      email: [null, Validators.compose([Validators.email, Validators.required])],
+      role: [null]
     });
 
     this.handleError = httpErrorHandler.createHandleError('AccountManagement');
@@ -108,6 +108,7 @@ export class AccountManagementComponent implements OnInit {
 
   updateSelectedAccount(values: any) {
     let {email, role} = values;
+    console.log(values);
     if (email === null) {
       email = this.selectedAccount.email;
     }
