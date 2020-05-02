@@ -57,7 +57,6 @@
 
             <!-- Password requirements -->
             <div *ngIf="modifyPasswordForm.controls['password'].invalid">
-              {{modifyPasswordForm.controls['password'].errors}}
               <label [ngClass]="modifyPasswordForm.controls['password'].hasError('required') || modifyPasswordForm.controls['password'].hasError('minlength') ? 'text-danger' : 'text-success'">
                 <i class="fas" [ngClass]="modifyPasswordForm.controls['password'].hasError('required') || modifyPasswordForm.controls['password'].hasError('minlength') ?
                                           'fa-times-circle text-danger' : 'fa-check-circle text-success'"></i>
