@@ -108,7 +108,6 @@ export class AccountManagementComponent implements OnInit {
 
   updateSelectedAccount(values: any) {
     let {email, role} = values;
-    console.log(values);
     if (email === null) {
       email = this.selectedAccount.email;
     }
