@@ -38,14 +38,14 @@ export class ProfileComponent implements OnInit {
           // 5. check whether the entered password has a special character
           CustomValidators.patternValidator(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, {noSpecialChars: true}),
           // 6. Has a minimum length of 8 characters
-          Validators.minLength(8)])
+          Validators.minLength(8)
+          ])
         ],
         confirmPassword: ['', Validators.required],
       },
       {
         // check whether password and confirm password match
-        validators: [CustomValidators.passwordMatchValidator,
-          CustomValidators.newPwdOldPwdDiffValidator]
+        validator: CustomValidators.passwordMatchValidator
       });
 
     this.handleError = httpErrorHandler.createHandleError('Profile');

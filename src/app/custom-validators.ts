@@ -1,5 +1,4 @@
 import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
-import {AccountManagementComponent} from './account-management/account-management.component';
 
 export class CustomValidators {
 
@@ -21,20 +20,10 @@ export class CustomValidators {
   static passwordMatchValidator(control: AbstractControl) {
     const password: string = control.get('password').value; // get password from our password form control
     const confirmPassword: string = control.get('confirmPassword').value; // get password from our confirmPassword form control
-    // compare is the password math
+    // compare if the passwords math
     if (password !== confirmPassword) {
       // if they don't match, set an error in our confirmPassword form control
       control.get('confirmPassword').setErrors({ noPasswordMatch: true });
-    }
-  }
-
-  static newPwdOldPwdDiffValidator(control: AbstractControl) {
-    const oldPassword: string = control.get('oldPassword').value; // get password from our password form control
-    const newPassword: string = control.get('password').value; // get password from our confirmPassword form control
-    // compare is the password math
-    if (newPassword !== null && newPassword !== '' && newPassword === oldPassword) {
-      // if they match, set an error in our oldPassword form control
-      control.get('oldPassword').setErrors( { samePasswordAsBefore: true });
     }
   }
 

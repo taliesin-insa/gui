@@ -53,8 +53,7 @@
           <label class="col-3 col-form-label" for="password">Nouveau mot de passe :</label>
           <div class="col-4">
             <input type="password" class="form-control mb-1" formControlName="password" id="password"
-                   [ngClass]="( modifyPasswordForm.controls['password'].touched && (modifyPasswordForm.controls['password'].invalid
-                   || modifyPasswordForm.controls['oldPassword'].hasError('samePasswordAsBefore')) ) ? 'is-invalid' : ''">
+                   [ngClass]="( modifyPasswordForm.controls['password'].touched && modifyPasswordForm.controls['password'].invalid ) ? 'is-invalid' : ''">
 
             <!-- Password requirements -->
             <div *ngIf="modifyPasswordForm.controls['password'].invalid">
@@ -87,14 +86,6 @@
             <!-- /Password requirements -->
           </div>
 
-          <!-- Error displayed -->
-          <div class="my-auto col-form-label-sm">
-            <label class="text-danger my-auto"
-                   *ngIf="modifyPasswordForm.controls['oldPassword'].hasError('samePasswordAsBefore')">
-              Le nouveau mot de passe doit être différent de l'ancien
-            </label>
-          </div>
-
         </div>
         <!-- /Password -->
 
@@ -109,7 +100,7 @@
           <!-- Error displayed -->
           <div class="my-auto col-form-label-sm">
             <label class="text-danger my-auto"
-                   *ngIf="modifyPasswordForm.controls['confirmPassword'].hasError('noPasswordMatch')">
+                   *ngIf="modifyPasswordForm.controls['confirmPassword'].dirty && modifyPasswordForm.controls['confirmPassword'].hasError('noPasswordMatch')">
               Les mots de passe ne correspondent pas
             </label>
           </div>
