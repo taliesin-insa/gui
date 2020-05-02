@@ -74,11 +74,6 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    // this.annotationInputs.changes.pipe(first()).subscribe(changes => {
-    //   if (changes.toArray().length > 0) {
-    //     changes.toArray()[0].nativeElement.focus();
-    //   }
-    // });
   }
 
   ngOnDestroy() {
