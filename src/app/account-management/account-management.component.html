@@ -114,8 +114,8 @@
         <!-- Errors displayed -->
         <div class="my-auto col-form-label-sm">
           <label class="text-danger my-auto"
-                 *ngIf="newAccForm.controls['username'].dirty && newAccForm.controls['username'].hasError('hasSpecialChars')">
-            Caractères spéciaux interdits dans l'identifiant
+                 *ngIf="newAccForm.controls['username'].dirty && newAccForm.controls['username'].hasError('startsWithSpecialChar')">
+            L'identifiant ne peut pas commencer par un caractère spécial
           </label>
           <label class="text-danger my-auto"
                  *ngIf="newAccForm.controls['username'].dirty && newAccForm.controls['username'].hasError('usernameNotFree')">

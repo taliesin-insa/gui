@@ -1,11 +1,7 @@
 import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
-import {Account} from './model/Account';
 import {AccountManagementComponent} from './account-management/account-management.component';
 
 export class CustomValidators {
-
-  constructor(private accManagement: AccountManagementComponent) {
-  }
 
   static patternValidator(regex: RegExp, error: ValidationErrors): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
@@ -36,7 +32,7 @@ export class CustomValidators {
     const oldPassword: string = control.get('oldPassword').value; // get password from our password form control
     const newPassword: string = control.get('password').value; // get password from our confirmPassword form control
     // compare is the password math
-    if (oldPassword !== newPassword) {
+    if (oldPassword === newPassword) {
       // if they don't match, set an error in our confirmPassword form control
       control.get('password').setErrors({ samePasswordAsBefore: true });
     }

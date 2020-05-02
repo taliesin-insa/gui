@@ -34,7 +34,7 @@ export class AccountManagementComponent implements OnInit {
     this.newAccForm = this.fb.group({
         username: [null, Validators.compose([
           Validators.required,
-          CustomValidators.patternValidator(/^[^!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/, {hasSpecialChars: true})])
+          CustomValidators.patternValidator(/^[^!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, {startsWithSpecialChar: true})])
         ],
         email: [null, Validators.compose([Validators.email, Validators.required])],
         password: [null, Validators.compose([
