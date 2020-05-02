@@ -32,7 +32,7 @@ export class CustomValidators {
     const oldPassword: string = control.get('oldPassword').value; // get password from our password form control
     const newPassword: string = control.get('password').value; // get password from our confirmPassword form control
     // compare is the password math
-    if (oldPassword === newPassword) {
+    if (oldPassword !== null && oldPassword !== '' && oldPassword === newPassword) {
       // if they match, set an error in our oldPassword form control
       control.get('oldPassword').setErrors( { samePasswordAsBefore: true });
     }
