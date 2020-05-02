@@ -32,38 +32,36 @@ export class AccountManagementComponent implements OnInit {
               private modalService: NgbModal) {
 
     this.newAccForm = this.fb.group({
-        username: ['', Validators.compose([
+        username: [null, Validators.compose([
           Validators.required,
-          CustomValidators.patternValidator(/^[^!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/, {noSpecialCharacter: true})])
+          CustomValidators.patternValidator(/^[^!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, {startsWithSpecialChar: true})])
         ],
-        email: ['', Validators.compose([Validators.email, Validators.required])],
-        password: ['', Validators.compose([
+        email: [null, Validators.compose([Validators.email, Validators.required])],
+        password: [null, Validators.compose([
           // 1. Password Field is Required
           Validators.required,
           // 2. check whether the entered password has a number
-          CustomValidators.patternValidator(/\d/, {hasNumber: true}),
+          CustomValidators.patternValidator(/\d/, {noNumber: true}),
           // 3. check whether the entered password has upper case letter
-          CustomValidators.patternValidator(/[A-Z]/, {hasCapitalCase: true}),
+          CustomValidators.patternValidator(/[A-Z]/, {noCapitalCase: true}),
           // 4. check whether the entered password has a lower-case letter
-          CustomValidators.patternValidator(/[a-z]/, {hasSmallCase: true}),
+          CustomValidators.patternValidator(/[a-z]/, {noSmallCase: true}),
           // 5. check whether the entered password has a special character
-          CustomValidators.patternValidator(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, {hasSpecialCharacters: true}),
+          CustomValidators.patternValidator(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, {noSpecialChars: true}),
           // 6. Has a minimum length of 8 characters
           Validators.minLength(8)])
         ],
-        confirmPassword: ['', Validators.required],
-        role: ['']
+        confirmPassword: [null, Validators.required],
+        role: [null]
       },
       {
         // check whether password and confirm password match
-        validators: [CustomValidators.passwordMatchValidator]
-        // CustomValidators.freeUsernameValidator(this.accounts),
-        // CustomValidators.freeEmailValidator(this.accounts)]
+        validator: CustomValidators.passwordMatchValidator
       });
 
     this.changeAccForm = this.fb.group({
-      email: ['', Validators.compose([Validators.email, Validators.required])],
-      role: ['']
+      email: [null, Validators.compose([Validators.email, Validators.required])],
+      role: [null]
     });
 
     this.handleError = httpErrorHandler.createHandleError('AccountManagement');
