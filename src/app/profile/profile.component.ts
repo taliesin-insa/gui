@@ -44,8 +44,8 @@ export class ProfileComponent implements OnInit {
       },
       {
         // check whether password and confirm password match
-        validators: [CustomValidators.passwordMatchValidator]
-          // CustomValidators.newPwdOldPwdDiffValidator]
+        validators: [CustomValidators.passwordMatchValidator,
+          CustomValidators.newPwdOldPwdDiffValidator]
       });
 
     this.handleError = httpErrorHandler.createHandleError('Profile');

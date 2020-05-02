@@ -33,8 +33,8 @@ export class CustomValidators {
     const newPassword: string = control.get('password').value; // get password from our confirmPassword form control
     // compare is the password math
     if (oldPassword === newPassword) {
-      // if they don't match, set an error in our confirmPassword form control
-      control.get('password').setErrors({ samePasswordAsBefore: true });
+      // if they match, set an error in our oldPassword form control
+      control.get('oldPassword').setErrors( { samePasswordAsBefore: true });
     }
   }
 
