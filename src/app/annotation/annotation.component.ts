@@ -28,6 +28,12 @@ const NB_OF_SNIPPETS_TO_GET = 20; // Number of snippets inside the batch to anno
 export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChildren('annotationInput') annotationInputs: QueryList<ElementRef>;
+  @ViewChildren('annotationInput') set focusFirst(element) {
+    if (element && this.isFormNew) {
+      element.toArray()[0].nativeElement.focus();
+      this.isFormNew = false;
+    }
+  }
   @ViewChild('nextLines', { static : false}) nextLinesButton: ElementRef;
   @ViewChildren('inputCard') inputsCards: QueryList<ElementRef>;
 
@@ -36,6 +42,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
   private imagesLoading = true;         // Used to display a loading spinner while retrieving snippets
 
   annotationForm: FormGroup;  // Form that contains text inputs for snippets' transcriptions
+  isFormNew = false;
   private handleError: HandleError;
 
   private hoveredCard = -1 ; // Indicator to know which card is currently hovered
@@ -67,11 +74,11 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.annotationInputs.changes.pipe(first()).subscribe(changes => {
-      if (changes.toArray().length > 0) {
-        changes.toArray()[0].nativeElement.focus();
-      }
-    });
+    // this.annotationInputs.changes.pipe(first()).subscribe(changes => {
+    //   if (changes.toArray().length > 0) {
+    //     changes.toArray()[0].nativeElement.focus();
+    //   }
+    // });
   }
 
   ngOnDestroy() {
@@ -99,6 +106,7 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
         this.fb.control(snippet.value, Validators.required)
       );
     });
+    this.isFormNew = true;
     window.scroll(0, 0);
   }
 
