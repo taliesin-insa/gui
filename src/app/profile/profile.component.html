@@ -89,7 +89,7 @@
           <!-- Error displayed -->
           <div class="my-auto col-form-label-sm">
             <label class="text-danger my-auto"
-                   *ngIf="modifyPasswordForm.controls['password'].dirty && modifyPasswordForm.controls['password'].hasError('samePasswordAsBefore')">
+                   *ngIf="modifyPasswordForm.controls['oldPassword'].dirty && modifyPasswordForm.controls['oldPassword'].hasError('samePasswordAsBefore')">
               Le nouveau mot de passe doit être différent de l'ancien
             </label>
           </div>
