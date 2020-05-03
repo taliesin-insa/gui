@@ -99,7 +99,7 @@ export class DbCreationComponent implements OnInit, OnDestroy {
    */
   upload() {
     this.uploadInProgress = true;
-    this.primaryButtonText = 'Import en cours';
+    this.primaryButtonText = 'Import en cours...';
     this.uploadStarted = true;
     this.progresses = {};
 
