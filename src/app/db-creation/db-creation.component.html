@@ -35,7 +35,10 @@
         Ajouter des fichiers
       </button>
       <button #primaryBtn class="btn btn-outline-primary" [disabled]="uploadInProgress || files.size == 0"
-              (click)="actionButtonClick()"> {{primaryButtonText}} </button>
+              (click)="actionButtonClick()">
+        <span *ngIf="uploadInProgress" class="spinner-border spinner-border-sm mb-1" role="status" aria-hidden="true"></span>
+        {{primaryButtonText}}
+      </button>
 
       <hr>
 
