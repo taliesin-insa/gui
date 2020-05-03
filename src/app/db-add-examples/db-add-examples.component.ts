@@ -79,6 +79,7 @@ export class DbAddExamplesComponent implements OnInit, OnDestroy {
    */
   upload() {
     this.uploadInProgress = true;
+    this.primaryButtonText = 'Import en cours';
     this.uploadStarted = true;
     this.progresses = {};
 
@@ -106,7 +107,7 @@ export class DbAddExamplesComponent implements OnInit, OnDestroy {
       // ... and the component is no longer uploading
       this.uploadInProgress = false;
 
-      // The OK-button should have the text "Finish" now
+      // The OK-button should have the text "Back to menu" now
       this.primaryButtonText = 'Retour au menu';
       this.primaryBtn.nativeElement.classList.replace('btn-outline-primary', 'btn-success');
       this.sendImgsToRecognizer();
