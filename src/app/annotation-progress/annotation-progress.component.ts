@@ -33,6 +33,7 @@ export class AnnotationProgressComponent implements OnInit {
 
   ngOnInit() {
     // get the data returned by the resolve service
+    console.log("INIT");
     this.statusDataSubject.next(this.route.snapshot.data.statusData);
   }
 
