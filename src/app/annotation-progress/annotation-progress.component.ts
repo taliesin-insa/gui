@@ -9,10 +9,10 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class AnnotationProgressComponent implements OnInit {
 
-  private annotationRate: number;
-  private rejectedNumber: number;
-  private totalNbSnippets: number;
-  private statusData: any;
+  annotationRate: number;
+  rejectedNumber: number;
+  totalNbSnippets: number;
+  statusData: any;
 
   constructor(private route: ActivatedRoute) { }
 

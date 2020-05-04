@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {catchError, map} from 'rxjs/operators';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {AnnotationProgressComponent} from '../annotation-progress/annotation-progress.component';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -14,37 +15,19 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 export class DbManagementComponent implements OnInit, OnDestroy {
 
   private handleError: HandleError;
-  private annotationRate: number;
-  private rejectedNumber: number;
-  private totalNbSnippets: number;
-  private statusData: any;
   private isExportInProgress: boolean;
   private isExportInPopUp: boolean;
 
 
   constructor(private router: Router,
               private http: HttpClient,
+              private annotationProgress: AnnotationProgressComponent,
               private httpErrorHandler: HttpErrorHandler,
-              private route: ActivatedRoute,
               private modalService: NgbModal) {
     this.handleError = httpErrorHandler.createHandleError('DBManagement');
   }
 
   ngOnInit() {
-    // get the data returned by the resolve service
-    this.statusData = this.route.snapshot.data.statusData;
-    // update variables used
-    if (this.statusData !== null && this.statusData.isDBUp && this.statusData.total > 0) {
-      this.annotationRate = 100 * this.statusData.annotated / (this.statusData.total - this.statusData.unreadable);
-      this.rejectedNumber = this.statusData.unreadable;
-      this.totalNbSnippets = this.statusData.total;
-    } else {
-      // values by default is there is no database
-      this.annotationRate = 0;
-      this.rejectedNumber = 0;
-      this.totalNbSnippets = 0;
-    }
-
   }
 
   /**
