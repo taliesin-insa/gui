@@ -10,7 +10,7 @@ import {HandleError, HttpErrorHandler} from './http-error-handler.service';
 })
 export class StatusResolverService implements Resolve <Observable<any>> {
 
-  private handleError: HandleError;
+  private readonly handleError: HandleError;
 
   constructor(private http: HttpClient, private httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('StatusResolverService');
@@ -18,9 +18,19 @@ export class StatusResolverService implements Resolve <Observable<any>> {
 
   // automatically called before loading the component
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    return this.getDBStatusRequest();
+  }
+
+  private getDBStatusRequest() {
     return this.http.get('/db/status')
       .pipe(
-        map(response => response),
-        catchError(this.handleError('resolve', null)));
+        catchError(this.handleError('resolve', null))
+      );
+  }
+
+  getDBStatus() {
+    this.getDBStatusRequest().subscribe(data => {
+      return data;
+    });
   }
 }

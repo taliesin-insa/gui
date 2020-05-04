@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {StatusResolverService} from '../services/data-resolver.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -14,11 +15,21 @@ export class AnnotationProgressComponent implements OnInit {
   totalNbSnippets: number;
   statusData: any;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private statusResolverService: StatusResolverService) { }
 
   ngOnInit() {
     // get the data returned by the resolve service
     this.statusData = this.route.snapshot.data.statusData;
+    // update variables used
+    this.updateProgress();
+  }
+
+  reloadDBStatus() {
+    this.statusData = this.statusResolverService.getDBStatus();
+    this.updateProgress();
+  }
+
+  private updateProgress() {
     // update variables used
     if (this.statusData !== null && this.statusData.isDBUp && this.statusData.total > 0) {
       this.annotationRate = 100 * this.statusData.annotated / (this.statusData.total - this.statusData.unreadable);
