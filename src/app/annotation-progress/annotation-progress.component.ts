@@ -27,7 +27,7 @@ export class AnnotationProgressComponent implements OnInit {
   reloadDBStatus() {
     this.statusResolverService.getDBStatusRequest().subscribe(data => {
       this.statusData = data;
-      console.log(data);
+      console.log('received, ' + data);
       this.updateProgress();
     });
   }
@@ -44,6 +44,7 @@ export class AnnotationProgressComponent implements OnInit {
       this.rejectedNumber = 0;
       this.totalNbSnippets = 0;
     }
+    console.log('update, ' + this.annotationRate);
   }
 
 }

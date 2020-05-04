@@ -131,6 +131,7 @@ export class AnnotationComponent implements OnInit, OnDestroy {
     // Get new snippets to annotate
     this.retrieveSnippetsDB(NB_OF_SNIPPETS_TO_GET);
     this.annotationProgress.reloadDBStatus();
+    console.log(this.annotationProgress.statusData);
   }
 
   /* ============================== DYNAMIC INTERACTIONS (focus, scroll, hover) ============================== */
