@@ -30,6 +30,7 @@ export class StatusResolverService implements Resolve <Observable<any>> {
 
   getDBStatus() {
     this.getDBStatusRequest().subscribe(data => {
+      console.log(data);
       return data;
     });
   }
