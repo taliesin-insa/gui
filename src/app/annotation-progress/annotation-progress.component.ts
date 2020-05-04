@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {StatusResolverService} from '../services/data-resolver.service';
 
@@ -6,7 +6,6 @@ import {StatusResolverService} from '../services/data-resolver.service';
   // tslint:disable-next-line:component-selector
   selector: 'annotation-progress',
   templateUrl: './annotation-progress.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./annotation-progress.component.scss']
 })
 export class AnnotationProgressComponent implements OnInit {
@@ -16,7 +15,9 @@ export class AnnotationProgressComponent implements OnInit {
   totalNbSnippets: number;
   statusData: any;
 
-  constructor(private route: ActivatedRoute, private statusResolverService: StatusResolverService) { }
+  constructor(private route: ActivatedRoute,
+              private statusResolverService: StatusResolverService,
+              private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     // get the data returned by the resolve service
@@ -29,6 +30,7 @@ export class AnnotationProgressComponent implements OnInit {
     this.statusResolverService.getDBStatusRequest().subscribe(data => {
       this.statusData = data;
       this.updateProgress();
+      this.changeDetectorRef.detectChanges(); // kind of a bad practice apparently but didn't find an easier solution to update the view
     });
   }
 
