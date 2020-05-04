@@ -11,16 +11,19 @@ import {BehaviorSubject} from 'rxjs';
 })
 export class AnnotationProgressComponent implements OnInit {
 
-  annotationRate = new BehaviorSubject<number>(0);
-  rejectedNumber = new BehaviorSubject<number>(0);
-  totalNbSnippets = new BehaviorSubject<number>(0);
+  annotationRate: number;
+  rejectedNumber: number;
+  totalNbSnippets: number;
 
   statusDataSubject = new BehaviorSubject<any>(null);
   statusData: any;
 
   constructor(private route: ActivatedRoute,
               private statusResolverService: StatusResolverService) {
-    this.statusDataSubject.subscribe(data => this.statusData = data);
+    this.statusDataSubject.subscribe(data => {
+      console.log(data);
+      this.statusData = data;
+    });
   }
 
   ngOnInit() {
@@ -40,14 +43,14 @@ export class AnnotationProgressComponent implements OnInit {
   private updateProgress() {
     // update variables used
     if (this.statusData !== null && this.statusData.isDBUp && this.statusData.total > 0) {
-      this.annotationRate.next( 100 * this.statusData.annotated / (this.statusData.total - this.statusData.unreadable) );
-      this.rejectedNumber.next( this.statusData.unreadable );
-      this.totalNbSnippets.next( this.statusData.total );
+      this.annotationRate = ( 100 * this.statusData.annotated / (this.statusData.total - this.statusData.unreadable) );
+      this.rejectedNumber = this.statusData.unreadable;
+      this.totalNbSnippets = this.statusData.total;
     } else {
       // values by default if there is no database
-      this.annotationRate.next(0);
-      this.rejectedNumber.next(0);
-      this.totalNbSnippets.next(0);
+      this.annotationRate = 0;
+      this.rejectedNumber = 0;
+      this.totalNbSnippets = 0;
     }
   }
 
