@@ -37,6 +37,7 @@ export class AnnotationComponent implements OnInit, OnDestroy {
   @ViewChild('nextLines', { static : false}) nextLinesButton: ElementRef;
   @ViewChildren('inputCard') inputsCards: QueryList<ElementRef>;
 
+  @ViewChild('annotationProgress', {static: false}) ap;
   private wasAPReloaded = false;
 
   snippets: Snippet[] = [];             // Batch of snippets
@@ -132,6 +133,7 @@ export class AnnotationComponent implements OnInit, OnDestroy {
 
     this.wasAPReloaded = true;
     this.annotationProgress.reloadDBStatus();
+    console.log(this.ap);
     // Get new snippets to annotate
     this.retrieveSnippetsDB(NB_OF_SNIPPETS_TO_GET);
   }

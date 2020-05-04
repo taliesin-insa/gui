@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {StatusResolverService} from '../services/data-resolver.service';
 
@@ -17,27 +17,26 @@ export class AnnotationProgressComponent implements OnInit {
   statusData: any;
 
   @Input() wasReloaded;
-  showSelf = true;
 
   constructor(private route: ActivatedRoute,
-              private statusResolverService: StatusResolverService) {
+              private statusResolverService: StatusResolverService,
+              private ref: ChangeDetectorRef) {
   }
 
   ngOnInit() {
+    console.log('init');
     // get the data returned by the resolve service
     if (!this.wasReloaded) {
       this.statusData = this.route.snapshot.data.statusData;
-      this.updateProgress();
     }
+    this.updateProgress();
   }
 
   reloadDBStatus() {
     this.statusResolverService.getDBStatusRequest().subscribe(data => {
       this.statusData = data;
       this.updateProgress();
-      // force component to re-render itself
-      this.showSelf = false;
-      setTimeout(() => this.showSelf = true, 100);
+      this.ref.detectChanges();
     });
   }
 
