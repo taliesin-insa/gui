@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Account} from '../model/Account';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../services/auth.service';
@@ -14,7 +14,7 @@ import {CustomValidators} from '../custom-validators';
   templateUrl: './account-management.component.html',
   styleUrls: ['./account-management.component.scss']
 })
-export class AccountManagementComponent implements OnInit {
+export class AccountManagementComponent implements OnInit, OnDestroy {
 
   public accounts: Account[] = [];
 
@@ -69,6 +69,10 @@ export class AccountManagementComponent implements OnInit {
 
   ngOnInit() {
     this.reloadAccountList();
+  }
+
+  ngOnDestroy() {
+    this.httpErrorHandler.clearErrors();
   }
 
   reloadAccountList() {
