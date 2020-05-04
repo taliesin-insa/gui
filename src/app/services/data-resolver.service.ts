@@ -21,18 +21,11 @@ export class StatusResolverService implements Resolve <Observable<any>> {
     return this.getDBStatusRequest();
   }
 
-  private getDBStatusRequest() {
+  getDBStatusRequest() {
     return this.http.get('/db/status')
       .pipe(
         catchError(this.handleError('resolve', null))
       );
   }
 
-  getDBStatus() {
-    let res = null;
-    this.getDBStatusRequest().subscribe(data => {
-      res = data;
-    });
-    return res;
-  }
 }

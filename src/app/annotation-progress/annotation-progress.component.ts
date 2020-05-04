@@ -25,8 +25,11 @@ export class AnnotationProgressComponent implements OnInit {
   }
 
   reloadDBStatus() {
-    this.statusData = this.statusResolverService.getDBStatus();
-    this.updateProgress();
+    this.statusResolverService.getDBStatusRequest().subscribe(data => {
+      this.statusData = data;
+      console.log(data);
+      this.updateProgress();
+    });
   }
 
   private updateProgress() {
