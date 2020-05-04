@@ -67,7 +67,6 @@ export class AnnotationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log("parent init");
     this.annotationForm = this.fb.group({
       snippetInputs: this.fb.array([])
     });

@@ -1,7 +1,6 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {StatusResolverService} from '../services/data-resolver.service';
-import {BehaviorSubject} from 'rxjs';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -11,34 +10,32 @@ import {BehaviorSubject} from 'rxjs';
 })
 export class AnnotationProgressComponent implements OnInit {
 
-  showSelf: boolean;
-
   annotationRate: number;
   rejectedNumber: number;
   totalNbSnippets: number;
 
-  statusDataSubject = new BehaviorSubject<any>(null);
   statusData: any;
+
+  private wasReloaded = false;
 
   constructor(private route: ActivatedRoute,
               private statusResolverService: StatusResolverService) {
-    this.statusDataSubject.subscribe(data => {
-      this.statusData = data;
-      console.log(this.statusData);
-      this.updateProgress();
-      this.showSelf = false;
-      setTimeout(() => this.showSelf = true, 100);
-    });
   }
 
   ngOnInit() {
     // get the data returned by the resolve service
-    console.log("INIT");
-    this.statusDataSubject.next(this.route.snapshot.data.statusData);
+    if (!this.wasReloaded) {
+      this.statusData = this.route.snapshot.data.statusData;
+      this.updateProgress();
+    }
   }
 
   reloadDBStatus() {
-    this.statusResolverService.getDBStatusRequest().subscribe(data => this.statusDataSubject.next(data));
+    this.wasReloaded = true;
+    this.statusResolverService.getDBStatusRequest().subscribe(data => {
+      this.statusData = data;
+      this.updateProgress();
+    });
   }
 
   private updateProgress() {
