@@ -11,7 +11,7 @@ import {BehaviorSubject} from 'rxjs';
 })
 export class AnnotationProgressComponent implements OnInit {
 
-  @Input() showSelf: boolean;
+  showSelf: boolean;
 
   annotationRate: number;
   rejectedNumber: number;
@@ -25,6 +25,7 @@ export class AnnotationProgressComponent implements OnInit {
     this.statusDataSubject.subscribe(data => {
       this.statusData = data;
       this.showSelf = false;
+      setTimeout(() => this.showSelf = true, 100);
     });
   }
 
