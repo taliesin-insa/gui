@@ -23,6 +23,7 @@ export class AnnotationProgressComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('init, ' + this.wasReloaded);
     // get the data returned by the resolve service
     if (!this.wasReloaded) {
       this.statusData = this.route.snapshot.data.statusData;

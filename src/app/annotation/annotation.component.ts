@@ -131,6 +131,7 @@ export class AnnotationComponent implements OnInit, OnDestroy {
     this.imagesLoading = true;
 
     this.apWasReloaded = true;
+    console.log('true in parent');
     this.annotationProgress.reloadDBStatus();
     // Get new snippets to annotate
     this.retrieveSnippetsDB(NB_OF_SNIPPETS_TO_GET);
