@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {StatusResolverService} from '../services/data-resolver.service';
 
@@ -16,7 +16,7 @@ export class AnnotationProgressComponent implements OnInit {
 
   statusData: any;
 
-  private wasReloaded = false;
+  @Input() wasReloaded;
 
   constructor(private route: ActivatedRoute,
               private statusResolverService: StatusResolverService) {

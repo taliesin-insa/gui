@@ -37,6 +37,8 @@ export class AnnotationComponent implements OnInit, OnDestroy {
   @ViewChild('nextLines', { static : false}) nextLinesButton: ElementRef;
   @ViewChildren('inputCard') inputsCards: QueryList<ElementRef>;
 
+  private apWasReloaded = false;
+
   snippets: Snippet[] = [];             // Batch of snippets
   private hasReceivedSnippets = false;  // True if there are snippets to annotate
   private imagesLoading = true;         // Used to display a loading spinner while retrieving snippets
@@ -128,6 +130,7 @@ export class AnnotationComponent implements OnInit, OnDestroy {
     this.hasReceivedSnippets = false;
     this.imagesLoading = true;
 
+    this.apWasReloaded = true;
     this.annotationProgress.reloadDBStatus();
     // Get new snippets to annotate
     this.retrieveSnippetsDB(NB_OF_SNIPPETS_TO_GET);
