@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {StatusResolverService} from '../services/data-resolver.service';
 import {BehaviorSubject} from 'rxjs';
@@ -11,6 +11,8 @@ import {BehaviorSubject} from 'rxjs';
 })
 export class AnnotationProgressComponent implements OnInit {
 
+  @Input() showSelf: boolean;
+
   annotationRate: number;
   rejectedNumber: number;
   totalNbSnippets: number;
@@ -21,8 +23,8 @@ export class AnnotationProgressComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private statusResolverService: StatusResolverService) {
     this.statusDataSubject.subscribe(data => {
-      console.log(data);
       this.statusData = data;
+      this.showSelf = false;
     });
   }
 
