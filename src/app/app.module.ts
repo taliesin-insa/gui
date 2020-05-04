@@ -48,6 +48,7 @@ import { AnnotationProgressComponent } from './annotation-progress/annotation-pr
     FormsModule
   ],
   providers: [
+    AnnotationProgressComponent,
     ErrorMessageService,
     HttpErrorHandler,
     httpInterceptorProviders
