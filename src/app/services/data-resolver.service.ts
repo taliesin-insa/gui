@@ -29,9 +29,10 @@ export class StatusResolverService implements Resolve <Observable<any>> {
   }
 
   getDBStatus() {
+    let res = null;
     this.getDBStatusRequest().subscribe(data => {
-      console.log(data);
-      return data;
+      res = data;
     });
+    return res;
   }
 }
