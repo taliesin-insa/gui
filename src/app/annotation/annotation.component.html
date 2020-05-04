@@ -53,6 +53,7 @@
   <!-- /Row with title and buttons -->
   <div class="col-8 offset-2">
     <annotation-progress [wasReloaded]="apWasReloaded"></annotation-progress>
+    <button (click)="this.annotationProgress.reloadDBStatus();"></button>
   </div>
   <hr>
 
