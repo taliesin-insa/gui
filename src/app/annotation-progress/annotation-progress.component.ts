@@ -15,21 +15,24 @@ export class AnnotationProgressComponent implements OnInit {
   rejectedNumber = new BehaviorSubject<number>(0);
   totalNbSnippets = new BehaviorSubject<number>(0);
 
+  statusDataSubject = new BehaviorSubject<any>(null);
   statusData: any;
 
   constructor(private route: ActivatedRoute,
-              private statusResolverService: StatusResolverService) { }
+              private statusResolverService: StatusResolverService) {
+    this.statusDataSubject.subscribe(data => this.statusData = data);
+  }
 
   ngOnInit() {
     // get the data returned by the resolve service
-    this.statusData = this.route.snapshot.data.statusData;
+    this.statusDataSubject.next(this.route.snapshot.data.statusData);
     // update variables used
     this.updateProgress();
   }
 
   reloadDBStatus() {
     this.statusResolverService.getDBStatusRequest().subscribe(data => {
-      this.statusData = data;
+      this.statusDataSubject.next(data);
       this.updateProgress();
     });
   }
