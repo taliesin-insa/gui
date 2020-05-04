@@ -17,13 +17,13 @@ export class AnnotationProgressComponent implements OnInit {
   statusData: any;
 
   @Input() wasReloaded;
+  showSelf = true;
 
   constructor(private route: ActivatedRoute,
               private statusResolverService: StatusResolverService) {
   }
 
   ngOnInit() {
-    console.log('init');
     // get the data returned by the resolve service
     if (!this.wasReloaded) {
       this.statusData = this.route.snapshot.data.statusData;
@@ -32,10 +32,12 @@ export class AnnotationProgressComponent implements OnInit {
   }
 
   reloadDBStatus() {
-    this.wasReloaded = true;
     this.statusResolverService.getDBStatusRequest().subscribe(data => {
       this.statusData = data;
       this.updateProgress();
+      // force component to re-render itself
+      this.showSelf = false;
+      setTimeout(() => this.showSelf = true, 100);
     });
   }
 
