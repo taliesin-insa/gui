@@ -11,9 +11,9 @@ import {BehaviorSubject} from 'rxjs';
 })
 export class AnnotationProgressComponent implements OnInit {
 
-  annotationRate: BehaviorSubject<number>;
-  rejectedNumber: BehaviorSubject<number>;
-  totalNbSnippets: BehaviorSubject<number>;
+  annotationRate = new BehaviorSubject<number>(0);
+  rejectedNumber = new BehaviorSubject<number>(0);
+  totalNbSnippets = new BehaviorSubject<number>(0);
 
   statusData: any;
 
