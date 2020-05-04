@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   OnDestroy,
@@ -25,7 +24,7 @@ const NB_OF_SNIPPETS_TO_GET = 20; // Number of snippets inside the batch to anno
   templateUrl: './annotation.component.html',
   styleUrls: ['./annotation.component.scss']
 })
-export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
+export class AnnotationComponent implements OnInit, OnDestroy {
 
   @ViewChildren('annotationInput') annotationInputs: QueryList<ElementRef>;
   @ViewChildren('annotationInput') set focusFirst(element) {
@@ -71,9 +70,6 @@ export class AnnotationComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.retrieveSnippetsDB(NB_OF_SNIPPETS_TO_GET);
-  }
-
-  ngAfterViewInit() {
   }
 
   ngOnDestroy() {

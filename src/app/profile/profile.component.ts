@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SessionStorageService} from '../services/session-storage.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CustomValidators} from '../custom-validators';
@@ -12,7 +12,7 @@ import {HandleError, HttpErrorHandler} from '../services/http-error-handler.serv
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
   private showPwdModif = false;
   private modifyPasswordForm: FormGroup;
@@ -52,6 +52,10 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.httpErrorHandler.clearErrors();
   }
 
   modifyPassword(values: any) {
