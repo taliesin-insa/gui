@@ -24,6 +24,8 @@ export class AnnotationProgressComponent implements OnInit {
               private statusResolverService: StatusResolverService) {
     this.statusDataSubject.subscribe(data => {
       this.statusData = data;
+      console.log(this.statusData);
+      this.updateProgress();
       this.showSelf = false;
       setTimeout(() => this.showSelf = true, 100);
     });
@@ -32,15 +34,10 @@ export class AnnotationProgressComponent implements OnInit {
   ngOnInit() {
     // get the data returned by the resolve service
     this.statusDataSubject.next(this.route.snapshot.data.statusData);
-    // update variables used
-    this.updateProgress();
   }
 
   reloadDBStatus() {
-    this.statusResolverService.getDBStatusRequest().subscribe(data => {
-      this.statusDataSubject.next(data);
-      this.updateProgress();
-    });
+    this.statusResolverService.getDBStatusRequest().subscribe(data => this.statusDataSubject.next(data));
   }
 
   private updateProgress() {
