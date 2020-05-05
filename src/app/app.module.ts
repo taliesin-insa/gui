@@ -22,6 +22,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ProfileComponent } from './profile/profile.component';
 import { AnnotationProgressComponent } from './annotation-progress/annotation-progress.component';
+import { FileImportComponent } from './file-import/file-import.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { AnnotationProgressComponent } from './annotation-progress/annotation-pr
     NotFoundComponent,
     ProfileComponent,
     AnnotationProgressComponent,
+    FileImportComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +52,7 @@ import { AnnotationProgressComponent } from './annotation-progress/annotation-pr
   providers: [
     AnnotationProgressComponent,
     ErrorMessageService,
+    FileImportComponent,
     HttpErrorHandler,
     httpInterceptorProviders
   ],
