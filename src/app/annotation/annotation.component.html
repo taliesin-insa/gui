@@ -51,6 +51,10 @@
   </div>
   <hr>
   <!-- /Row with title and buttons -->
+  <div class="col-8 offset-2">
+    <annotation-progress [wasReloaded]="wasAPReloaded" *ngIf="annotationProgress.showSelf"></annotation-progress>
+  </div>
+  <hr>
 
   <div class="text-center" *ngIf="imagesLoading">
     <div class="spinner-border text-primary" role="status">

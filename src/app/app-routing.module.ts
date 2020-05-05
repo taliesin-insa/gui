@@ -21,7 +21,13 @@ const routes: Routes = [
     },
     canActivate: [AuthGuard]
   },
-  { path: 'annotation', component: AnnotationComponent, canActivate: [AuthGuard] },
+  { path: 'annotation',
+    component: AnnotationComponent,
+    resolve: {
+      statusData: StatusResolverService
+    },
+    canActivate: [AuthGuard]
+  },
   { path: 'dbManagement',
     component: DbManagementComponent,
     resolve: { // describes what to do before loading the component

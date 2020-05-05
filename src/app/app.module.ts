@@ -21,6 +21,7 @@ import { ScrollToTopComponent } from './scroll-to-top/scroll-to-top.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ProfileComponent } from './profile/profile.component';
+import { AnnotationProgressComponent } from './annotation-progress/annotation-progress.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ProfileComponent } from './profile/profile.component';
     ErrorDisplayComponent,
     NotFoundComponent,
     ProfileComponent,
+    AnnotationProgressComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +48,7 @@ import { ProfileComponent } from './profile/profile.component';
     FormsModule
   ],
   providers: [
+    AnnotationProgressComponent,
     ErrorMessageService,
     HttpErrorHandler,
     httpInterceptorProviders
