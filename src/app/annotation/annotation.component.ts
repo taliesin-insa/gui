@@ -15,6 +15,7 @@ import {HandleError, HttpErrorHandler} from '../services/http-error-handler.serv
 import {catchError, first} from 'rxjs/operators';
 import {SessionStorageService} from '../services/session-storage.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {AnnotationProgressComponent} from '../annotation-progress/annotation-progress.component';
 
 const NB_OF_SNIPPETS_TO_GET = 20; // Number of snippets inside the batch to annotate
 
@@ -35,6 +36,8 @@ export class AnnotationComponent implements OnInit, OnDestroy {
   }
   @ViewChild('nextLines', { static : false}) nextLinesButton: ElementRef;
   @ViewChildren('inputCard') inputsCards: QueryList<ElementRef>;
+
+  private wasAPReloaded = false;        // Tells the annotation progress to use saved data instead of route's data
 
   snippets: Snippet[] = [];             // Batch of snippets
   private hasReceivedSnippets = false;  // True if there are snippets to annotate
@@ -57,6 +60,7 @@ export class AnnotationComponent implements OnInit, OnDestroy {
               private http: HttpClient,
               private session: SessionStorageService,
               private modalService: NgbModal,
+              private annotationProgress: AnnotationProgressComponent,
               private httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('Annotation');
     this.isRecognizerActivated = true;
@@ -125,6 +129,10 @@ export class AnnotationComponent implements OnInit, OnDestroy {
 
     this.hasReceivedSnippets = false;
     this.imagesLoading = true;
+
+    // Reload the annotation progress data
+    this.wasAPReloaded = true;
+    this.annotationProgress.reloadDBStatus();
 
     // Get new snippets to annotate
     this.retrieveSnippetsDB(NB_OF_SNIPPETS_TO_GET);

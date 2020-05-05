@@ -9,12 +9,7 @@
 
   </div>
   <hr>
-  <div class="font-weight-bold">
-    Exemples annotés : {{statusData.annotated}} / {{statusData.total - statusData.unreadable}}
-    <ngb-progressbar type="success" [value]="annotationRate" height="1.5rem">{{annotationRate | number: '1.2-2'}}%
-    </ngb-progressbar>
-    Exemples rejetés : {{rejectedNumber}}
-  </div>
+  <annotation-progress></annotation-progress>
   <hr>
   <div class="position-relative mx-auto" style="width: fit-content">
     <button class="btn btn-primary btn-text font-weight-bold" routerLink="/dbAddExamples">Ajouter des exemples</button>
@@ -30,7 +25,7 @@
       </div>
       <div class="modal-footer">
         <div class="col-sm">
-          <button class="btn btn-secondary export font-weight-bold" [disabled]="totalNbSnippets==0 || isExportInProgress" (click)="exportPiFF(true)">
+          <button class="btn btn-secondary export font-weight-bold" [disabled]="annotationProgress.totalNbSnippets == 0 || isExportInProgress" (click)="exportPiFF(true)">
             <span *ngIf="isExportInProgress && isExportInPopUp" class="spinner-border spinner-border-sm mb-1" role="status" aria-hidden="true"></span>
             {{isExportInProgress && isExportInPopUp ? 'Export en cours...' : 'Exporter PiFF'}}
           </button>
@@ -50,7 +45,7 @@
 
   </div>
   <div class="position-relative mx-auto" style="width: fit-content">
-    <button class="btn btn-secondary export font-weight-bold" [disabled]="totalNbSnippets==0 || isExportInProgress" (click)="exportPiFF(false)">
+    <button class="btn btn-secondary export font-weight-bold" [disabled]="annotationProgress.totalNbSnippets == 0 || isExportInProgress" (click)="exportPiFF(false)">
       <span *ngIf="isExportInProgress && !isExportInPopUp" class="spinner-border spinner-border-sm mb-1" role="status" aria-hidden="true"></span>
       {{isExportInProgress && !isExportInPopUp ? 'Export en cours...' : 'Exporter PiFF'}}
     </button>

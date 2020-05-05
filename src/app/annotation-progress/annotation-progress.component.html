@@ -1,0 +1,6 @@
+<div class="font-weight-bold">
+  Exemples annotés : {{statusData.annotated}} / {{statusData.total - statusData.unreadable}}
+  <ngb-progressbar type="success" [value]="annotationRate" height="1.5rem">{{annotationRate | number: '1.2-2'}}%
+  </ngb-progressbar>
+  Exemples rejetés : {{rejectedNumber}}
+</div>
