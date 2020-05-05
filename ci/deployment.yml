@@ -31,7 +31,7 @@ spec:
               name: file-server
           resources:
               requests:
-                cpu: 200m
+                cpu: 100m
       volumes:
         - name: file-server
           persistentVolumeClaim:
@@ -70,7 +70,7 @@ spec:
               name: file-server-dev
           resources:
               requests:
-                cpu: 200m
+                cpu: 50m
       volumes:
         - name: file-server-dev
           persistentVolumeClaim:
