@@ -11,6 +11,7 @@ import {HandleError, HttpErrorHandler} from './http-error-handler.service';
 export class StatusResolverService implements Resolve <Observable<any>> {
 
   private readonly handleError: HandleError;
+  statusData: any;
 
   constructor(private http: HttpClient, private httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('StatusResolverService');
