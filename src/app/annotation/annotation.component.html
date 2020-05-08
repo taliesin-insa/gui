@@ -105,13 +105,14 @@
       <hr>
       <!-- Button to get new lines -->
       <div class="position-relative mx-auto text-center">
-        <div ngbPopover="{{annotationForm.invalid ? 'Des images ne sont pas traitées' : ''}}" triggers="mouseenter:mouseleave">
-            <button #nextLines class="btn btn-success btn-text font-weight-bold" [disabled]="annotationForm.invalid"
-                    (click)="modalService.open(popUpNextLines);" type="button">
-              <i class="fas fa-check"></i>
-              Valider et lignes suivantes
-            </button>
-        </div>
+        
+        <button #nextLines class="btn btn-success btn-text font-weight-bold" [disabled]="annotationForm.invalid"
+                (click)="modalService.open(popUpNextLines);" type="button">
+            <div ngbPopover="{{annotationForm.invalid ? 'Des images ne sont pas traitées' : ''}}" triggers="mouseenter:mouseleave">
+                <i class="fas fa-check"></i>
+                Valider et lignes suivantes
+            </div>
+        </button>
 
         <!--TEMPLATE FOR THE CONFIRMATION MODAL ATTACHED WITH THE NEW LINES BUTTON -->
         <ng-template #popUpNextLines let-modal>
