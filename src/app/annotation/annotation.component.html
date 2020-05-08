@@ -104,9 +104,8 @@
       </div>
       <hr>
       <!-- Button to get new lines -->
-      <div class="position-relative mx-auto text-center">
+      <div class="position-relative mx-auto text-center" ngbPopover="{{annotationForm.invalid ? 'Des images ne sont pas traitées' : ''}}" triggers="mouseenter:mouseleave">
         <button #nextLines class="btn btn-success btn-text font-weight-bold" [disabled]="annotationForm.invalid"
-                ngbPopover="{{annotationForm.invalid ? 'Des images ne sont pas traitées' : ''}}" triggers="mouseenter:mouseleave"
                 (click)="modalService.open(popUpNextLines);" type="button">
           <i class="fas fa-check"></i>
           Valider et lignes suivantes
