@@ -130,10 +130,6 @@ export class AnnotationComponent implements OnInit, OnDestroy {
     this.hasReceivedSnippets = false;
     this.imagesLoading = true;
 
-    // Reload the annotation progress data
-    this.wasAPReloaded = true;
-    this.annotationProgress.reloadDBStatus();
-
     // Get new snippets to annotate
     this.retrieveSnippetsDB(NB_OF_SNIPPETS_TO_GET);
   }
@@ -310,6 +306,10 @@ export class AnnotationComponent implements OnInit, OnDestroy {
         } else {
           this.hasReceivedSnippets = false;
         }
+        // Reload the annotation progress data
+        this.wasAPReloaded = true;
+        this.annotationProgress.reloadDBStatus();
+
         this.imagesLoading = false;
       });
   }
