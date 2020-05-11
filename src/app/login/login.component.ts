@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {SessionStorageService} from '../services/session-storage.service';
 import {AuthService} from '../services/auth.service';
@@ -22,8 +22,8 @@ export class LoginComponent implements OnInit, OnDestroy {
               private session: SessionStorageService, private httpErrorHandler: HttpErrorHandler,
               private formBuilder: FormBuilder, private auth: AuthService, private appComponent: AppComponent) {
     this.loginForm = this.formBuilder.group({
-      username: '',
-      password: '',
+      username: [null, Validators.required],
+      password: [null, Validators.required],
     });
 
     this.handleError = httpErrorHandler.createHandleError('Login');
