@@ -118,6 +118,9 @@ export class AnnotationComponent implements OnInit, OnDestroy {
       this.snippets[i].value = modifiedSnippetInputs[i];
     }
 
+    // Tells the annotation progress that it has been reloaded
+    this.wasAPReloaded = true;
+
     // Update data in backend: snippets for which the annotation hasn't been validated
     const snippetsToValidate = this.snippets.filter(snippet => (!snippet.annotated && !snippet.unreadable));
     if (snippetsToValidate.length > 0) {
@@ -127,10 +130,9 @@ export class AnnotationComponent implements OnInit, OnDestroy {
     // Clear inputs since we will get new snippets
     this.formArrayInputs.clear();
 
+    // Get new snippets to annotate
     this.hasReceivedSnippets = false;
     this.imagesLoading = true;
-
-    // Get new snippets to annotate
     this.retrieveSnippetsDB(NB_OF_SNIPPETS_TO_GET);
   }
 
@@ -306,10 +308,8 @@ export class AnnotationComponent implements OnInit, OnDestroy {
         } else {
           this.hasReceivedSnippets = false;
         }
-        // Reload the annotation progress data
-        this.wasAPReloaded = true;
-        this.annotationProgress.reloadDBStatus();
 
+        this.annotationProgress.reloadDBStatus();
         this.imagesLoading = false;
       });
   }
@@ -335,7 +335,7 @@ export class AnnotationComponent implements OnInit, OnDestroy {
     const updatedSnippetList = snippetList.map(snippet => getIdAndValue(snippet));
     this.http.put('db/update/value/' + this.session.getUser()[`Username`], updatedSnippetList, {})
       .pipe(catchError(this.handleError('updateSnippetsDB', undefined)))
-      .subscribe();
+      .subscribe(() => this.annotationProgress.reloadDBStatus());
   }
 
   updateFlagUnreadableDB(snippet: Snippet) {
